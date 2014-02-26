@@ -5,7 +5,7 @@
 ExcelProvider
 ===========================
 
-The ExcelProvider project contains a type providers for regular expressions.
+This library is for the .NET platform implementing a Excel type provider.
 
 <div class="row">
   <div class="span1"></div>
