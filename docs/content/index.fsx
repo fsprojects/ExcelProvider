@@ -23,9 +23,9 @@ Example
 
 This example demonstrates the use of the type provider:
 
+![alt text](img/DataTypes.png "Excel sample file with different types")
+
 *)
-
-
 
 // reference the type provider dll
 #r "ExcelProvider.dll"
@@ -36,6 +36,14 @@ open FSharp.ExcelProvider
 type DataTypesTest = ExcelFile<"DataTypes.xlsx">
 let file = new DataTypesTest()
 let row = file.Data |> Seq.head
+
+(**
+
+Now we have strongly typed access to the Excel rows:
+
+![alt text](img/TypedExcel.png "Typed Excel sample file")
+
+*)
 
 row.String
 // [fsi:val it : string = "A"]
