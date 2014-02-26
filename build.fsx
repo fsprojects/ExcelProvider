@@ -12,8 +12,8 @@ open System
 
 let projects = [|"ExcelProvider"|]
 
-let summary = "A type provider for regular expressions."
-let description = "A type provider for regular expressions."
+let summary = "This library is for the .NET platform implementing a Excel type provider."
+let description = "This library is for the .NET platform implementing a Excel type provider."
 let authors = ["Steffen Forkmann"; "David Tchepak"; "Sergey Tihon"; "Daniel Mohl"; "Tomas Petricek"; "Ryan Riley"; "Mauricio Scheffer"; "Phil Trelford"; "Vasily Kirichenko" ]
 let tags = "F# fsharp typeproviders Excel"
 
