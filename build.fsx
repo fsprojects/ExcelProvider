@@ -14,7 +14,7 @@ let projects = [|"ExcelProvider"|]
 
 let summary = "This library is for the .NET platform implementing a Excel type provider."
 let description = "This library is for the .NET platform implementing a Excel type provider."
-let authors = ["Steffen Forkmann"; "David Tchepak"; "Sergey Tihon"; "Daniel Mohl"; "Tomas Petricek"; "Ryan Riley"; "Mauricio Scheffer"; "Phil Trelford"; "Vasily Kirichenko" ]
+let authors = ["Steffen Forkmann"; "Gustavo Guerra"; "JohnDoeKyrgyz"; "Don Syme" ]
 let tags = "F# fsharp typeproviders Excel"
 
 let solutionFile  = "ExcelProvider"
