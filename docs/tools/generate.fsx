@@ -12,7 +12,7 @@ let website = "/ExcelProvider"
 let info =
   [ "project-name", "ExcelProvider"
     "project-author", "Steffen Forkmann"
-    "project-summary", "Various type providers for management of the machine."
+    "project-summary", "This library is for the .NET platform implementing a Excel type provider."
     "project-github", "http://github.com/fsprojects/ExcelProvider"
     "project-nuget", "https://www.nuget.org/packages/ExcelProvider" ]
 
