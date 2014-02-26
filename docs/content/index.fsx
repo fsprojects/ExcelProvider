@@ -25,32 +25,48 @@ This example demonstrates the use of the type provider:
 
 *)
 
+
+
 // reference the type provider dll
 #r "ExcelProvider.dll"
 open FSharp.ExcelProvider
 
+
 // Let the type provider do it's work
-type MultipleRegions = ExcelFile< "MultipleRegions.xlsx", "A1:C5,E3:G5", true>
-
-let data = new MultipleRegions()
-for row in data.Data do
-    printfn "%A, %A, %A" row.First row.Second row.Third
-
-// [fsi: "A1", "A2", "A3"]
-// [fsi: "A4", "A5", "A6"]
-// [fsi: "A7", "A8", "A9"]
-// [fsi: "A10", "A11", "A12"]
-
 type DataTypesTest = ExcelFile<"DataTypes.xlsx">
 let file = new DataTypesTest()
 let row = file.Data |> Seq.head
 
 row.String
-// [fsi: val it : string = "A"]
+// [fsi:val it : string = "A"]
 row.Float
-// [fsi: val it : float = 1.0]
+// [fsi:val it : float = 1.0]
 row.Boolean
-// [fsi: val it : bool = true]
+// [fsi:val it : bool = true]
+
+
+(**
+
+Multiple regions
+----------------
+
+It's also possible to configure the type provider to access multiple regions.
+
+![alt text](img/Excel.png "Excel sample file")
+
+With this file we can do the following:
+
+*)
+type MultipleRegions = ExcelFile< "MultipleRegions.xlsx", "A1:C5,E3:G5", true>
+
+let data = new MultipleRegions()
+for row in data.Data do
+    printfn "%A, %A, %A, %A, %A, %A" row.First row.Second row.Third row.Fourth row.Fifth row.Sixth
+
+// [fsi:"A1", "A2", "A3", "B1", "B2", "B3"]
+// [fsi:"A4", "A5", "A6", "B4", "B5", "B6"]
+// [fsi:"A7", "A8", "A9", <null>, <null>, <null>]
+// [fsi:"A10", "A11", "A12", <null>, <null>, <null>]
 
 
 (**
