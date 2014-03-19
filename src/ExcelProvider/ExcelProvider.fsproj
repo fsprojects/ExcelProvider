@@ -68,11 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Excel">
-      <HintPath>..\..\packages\ExcelDataReader.2.1.2.1\lib\net20\Excel.dll</HintPath>
+      <HintPath>..\..\packages\ExcelDataReader.2.1.2.2\lib\net20\Excel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

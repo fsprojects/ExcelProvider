@@ -151,12 +151,18 @@ let getCellValue view row column =
     else null
 
 ///Reads the contents of an excel file into a DataSet
-let public openWorkbookView filename range =            
+let public openWorkbookView filename range =
     use stream = File.OpenRead(filename)
     let excelReader = 
         if filename.EndsWith(".xlsx") then Excel.ExcelReaderFactory.CreateOpenXmlReader(stream)
         else Excel.ExcelReaderFactory.CreateBinaryReader(stream)
 
     let workbook = excelReader.AsDataSet()
+
+    let range = 
+        if String.IsNullOrWhiteSpace range 
+        then workbook.Tables.[0].TableName
+        else range
+
     getView workbook range
         
