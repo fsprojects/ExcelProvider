@@ -8,6 +8,8 @@ let referenceBinaries = [ "ExcelProvider.dll" ]
 // Web site location for the generated documentation
 let website = "/ExcelProvider"
 
+let githubLink = "http://github.com/fsprojects/ExcelProvider"
+
 // Specify more information about your project
 let info =
   [ "project-name", "ExcelProvider"
