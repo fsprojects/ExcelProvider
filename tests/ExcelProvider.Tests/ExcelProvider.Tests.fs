@@ -19,9 +19,10 @@ let ``Default Sheet not named Sheet1``() =
     firstRow.Animal |> should equal "Daisy"
     firstRow.``Pounds of Milk`` |> should equal 12
 
-let expectedToString = @"Row 1
-	Animal = Daisy
-	Pounds of Milk = 12"
+let expectedToString =
+    String.Join (
+        Environment.NewLine,
+        [ @"Row 1"; "	Animal = Daisy"; "	Pounds of Milk = 12" ])
 
 [<Test>]
 let ``ToString format``() =
