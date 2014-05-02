@@ -3,8 +3,8 @@
 open System
 open System.Data
 open System.Text.RegularExpressions
-open System.IO   
-        
+open System.IO
+
 type Address = {
     Sheet: string;
     Row: int;
@@ -19,7 +19,7 @@ type RangeView = {
     EndColumn: int;
     StartRow: int;
     EndRow: int;
-    Sheet: DataTable }    
+    Sheet: DataTable }
 
 type View = {
     RowCount: int;
@@ -39,12 +39,12 @@ let parseCellAddress cellAddress =
             |> List.mapi digitValue
             |> Seq.sum
             |> int
-        
+
         let charToDigit char = ((int)(Char.ToUpper(char))) - 64
 
-        let column = 
-            cellAddress 
-            |> Seq.filter Char.IsLetter 
+        let column =
+            cellAddress
+            |> Seq.filter Char.IsLetter
             |> Seq.map charToDigit
             |> Seq.toList
             |> convertToBase 26
@@ -79,7 +79,7 @@ let parseExcelAddress sheetContext address =
 ///Parses an excel range of the form
 ///<ADDRESS>:<ADDRESS> | <ADDRESS>
 ///ADDRESS is parsed with the parseExcelAddress function
-let parseExcelRange sheetContext (range : string) = 
+let parseExcelRange sheetContext (range : string) =
     let addresses =
         range.Split(':')
         |> Array.map (parseExcelAddress sheetContext)
@@ -100,19 +100,19 @@ let getRangeView (workbook : DataSet) range =
         match range with
         | Bounded (topLeft, bottomRight) ->
             let sheet = workbook.Tables.[topLeft.Sheet]
-            topLeft, bottomRight, sheet                
+            topLeft, bottomRight, sheet
         | Unbounded (topLeft) ->
             let sheet = workbook.Tables.[topLeft.Sheet]
             topLeft, {topLeft with Row = sheet.Rows.Count; Column = sheet.Columns.Count - 1}, sheet
-                
+
     { StartColumn = topLeft.Column; StartRow = topLeft.Row; EndColumn = bottomRight.Column; EndRow = bottomRight.Row; Sheet = sheet }
-        
+
 ///Gets a View object which can be used to read data from the given range in the DataSet
 let public getView (workbook : DataSet) range =
     let worksheets = workbook.Tables
     let firstWorkSheetName = worksheets.[0].TableName
-        
-    let ranges = 
+
+    let ranges =
         parseExcelRanges firstWorkSheetName range
         |> List.map (getRangeView workbook)
 
@@ -142,7 +142,7 @@ let public getView (workbook : DataSet) range =
     { RowCount = rowCount; ColumnMappings = columns }
 
 ///Reads the value of a cell from a view
-let getCellValue view row column = 
+let getCellValue view row column =
     let columns = view.ColumnMappings
     let sheetColumn, rangeView = columns.[column]
     let row = rangeView.StartRow + row
@@ -153,16 +153,15 @@ let getCellValue view row column =
 ///Reads the contents of an excel file into a DataSet
 let public openWorkbookView filename range =
     use stream = File.OpenRead(filename)
-    let excelReader = 
+    let excelReader =
         if filename.EndsWith(".xlsx") then Excel.ExcelReaderFactory.CreateOpenXmlReader(stream)
         else Excel.ExcelReaderFactory.CreateBinaryReader(stream)
 
     let workbook = excelReader.AsDataSet()
 
-    let range = 
-        if String.IsNullOrWhiteSpace range 
+    let range =
+        if String.IsNullOrWhiteSpace range
         then workbook.Tables.[0].TableName
         else range
 
     getView workbook range
-        

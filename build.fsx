@@ -1,10 +1,10 @@
 // --------------------------------------------------------------------------------------
-// FAKE build script 
+// FAKE build script
 // --------------------------------------------------------------------------------------
 
 #I @"packages/FAKE/tools/"
 #r @"packages/FAKE/tools/FakeLib.dll"
-open Fake 
+open Fake
 open Fake.Git
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
@@ -38,7 +38,7 @@ Target "AssemblyInfo" (fun _ ->
           Attribute.Product project
           Attribute.Description summary
           Attribute.Version release.AssemblyVersion
-          Attribute.FileVersion release.AssemblyVersion ] 
+          Attribute.FileVersion release.AssemblyVersion ]
 )
 
 // --------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ Target "RunTests" (fun _ ->
             OutputFile = "TestResults.xml" })
 )
 
-FinalTarget "CloseTestRunner" (fun _ ->  
+FinalTarget "CloseTestRunner" (fun _ ->
     ProcessHelper.killProcess "nunit-agent.exe"
 )
 
@@ -96,12 +96,12 @@ Target "NuGet" (fun _ ->
 
     CleanDir nugetDocsDir
     CleanDir nugetlibDir
-        
+
     CopyDir nugetlibDir "bin" (fun file -> file.Contains "FSharp.Core." |> not)
     CopyDir nugetDocsDir "./docs/output" allFiles
-    
-    NuGet (fun p -> 
-        { p with   
+
+    NuGet (fun p ->
+        { p with
             Authors = authors
             Project = project
             Summary = summary
@@ -152,7 +152,7 @@ Target "All" DoNothing
   ==> "RunTests"
   ==> "All"
 
-"All" 
+"All"
   ==> "CleanDocs"
   ==> "GenerateDocs"
   ==> "ReleaseDocs"

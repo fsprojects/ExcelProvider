@@ -63,7 +63,7 @@ let layoutRoots =
 let copyFiles () =
   CopyRecursive files output true |> Log "Copying file: "
   ensureDirectory (output @@ "content")
-  CopyRecursive (formatting @@ "styles") (output @@ "content") true 
+  CopyRecursive (formatting @@ "styles") (output @@ "content") true
     |> Log "Copying styles and scripts: "
 
 // Build API reference from XML comments
@@ -71,7 +71,7 @@ let buildReference () =
   CleanDir (output @@ "reference")
   for lib in referenceBinaries do
     MetadataFormat.Generate
-      ( bin @@ lib, output @@ "reference", layoutRoots, 
+      ( bin @@ lib, output @@ "reference", layoutRoots,
         parameters = ("root", root)::info,
         sourceRepo = githubLink @@ "tree/master",
         sourceFolder = __SOURCE_DIRECTORY__ @@ ".." @@ "..",

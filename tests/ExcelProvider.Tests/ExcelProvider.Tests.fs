@@ -28,18 +28,18 @@ let expectedToString =
 let ``ToString format``() =
     let file = DifferentMainSheet()
     let firstRow = file.Data |> Seq.head
-    
+
     printfn "%O" firstRow
 
     string firstRow |> should equal expectedToString
 
 [<Test>]
-let ``Can access first row in typed excel data``() = 
+let ``Can access first row in typed excel data``() =
     let file = BookTest()
     let row = file.Data |> Seq.head
     row.SEC |> should equal "ASI"
     row.BROKER |> should equal "TFS Derivatives HK"
-    
+
 [<Test>]
 let ``Can pick an arbitrary header row``() =
     let file = HeaderTest()
@@ -51,7 +51,7 @@ let ``Can pick an arbitrary header row``() =
 let ``Can load data from spreadsheet``() =
     let file = Path.Combine(Environment.CurrentDirectory, "BookTestDifferentData.xls")
 
-    printfn "%s" file   
+    printfn "%s" file
 
     let otherBook = BookTest(file)
     let row = otherBook.Data |> Seq.head
