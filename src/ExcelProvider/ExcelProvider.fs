@@ -13,11 +13,11 @@ open Microsoft.FSharp.Core.CompilerServices
 open Samples.FSharp.ProvidedTypes
 
 // Represents a row in a provided ExcelFileInternal
-type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) = 
+type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
     member this.GetValue columnIndex = getCellValue rowIndex columnIndex
 
     override this.ToString() =
-        let columnValueList =                    
+        let columnValueList =
             [for column in columns do
                 let value = getCellValue rowIndex column.Value
                 let columnName, value = column.Key, string value
@@ -33,9 +33,9 @@ let internal propertyImplementation columnIndex (value : obj) =
     | :? bool -> typeof<bool>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> bool) @@>)
     | :? DateTime -> typeof<DateTime>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> DateTime) @@>)
     | :? string -> typeof<string>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> string) @@>)
-    | _ -> typeof<obj>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex @@>)            
-         
-// gets a list of column definition information for the columns in a view         
+    | _ -> typeof<obj>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex @@>)
+
+// gets a list of column definition information for the columns in a view
 let internal getColumnDefinitions (data : View) forcestring =
     let getCell = getCellValue data
     [for columnIndex in 0 .. data.ColumnMappings.Count - 1 do
@@ -43,8 +43,8 @@ let internal getColumnDefinitions (data : View) forcestring =
         if not (String.IsNullOrWhiteSpace(columnName)) then
             let cellType, getter =
                 if forcestring then
-                    let getter = (fun [row] -> 
-                    <@@ 
+                    let getter = (fun [row] ->
+                    <@@
                         let value = (%%row: Row).GetValue columnIndex |> string
                         if String.IsNullOrEmpty value then null
                         else value
@@ -52,16 +52,16 @@ let internal getColumnDefinitions (data : View) forcestring =
                     typedefof<string>, getter
                 else
                     let cellValue = getCell 1 columnIndex
-                    propertyImplementation columnIndex cellValue             
+                    propertyImplementation columnIndex cellValue
             yield (columnName, (columnIndex, cellType, getter))]
 
 // Simple type wrapping Excel data
 type ExcelFileInternal(filename, range) =
-    
-    let data = 
+
+    let data =
         let view = openWorkbookView filename range
         let columns = [for (columnName, (columnIndex, _, _)) in getColumnDefinitions view true -> columnName, columnIndex] |> Map.ofList
-        let buildRow rowIndex = new Row(rowIndex, getCellValue view, columns)        
+        let buildRow rowIndex = new Row(rowIndex, getCellValue view, columns)
         seq{ 1 .. view.RowCount}
         |> Seq.map buildRow
 
@@ -73,7 +73,7 @@ type internal GlobalSingleton private () =
 
 let internal memoize f x =
     if (GlobalSingleton.Instance).ContainsKey(x) then (GlobalSingleton.Instance).[x]
-    else 
+    else
         let res = f x
         (GlobalSingleton.Instance).[x] <- res
         res
@@ -81,15 +81,15 @@ let internal memoize f x =
 let internal typExcel(cfg:TypeProviderConfig) =
 
    //Re
-    let sharpZipLibAssemblyName = 
+    let sharpZipLibAssemblyName =
         let zipFileType = typedefof<ZipFile>
         zipFileType.Assembly.GetName()
 
     let loadedAssemblies = new HashSet<string>()
-   
-    let resolveAssembly sender (resolveEventArgs : ResolveEventArgs) =        
+
+    let resolveAssembly sender (resolveEventArgs : ResolveEventArgs) =
         let assemblyName = resolveEventArgs.Name
-        if loadedAssemblies.Add( assemblyName ) then         
+        if loadedAssemblies.Add( assemblyName ) then
             let assemblyName =
                if assemblyName.StartsWith(sharpZipLibAssemblyName.Name)
                then sharpZipLibAssemblyName.FullName
@@ -97,11 +97,11 @@ let internal typExcel(cfg:TypeProviderConfig) =
             Assembly.Load( assemblyName )
         else null
 
-    do 
+    do
         let handler = new ResolveEventHandler( resolveAssembly )
         AppDomain.CurrentDomain.add_AssemblyResolve handler
 
-    let executingAssembly = System.Reflection.Assembly.GetExecutingAssembly()   
+    let executingAssembly = System.Reflection.Assembly.GetExecutingAssembly()
 
     // Create the main provided type
     let excelFileProvidedType = ProvidedTypeDefinition(executingAssembly, rootNamespace, "ExcelFile", Some(typeof<ExcelFileInternal>))
@@ -113,7 +113,7 @@ let internal typExcel(cfg:TypeProviderConfig) =
     let staticParams = [ filename; range; forcestring ]
 
     do excelFileProvidedType.DefineStaticParameters(staticParams, fun tyName paramValues ->
-        let (filename, range, forcestring) = 
+        let (filename, range, forcestring) =
             match paramValues with
             | [| :? string  as filename;   :? string as range;  :? bool as forcestring|] -> (filename, range, forcestring)
             | [| :? string  as filename;   :? bool as forcestring |] -> (filename, String.Empty, forcestring)
@@ -123,15 +123,15 @@ let internal typExcel(cfg:TypeProviderConfig) =
         // resolve the filename relative to the resolution folder
         let resolvedFilename = Path.Combine(cfg.ResolutionFolder, filename)
 
-        let ProvidedTypeDefinitionExcelCall (filename, range, forcestring)  =         
+        let ProvidedTypeDefinitionExcelCall (filename, range, forcestring)  =
             let data = openWorkbookView resolvedFilename range
 
             // define a provided type for each row, erasing to a int -> obj
-            let providedRowType = ProvidedTypeDefinition("Row", Some(typeof<Row>))         
+            let providedRowType = ProvidedTypeDefinition("Row", Some(typeof<Row>))
 
             // add one property per Excel field
             let columnProperties = getColumnDefinitions data forcestring
-            for (columnName, (columnIndex, propertyType, getter)) in columnProperties do            
+            for (columnName, (columnIndex, propertyType, getter)) in columnProperties do
 
                 let prop = ProvidedProperty(columnName, propertyType, GetterCode = getter)
                 // Add metadata defining the property's location in the referenced file
