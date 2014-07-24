@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Excel">
-      <HintPath>..\..\packages\ExcelDataReader.2.1.2.2\lib\net20\Excel.dll</HintPath>
+      <HintPath>..\..\packages\ExcelDataReader.2.1.2.3\lib\net20\Excel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
