@@ -112,7 +112,8 @@ Target "NuGet" (fun _ ->
             OutputPath = nugetDir
             AccessKey = getBuildParamOrDefault "nugetkey" ""
             Publish = hasBuildParam "nugetkey"
-            Dependencies = [] })
+            Dependencies = ["ExcelDataReader","2.1.2.3"
+                            "SharpZipLib","0.86.0"] })
         (project + ".nuspec")
 )
 
