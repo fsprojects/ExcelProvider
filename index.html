@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ExcelProvider
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This library is for the .NET platform implementing a Excel type provider.">
+    <meta name="author" content="Steffen Forkmann">
+
+    <script src="http://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="/ExcelProvider/content/style.css" />
+    <script type="text/javascript" src="/ExcelProvider/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsprojects/ExcelProvider">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/ExcelProvider/index.html">ExcelProvider</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1>ExcelProvider</h1>
+
+<p>This library is for the .NET platform implementing a Excel type provider.</p>
+
+<div class="row">
+  <div class="span1"></div>
+  <div class="span6">
+    <div class="well well-small" id="nuget">
+      The library can be <a href="https://nuget.org/packages/ExcelProvider">installed from NuGet</a>:
+      <pre>PM> Install-Package ExcelProvider</pre>
+    </div>
+  </div>
+  <div class="span1"></div>
+</div>
+
+<h2>Example</h2>
+
+<p>This example demonstrates the use of the type provider:</p>
+
+<p><img src="img/DataTypes.png" alt="alt text" title="Excel sample file with different types" /></p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="c">// reference the type provider dll</span>
+<span class="prep">#r</span> <span class="s">&quot;</span><span class="s">ExcelProvider</span><span class="s">.</span><span class="s">dll</span><span class="s">&quot;</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">FSharp</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">ExcelProvider</span>
+
+
+<span class="c">// Let the type provider do it&#39;s work</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">DataTypesTest</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;</span><span class="s">DataTypes</span><span class="s">.</span><span class="s">xlsx</span><span class="s">&quot;</span><span class="o">&gt;</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">file</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="i">DataTypesTest</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="i">row</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="i">file</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="i">Data</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="i">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs9', 11)" onmouseover="showTip(event, 'fs9', 11)" class="i">head</span></pre>
+</td>
+</tr>
+</table>
+
+<p>Now we have strongly typed access to the Excel rows:</p>
+
+<p><img src="img/TypedExcel.png" alt="alt text" title="Typed Excel sample file" /></p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="i">String</span>
+<span class="fsi">val it : string = &quot;A&quot;</span>
+<span onmouseout="hideTip(event, 'fs6', 14)" onmouseover="showTip(event, 'fs6', 14)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="i">Float</span>
+<span class="fsi">val it : float = 1.0</span>
+<span onmouseout="hideTip(event, 'fs6', 16)" onmouseover="showTip(event, 'fs6', 16)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="i">Boolean</span>
+<span class="fsi">val it : bool = true</span></pre>
+</td>
+</tr>
+</table>
+
+<h2>Multiple regions</h2>
+
+<p>It's also possible to configure the type provider to access multiple regions.</p>
+
+<p><img src="img/Excel.png" alt="alt text" title="Excel sample file" /></p>
+
+<p>With this file we can do the following:</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="i">MultipleRegions</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 19)" onmouseover="showTip(event, 'fs4', 19)" class="i">ExcelFile</span><span class="o">&lt;</span> <span class="s">&quot;</span><span class="s">MultipleRegions</span><span class="s">.</span><span class="s">xlsx</span><span class="s">&quot;</span>, <span class="s">&quot;</span><span class="s">A1</span><span class="s">:</span><span class="s">C5</span><span class="s">,</span><span class="s">E3</span><span class="s">:</span><span class="s">G5</span><span class="s">&quot;</span>, <span class="k">true</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="i">data</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs13', 21)" onmouseover="showTip(event, 'fs13', 21)" class="i">MultipleRegions</span>()
+<span class="k">for</span> <span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="i">row</span> <span class="k">in</span> <span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="i">data</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 24)" onmouseover="showTip(event, 'fs7', 24)" class="i">Data</span> <span class="k">do</span>
+    <span onmouseout="hideTip(event, 'fs16', 25)" onmouseover="showTip(event, 'fs16', 25)" class="i">printfn</span> <span class="s">&quot;</span><span class="s">%</span><span class="s">A</span><span class="s">,</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">,</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">,</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">,</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">,</span><span class="s"> </span><span class="s">%</span><span class="s">A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs15', 26)" onmouseover="showTip(event, 'fs15', 26)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs17', 27)" onmouseover="showTip(event, 'fs17', 27)" class="i">First</span> <span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="i">Second</span> <span onmouseout="hideTip(event, 'fs15', 30)" onmouseover="showTip(event, 'fs15', 30)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs19', 31)" onmouseover="showTip(event, 'fs19', 31)" class="i">Third</span> <span onmouseout="hideTip(event, 'fs15', 32)" onmouseover="showTip(event, 'fs15', 32)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 33)" onmouseover="showTip(event, 'fs20', 33)" class="i">Fourth</span> <span onmouseout="hideTip(event, 'fs15', 34)" onmouseover="showTip(event, 'fs15', 34)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs21', 35)" onmouseover="showTip(event, 'fs21', 35)" class="i">Fifth</span> <span onmouseout="hideTip(event, 'fs15', 36)" onmouseover="showTip(event, 'fs15', 36)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="i">Sixth</span>
+
+<span class="fsi">&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;, &quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;</span>
+<span class="fsi">&quot;A4&quot;, &quot;A5&quot;, &quot;A6&quot;, &quot;B4&quot;, &quot;B5&quot;, &quot;B6&quot;</span>
+<span class="fsi">&quot;A7&quot;, &quot;A8&quot;, &quot;A9&quot;, &lt;null&gt;, &lt;null&gt;, &lt;null&gt;</span>
+<span class="fsi">&quot;A10&quot;, &quot;A11&quot;, &quot;A12&quot;, &lt;null&gt;, &lt;null&gt;, &lt;null&gt;</span></pre>
+</td>
+</tr>
+</table>
+
+<h2>Contributing and copyright</h2>
+
+<p>The project is hosted on <a href="https://github.com/fsprojects/ExcelProvider">GitHub</a> where you can <a href="https://github.com/fsprojects/ExcelProvider/issues">report issues</a>, fork 
+the project and submit pull requests. If you're adding new public API, please also 
+consider adding <a href="https://github.com/fsprojects/ExcelProvider/tree/master/docs/content">samples</a> that can be turned into a documentation. You might
+also want to read <a href="https://github.com/fsprojects/ExcelProvider/blob/master/README.md">library design notes</a> to understand how it works.</p>
+
+<p>The library is available under Public Domain license, which allows modification and 
+redistribution for both commercial and non-commercial purposes. For more information see the 
+<a href="https://github.com/fsprojects/ExcelProvider/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
+
+<div class="tip" id="fs1">namespace FSharp</div>
+<div class="tip" id="fs2">namespace FSharp.ExcelProvider</div>
+<div class="tip" id="fs3">type DataTypesTest = ExcelFile&lt;...&gt;<br /><br />Full name: Index.DataTypesTest</div>
+<div class="tip" id="fs4">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile</div>
+<div class="tip" id="fs5">val file : DataTypesTest<br /><br />Full name: Index.file</div>
+<div class="tip" id="fs6">val row : ExcelFile&lt;...&gt;.Row<br /><br />Full name: Index.row</div>
+<div class="tip" id="fs7">property ExcelFile&lt;...&gt;.Data: System.Collections.Generic.IEnumerable&lt;ExcelFile&lt;...&gt;.Row&gt;</div>
+<div class="tip" id="fs8">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs9">val head : source:seq&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Collections.Seq.head</div>
+<div class="tip" id="fs10">property ExcelFile&lt;...&gt;.Row.String: string</div>
+<div class="tip" id="fs11">property ExcelFile&lt;...&gt;.Row.Float: float</div>
+<div class="tip" id="fs12">property ExcelFile&lt;...&gt;.Row.Boolean: bool</div>
+<div class="tip" id="fs13">type MultipleRegions = ExcelFile&lt;...&gt;<br /><br />Full name: Index.MultipleRegions</div>
+<div class="tip" id="fs14">val data : MultipleRegions<br /><br />Full name: Index.data</div>
+<div class="tip" id="fs15">val row : ExcelFile&lt;...&gt;.Row</div>
+<div class="tip" id="fs16">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs17">property ExcelFile&lt;...&gt;.Row.First: string</div>
+<div class="tip" id="fs18">property ExcelFile&lt;...&gt;.Row.Second: string</div>
+<div class="tip" id="fs19">property ExcelFile&lt;...&gt;.Row.Third: string</div>
+<div class="tip" id="fs20">property ExcelFile&lt;...&gt;.Row.Fourth: string</div>
+<div class="tip" id="fs21">property ExcelFile&lt;...&gt;.Row.Fifth: string</div>
+<div class="tip" id="fs22">property ExcelFile&lt;...&gt;.Row.Sixth: string</div>
+
+        </div>
+        <div class="span3">
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">ExcelProvider</li>
+            <li><a href="/ExcelProvider/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="https://www.nuget.org/packages/ExcelProvider">Get Library via NuGet</a></li>
+            <li><a href="http://github.com/fsprojects/ExcelProvider">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsprojects/ExcelProvider/blob/master/LICENSE.txt">License</a></li>
+            <li><a href="http://github.com/fsprojects/ExcelProvider/blob/master/RELEASE_NOTES.md">Release Notes</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsprojects/ExcelProvider"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>
