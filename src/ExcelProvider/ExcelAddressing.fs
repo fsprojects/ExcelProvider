@@ -156,7 +156,14 @@ let getCellValue view row column =
 
 ///Reads the contents of an excel file into a DataSet
 let public openWorkbookView filename range =
-    use stream = File.OpenRead(filename)
+    use stream =
+        try
+            File.OpenRead(filename)
+        with
+        | :? IOException as ioException -> 
+            let message = sprintf "Could not open excel file [%s]. Make sure the file exists, and it is not open by another program." filename
+            failwith message
+    
     let excelReader =
         if filename.EndsWith(".xlsx") then Excel.ExcelReaderFactory.CreateOpenXmlReader(stream)
         else Excel.ExcelReaderFactory.CreateBinaryReader(stream)
