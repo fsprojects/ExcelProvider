@@ -11,6 +11,85 @@ type BookTest = ExcelFile<"BookTest.xls", "Sheet1", true>
 type HeaderTest = ExcelFile<"BookTestWithHeader.xls", "A2", true>
 type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", "A1:C5,E3:G5", true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
+type DataTypes = ExcelFile<"DataTypes.xlsx">
+
+[<Test>]
+let ``Read Text as String``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.head
+    row.String |> should equal "A"
+
+[<Test>]
+let ``Read General as Boolean if value is TRUE``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.head
+    Assert.That(row.Boolean, Is.True)
+
+[<Test>]
+let ``Read Number as Float``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.head
+    row.Float |> should equal 1.0
+
+[<Test>]
+let ``Read Date as DateTime``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.head
+    row.Date |> should equal (new DateTime(2014,1,1))
+
+[<Test>]
+let ``Read Time as DateTime``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.head
+    let expectedTime = new DateTime(1899, 12, 31, 8, 0, 0)
+    row.Time |> should equal expectedTime
+
+[<Test>]
+let ``Read Currency as Decimal``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.head
+    row.Currency |> should equal 100.0M
+
+[<Test>]
+let ``Empty Text cell should be null``() =
+    let file = DataTypes()
+    let blankRow = file.Data |> Seq.skip 1 |> Seq.head
+    blankRow.String |> should be Null
+
+[<Test>]
+let ``Read blank General as false if column is boolean``() =
+    let file = DataTypes()
+    let row = file.Data |> Seq.skip 1 |> Seq.head
+    Assert.That(row.Boolean, Is.False)
+
+[<Test>]
+let ``Empty Number cell should be zero``() =
+    let file = DataTypes()
+    let blankRow = file.Data |> Seq.skip 1 |> Seq.head
+    let defaultValue = blankRow.Float
+    defaultValue |> should equal 0.0f
+
+[<Test>]
+let ``Empty Currency cell should be zero``() =
+    let file = DataTypes()
+    let blankRow = file.Data |> Seq.skip 1 |> Seq.head
+    let defaultValue = blankRow.Currency
+    defaultValue |> should equal 0.0M
+
+[<Test>]
+let ``Empty date cell should be BOT``() =
+    let file = DataTypes()
+    let blankRow = file.Data |> Seq.skip 1 |> Seq.head
+    let defaultValue = blankRow.Date
+    defaultValue |> should equal DateTime.MinValue
+
+    
+[<Test>]
+let ``Empty time cell should be today``() =
+    let file = DataTypes()
+    let blankRow = file.Data |> Seq.skip 1 |> Seq.head
+    let defaultValue = blankRow.Time
+    defaultValue |> should equal DateTime.MinValue
 
 [<Test>]
 let ``Default Sheet not named Sheet1``() =

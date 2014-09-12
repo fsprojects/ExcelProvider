@@ -1,3 +1,6 @@
+#### 0.1.2 - 11.09.2014
+* Fixing handling of blank cells. Blank cells are treated as the default value for the inferred column type.
+
 #### 0.1.1 - 24.07.2014
 * Upgrading to the latest version of the ExcelDataReader library (2.1.2.3)
 * Include nuget package dependencies
