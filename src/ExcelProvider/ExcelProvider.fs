@@ -29,9 +29,9 @@ type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
 // get the type, and implementation of a getter property based on a template value
 let internal propertyImplementation columnIndex (value : obj) =
     match value with
-    | :? float -> typeof<double>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> double) @@>)
-    | :? bool -> typeof<bool>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> bool) @@>)
-    | :? DateTime -> typeof<DateTime>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> DateTime) @@>)
+    | :? float -> typeof<double>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<double>).GetValueOrDefault()) @@>)
+    | :? bool -> typeof<bool>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<bool>).GetValueOrDefault()) @@>)
+    | :? DateTime -> typeof<DateTime>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<DateTime>).GetValueOrDefault()) @@>)
     | :? string -> typeof<string>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> string) @@>)
     | _ -> typeof<obj>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex @@>)
 
@@ -44,11 +44,11 @@ let internal getColumnDefinitions (data : View) forcestring =
             let cellType, getter =
                 if forcestring then
                     let getter = (fun [row] ->
-                    <@@
-                        let value = (%%row: Row).GetValue columnIndex |> string
-                        if String.IsNullOrEmpty value then null
-                        else value
-                    @@>)
+                        <@@
+                            let value = (%%row: Row).GetValue columnIndex |> string
+                            if String.IsNullOrEmpty value then null
+                            else value
+                        @@>)
                     typedefof<string>, getter
                 else
                     let cellValue = getCell 1 columnIndex

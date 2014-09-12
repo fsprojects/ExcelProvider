@@ -147,7 +147,11 @@ let getCellValue view row column =
     let sheetColumn, rangeView = columns.[column]
     let row = rangeView.StartRow + row
     let sheet = rangeView.Sheet
-    if row < sheet.Rows.Count && sheetColumn < sheet.Columns.Count then rangeView.Sheet.Rows.[row].Item(sheetColumn)
+    if row < sheet.Rows.Count && sheetColumn < sheet.Columns.Count 
+    then 
+        match rangeView.Sheet.Rows.[row].Item(sheetColumn) with
+        | :? System.DBNull as dbNull -> null
+        | nonNullValue -> nonNullValue
     else null
 
 ///Reads the contents of an excel file into a DataSet
