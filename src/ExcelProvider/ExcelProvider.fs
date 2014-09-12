@@ -26,14 +26,29 @@ type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
 
         sprintf "Row %d%s%s" rowIndex Environment.NewLine columnValueList
 
+// Avoids "warning FS0025: Incomplete pattern matches on this expression"
+// when using: (fun [row] -> <@@ ... @@>)
+let private singleItemOrFail func items = 
+    match items with
+    | [ item ] -> func item
+    | _ -> failwith "Expected single item list."
+
+// Avoids "warning FS0025: Incomplete pattern matches on this expression"
+// when using: (fun [] -> <@@ ... @@>)
+let private emptyListOrFail func items = 
+    match items with
+    | [] -> func()
+    | _ -> failwith "Expected empty list"
+
+
 // get the type, and implementation of a getter property based on a template value
 let internal propertyImplementation columnIndex (value : obj) =
     match value with
-    | :? float -> typeof<double>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<double>).GetValueOrDefault()) @@>)
-    | :? bool -> typeof<bool>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<bool>).GetValueOrDefault()) @@>)
-    | :? DateTime -> typeof<DateTime>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<DateTime>).GetValueOrDefault()) @@>)
-    | :? string -> typeof<string>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> string) @@>)
-    | _ -> typeof<obj>, (fun [row] -> <@@ (%%row: Row).GetValue columnIndex @@>)
+    | :? float -> typeof<double>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<double>).GetValueOrDefault()) @@>) |> singleItemOrFail
+    | :? bool -> typeof<bool>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<bool>).GetValueOrDefault()) @@>) |> singleItemOrFail
+    | :? DateTime -> typeof<DateTime>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<DateTime>).GetValueOrDefault()) @@>) |> singleItemOrFail
+    | :? string -> typeof<string>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> string) @@>) |> singleItemOrFail
+    | _ -> typeof<obj>, (fun row -> <@@ (%%row: Row).GetValue columnIndex @@>) |> singleItemOrFail
 
 // gets a list of column definition information for the columns in a view
 let internal getColumnDefinitions (data : View) forcestring =
@@ -43,12 +58,12 @@ let internal getColumnDefinitions (data : View) forcestring =
         if not (String.IsNullOrWhiteSpace(columnName)) then
             let cellType, getter =
                 if forcestring then
-                    let getter = (fun [row] ->
-                        <@@
-                            let value = (%%row: Row).GetValue columnIndex |> string
-                            if String.IsNullOrEmpty value then null
-                            else value
-                        @@>)
+                    let getter = (fun row ->
+                                    <@@
+                                        let value = (%%row: Row).GetValue columnIndex |> string
+                                        if String.IsNullOrEmpty value then null
+                                        else value
+                                    @@>) |> singleItemOrFail
                     typedefof<string>, getter
                 else
                     let cellValue = getCell 1 columnIndex
@@ -142,13 +157,13 @@ let internal typExcel(cfg:TypeProviderConfig) =
             let providedExcelFileType = ProvidedTypeDefinition(executingAssembly, rootNamespace, tyName, Some(typeof<ExcelFileInternal>))
 
             // add a parameterless constructor which loads the file that was used to define the schema
-            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = fun [] -> <@@ ExcelFileInternal(resolvedFilename, range) @@>))
+            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, range) @@>)))
 
             // add a constructor taking the filename to load
-            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = fun [filename] -> <@@ ExcelFileInternal(%%filename, range) @@>))
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, range) @@>)))
 
             // add a new, more strongly typed Data property (which uses the existing property at runtime)
-            providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), GetterCode =fun [excFile] -> <@@ (%%excFile:ExcelFileInternal).Data @@>))
+            providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), GetterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))
 
             // add the row type as a nested type
             providedExcelFileType.AddMember(providedRowType)
