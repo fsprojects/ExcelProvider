@@ -150,23 +150,39 @@ let getCellValue view row column =
     if row < sheet.Rows.Count && sheetColumn < sheet.Columns.Count 
     then 
         match rangeView.Sheet.Rows.[row].Item(sheetColumn) with
-        | :? System.DBNull as dbNull -> null
+        | :? System.DBNull -> null
         | nonNullValue -> nonNullValue
     else null
 
 ///Reads the contents of an excel file into a DataSet
 let public openWorkbookView filename range =
+
+    let fail action (ex : exn) =
+        let exceptionTypeName = ex.GetType().Name
+        let message = sprintf "Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+        failwith message
+
     use stream =
         try
             File.OpenRead(filename)
         with
-        | :? IOException as ioException -> 
-            let message = sprintf "Could not open excel file [%s]. Make sure the file exists, and it is not open by another program." filename
-            failwith message
+        | ex ->
+            let action = sprintf "open file '%s'" filename
+            fail action ex
     
-    let excelReader =
-        if filename.EndsWith(".xlsx") then Excel.ExcelReaderFactory.CreateOpenXmlReader(stream)
-        else Excel.ExcelReaderFactory.CreateBinaryReader(stream)
+    let excelReader =        
+        let action = "create ExcelDataReader"
+        try          
+            let reader =          
+                if filename.EndsWith(".xlsx")
+                then Excel.ExcelReaderFactory.CreateOpenXmlReader(stream)
+                else Excel.ExcelReaderFactory.CreateBinaryReader(stream)
+
+            if not reader.IsValid then fail action (Exception reader.ExceptionMessage)
+
+            reader
+        with
+        | ex -> fail action ex
 
     let workbook = excelReader.AsDataSet()
 
