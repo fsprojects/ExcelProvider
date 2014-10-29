@@ -2,7 +2,6 @@ module ExcelProvider.ExcelProvider
 
 open System
 open System.Collections.Generic
-open System.Data
 open System.IO
 open System.Reflection
 
@@ -95,7 +94,6 @@ let internal memoize f x =
 
 let internal typExcel(cfg:TypeProviderConfig) =
 
-   //Re
     let sharpZipLibAssemblyName =
         let zipFileType = typedefof<ZipFile>
         zipFileType.Assembly.GetName()
