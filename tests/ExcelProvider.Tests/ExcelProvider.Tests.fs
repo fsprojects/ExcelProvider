@@ -13,6 +13,9 @@ type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", "A1:C5,E3:G5", true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
 type DataTypes = ExcelFile<"DataTypes.xlsx">
 
+type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
+type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
+
 [<Test>]
 let ``Read Text as String``() =
     let file = DataTypes()
@@ -174,3 +177,27 @@ let ``Can load from multiple ranges``() =
     rows.[3].Fourth |> should equal null
     rows.[3].Fifth |> should equal null
     rows.[3].Sixth |> should equal null
+
+[<Test>]
+let ``Can load from first multiple sheets - first``() =
+    let file = MultipleSheetsFirst()
+    let rows = file.Data |> Seq.toArray
+
+    rows.[0].First |> should equal 1.0
+    rows.[0].Second |> should equal false
+    rows.[0].Third |> should equal "a"
+
+    rows.[1].First |> should equal 2.0
+    rows.[1].Second |> should equal true
+    rows.[1].Third |> should equal "b"
+
+[<Test>]
+let ``Can load from first multiple sheets - second``() =
+    let file = MultipleSheetsSecond()
+    let rows = file.Data |> Seq.toArray
+
+    rows.[0].Fourth |> should equal 2.2
+    rows.[0].Fifth |> should equal (new DateTime(2013,1,1))
+
+    rows.[1].Fourth |> should equal 3.2
+    rows.[1].Fifth |> should equal (new DateTime(2013,2,1))
