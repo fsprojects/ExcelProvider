@@ -12,6 +12,7 @@ type HeaderTest = ExcelFile<"BookTestWithHeader.xls", "A2", true>
 type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", "A1:C5,E3:G5", true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
 type DataTypes = ExcelFile<"DataTypes.xlsx">
+type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 
 [<Test>]
 let ``Read Text as String``() =
@@ -174,3 +175,9 @@ let ``Can load from multiple ranges``() =
     rows.[3].Fourth |> should equal null
     rows.[3].Fifth |> should equal null
     rows.[3].Sixth |> should equal null
+
+[<Test>]
+let ``Multiline column name should be converted to a single line``() =
+    let file = MultiLine()
+    let rows = file.Data |> Seq.toArray
+    rows.[0].``Multiline\nheader`` |> should equal "foo"
