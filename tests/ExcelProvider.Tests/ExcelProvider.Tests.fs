@@ -12,6 +12,7 @@ type HeaderTest = ExcelFile<"BookTestWithHeader.xls", "A2", true>
 type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", "A1:C5,E3:G5", true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
 type DataTypes = ExcelFile<"DataTypes.xlsx">
+type CaseInsensitive = ExcelFile<"DataTypes.XLSX">
 type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 
 [<Test>]
@@ -175,6 +176,14 @@ let ``Can load from multiple ranges``() =
     rows.[3].Fourth |> should equal null
     rows.[3].Fifth |> should equal null
     rows.[3].Sixth |> should equal null
+
+[<Test>]
+let ``Can load file with different casing``() =
+    let file = CaseInsensitive()
+    // just do one of the same tests as was done for the book we are basing this off of
+    let blankRow = file.Data |> Seq.skip 1 |> Seq.head
+    let defaultValue = blankRow.Time
+    defaultValue |> should equal DateTime.MinValue
 
 [<Test>]
 let ``Multiline column name should be converted to a single line``() =

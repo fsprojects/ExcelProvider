@@ -174,7 +174,7 @@ let public openWorkbookView filename range =
         let action = "create ExcelDataReader"
         try          
             let reader =          
-                if filename.EndsWith(".xlsx")
+                if filename.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase)
                 then Excel.ExcelReaderFactory.CreateOpenXmlReader(stream)
                 else Excel.ExcelReaderFactory.CreateBinaryReader(stream)
 

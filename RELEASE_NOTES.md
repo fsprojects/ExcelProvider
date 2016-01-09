@@ -1,3 +1,6 @@
+#### 0.2.2 - 09.01.2016
+* BUGFIX: Case insensitive ends with on EndsWith - https://github.com/fsprojects/ExcelProvider/pull/21
+
 #### 0.2.1 - 09.01.2016
 * Added unique property name generator for duplicated columns - https://github.com/fsprojects/ExcelProvider/pull/13
 
