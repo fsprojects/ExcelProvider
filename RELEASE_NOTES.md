@@ -1,3 +1,6 @@
+#### 0.2.0 - 09.01.2016
+* Added support to multiline column names - https://github.com/fsprojects/ExcelProvider/pull/20
+
 #### 0.1.2 - 11.09.2014
 * Fixing handling of blank cells. Blank cells are treated as the default value for the inferred column type.
 
