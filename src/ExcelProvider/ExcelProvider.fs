@@ -9,7 +9,7 @@ open ExcelProvider.Helper
 open ExcelProvider.ExcelAddressing
 open ICSharpCode.SharpZipLib.Zip
 open Microsoft.FSharp.Core.CompilerServices
-open Samples.FSharp.ProvidedTypes
+open ProviderImplementation.ProvidedTypes
 
 // Represents a row in a provided ExcelFileInternal
 type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =

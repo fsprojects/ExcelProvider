@@ -1,3 +1,6 @@
+#### 0.2.4 - 09.01.2016
+* Using ProjectScaffold infrastructure
+
 #### 0.2.3 - 09.01.2016
 * Allow range parameter to take a sheet name - https://github.com/fsprojects/ExcelProvider/pull/18
 
