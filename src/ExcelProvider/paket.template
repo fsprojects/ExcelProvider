@@ -1,0 +1,23 @@
+type project
+owners
+    \"Steffen Forkmann\"; \"Gustavo Guerra\"; \"JohnDoeKyrgyz\"; \"Don Syme\"
+authors 
+    \"Steffen Forkmann\"; \"Gustavo Guerra\"; \"JohnDoeKyrgyz\"; \"Don Syme\"
+projectUrl
+    http://github.com/fsprojects/ExcelProvider
+iconUrl
+    https://raw.githubusercontent.com/fsprojects/ExcelProvider/master/docs/files/img/logo.png
+licenseUrl
+    http://github.com/fsprojects/ExcelProvider/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+copyright
+    Copyright 2015
+tags
+    F# fsharp typeproviders Excel
+summary
+    This library is for the .NET platform implementing a Excel type provider.
+description
+    This library is for the .NET platform implementing a Excel type provider.
+
+
