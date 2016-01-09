@@ -1,4 +1,4 @@
-#### 0.3.2 - 09.01.2016
+#### 0.3.3 - 09.01.2016
 * Using ProjectScaffold infrastructure
 * Allow range parameter to take a sheet name - https://github.com/fsprojects/ExcelProvider/pull/18
 * BUGFIX: Case insensitive ends with on EndsWith - https://github.com/fsprojects/ExcelProvider/pull/21
