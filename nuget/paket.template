@@ -23,4 +23,4 @@ description
 tags
     nuget, bundler, F#
 files
-    ../bin/ExcelProvider/*.* ==> .
+    ../bin/ExcelProvider/*.* ==> 
