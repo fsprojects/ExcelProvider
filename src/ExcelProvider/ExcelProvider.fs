@@ -125,6 +125,38 @@ let internal typExcel(cfg:TypeProviderConfig) =
     let range = ProvidedStaticParameter("sheetname", typeof<string>, "")
     let forcestring = ProvidedStaticParameter("forcestring", typeof<bool>, false)
     let staticParams = [ filename; range; forcestring ]
+    /// Given a function to format names (such as `niceCamelName` or `nicePascalName`)
+    /// returns a name generator that never returns duplicate name (by appending an
+    /// index to already used names)
+    /// 
+    /// This function is curried and should be used with partial function application:
+    ///
+    ///     let makeUnique = uniqueGenerator nicePascalName
+    ///     let n1 = makeUnique "sample-name"
+    ///     let n2 = makeUnique "sample-name"
+    ///
+    let uniqueGenerator niceName =
+      let set = new HashSet<_>()
+      fun name ->
+        let mutable name = niceName name
+        while set.Contains name do 
+          let mutable lastLetterPos = String.length name - 1
+          while Char.IsDigit name.[lastLetterPos] && lastLetterPos > 0 do
+            lastLetterPos <- lastLetterPos - 1
+          if lastLetterPos = name.Length - 1 then
+            if name.Contains " " then
+                name <- name + " 2"
+            else
+                name <- name + "2"
+          elif lastLetterPos = 0 && name.Length = 1 then
+            name <- (UInt64.Parse name + 1UL).ToString()
+          else
+            let number = name.Substring(lastLetterPos + 1)
+            name <- name.Substring(0, lastLetterPos + 1) + (UInt64.Parse number + 1UL).ToString()
+        set.Add name |> ignore
+        name
+
+    
 
     do excelFileProvidedType.DefineStaticParameters(staticParams, fun tyName paramValues ->
         let (filename, range, forcestring) =
@@ -138,6 +170,7 @@ let internal typExcel(cfg:TypeProviderConfig) =
         let resolvedFilename = Path.Combine(cfg.ResolutionFolder, filename)
 
         let ProvidedTypeDefinitionExcelCall (filename, range, forcestring)  =
+            let gen = uniqueGenerator id
             let data = openWorkbookView resolvedFilename range
 
             // define a provided type for each row, erasing to a int -> obj
@@ -147,7 +180,7 @@ let internal typExcel(cfg:TypeProviderConfig) =
             let columnProperties = getColumnDefinitions data forcestring
             for (columnName, (columnIndex, propertyType, getter)) in columnProperties do
 
-                let prop = ProvidedProperty(columnName, propertyType, GetterCode = getter)
+                let prop = ProvidedProperty(columnName |> gen, propertyType, GetterCode = getter)
                 // Add metadata defining the property's location in the referenced file
                 prop.AddDefinitionLocation(1, columnIndex, filename)
                 providedRowType.AddMember(prop)

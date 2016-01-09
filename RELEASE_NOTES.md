@@ -1,3 +1,6 @@
+#### 0.2.1 - 09.01.2016
+* Added unique property name generator for duplicated columns - https://github.com/fsprojects/ExcelProvider/pull/13
+
 #### 0.2.0 - 09.01.2016
 * Added support to multiline column names - https://github.com/fsprojects/ExcelProvider/pull/20
 
