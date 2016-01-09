@@ -62,6 +62,9 @@
     <Compile Include="ExcelProvider.Tests.fs" />
     <None Include="packages.config" />
     <None Include="DifferentMainSheet.xlsx" />
+    <None Include="MultilineHeader.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ExcelProvider">

@@ -53,8 +53,9 @@ let internal propertyImplementation columnIndex (value : obj) =
 let internal getColumnDefinitions (data : View) forcestring =
     let getCell = getCellValue data
     [for columnIndex in 0 .. data.ColumnMappings.Count - 1 do
-        let columnName = getCell 0 columnIndex |> string
-        if not (String.IsNullOrWhiteSpace(columnName)) then
+        let rawColumnName = getCell 0 columnIndex |> string
+        if not (String.IsNullOrWhiteSpace(rawColumnName)) then
+            let processedColumnName = rawColumnName.Replace("\n", "\\n")
             let cellType, getter =
                 if forcestring then
                     let getter = (fun row ->
@@ -67,7 +68,7 @@ let internal getColumnDefinitions (data : View) forcestring =
                 else
                     let cellValue = getCell 1 columnIndex
                     propertyImplementation columnIndex cellValue
-            yield (columnName, (columnIndex, cellType, getter))]
+            yield (processedColumnName, (columnIndex, cellType, getter))]
 
 // Simple type wrapping Excel data
 type ExcelFileInternal(filename, range) =
