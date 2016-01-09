@@ -110,10 +110,14 @@ let getRangeView (workbook : DataSet) range =
 ///Gets a View object which can be used to read data from the given range in the DataSet
 let public getView (workbook : DataSet) range =
     let worksheets = workbook.Tables
-    let firstWorkSheetName = worksheets.[0].TableName
+    
+    let workSheetName = 
+        if worksheets.Contains range 
+        then range
+        else worksheets.[0].TableName
 
-    let ranges =
-        parseExcelRanges firstWorkSheetName range
+    let ranges = 
+        parseExcelRanges workSheetName range
         |> List.map (getRangeView workbook)
 
     let minRow = ranges |> Seq.map (fun range -> range.StartRow) |> Seq.min

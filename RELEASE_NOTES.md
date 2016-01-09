@@ -1,3 +1,6 @@
+#### 0.2.3 - 09.01.2016
+* Allow range parameter to take a sheet name - https://github.com/fsprojects/ExcelProvider/pull/18
+
 #### 0.2.2 - 09.01.2016
 * BUGFIX: Case insensitive ends with on EndsWith - https://github.com/fsprojects/ExcelProvider/pull/21
 
