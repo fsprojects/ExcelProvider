@@ -55,29 +55,17 @@ row.Boolean
 
 (**
 
-Multiple regions
-----------------
+Documentation
+-----------------------
 
-It's also possible to configure the type provider to access multiple regions.
+For more information see the Documentation pages: 
 
-![alt text](img/Excel.png "Excel sample file")
-
-With this file we can do the following:
-
-*)
-type MultipleRegions = ExcelFile< "MultipleRegions.xlsx", "A1:C5,E3:G5", true>
-
-let data = new MultipleRegions()
-for row in data.Data do
-    printfn "%A, %A, %A, %A, %A, %A" row.First row.Second row.Third row.Fourth row.Fifth row.Sixth
-
-// [fsi:"A1", "A2", "A3", "B1", "B2", "B3"]
-// [fsi:"A4", "A5", "A6", "B4", "B5", "B6"]
-// [fsi:"A7", "A8", "A9", <null>, <null>, <null>]
-// [fsi:"A10", "A11", "A12", <null>, <null>, <null>]
-
-
-(**
+ * [Getting Started](getting-started.html) contains an overview of the library.
+ * [Accessing Sheets](sheets.html) shows how to access different sheets in a workbook.
+ * [Accessing Rows](rows.html) shows how to access individual rows in a worksheet.
+ * [Accessing Cells](cells.html) shows how to access individual cells within a row of a worksheet.
+ * [Accessing Ranges](ranges.html) shows how to access multiple ranges of data within a worksheet.
+ 
 
 Contributing and copyright
 --------------------------
