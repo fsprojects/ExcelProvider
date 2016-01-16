@@ -92,29 +92,22 @@ let internal memoize f x =
         let res = f x
         (GlobalSingleton.Instance).[x] <- res
         res
-
-let internal typExcel(cfg:TypeProviderConfig) =
-
+do
+    let loadedAssemblies = new HashSet<string>()
     let sharpZipLibAssemblyName =
         let zipFileType = typedefof<ZipFile>
         zipFileType.Assembly.GetName()
-
-    let loadedAssemblies = new HashSet<string>()
-
     let resolveAssembly sender (resolveEventArgs : ResolveEventArgs) =
         let assemblyName = resolveEventArgs.Name
         if loadedAssemblies.Add( assemblyName ) then
-            let assemblyName =
-               if assemblyName.StartsWith(sharpZipLibAssemblyName.Name)
-               then sharpZipLibAssemblyName.FullName
-               else assemblyName
-            Assembly.Load( assemblyName )
+            if assemblyName.StartsWith(sharpZipLibAssemblyName.Name)
+            then Assembly.Load( sharpZipLibAssemblyName.FullName )
+            else null
         else null
+    let handler = new ResolveEventHandler( resolveAssembly )
+    AppDomain.CurrentDomain.add_AssemblyResolve handler
 
-    do
-        let handler = new ResolveEventHandler( resolveAssembly )
-        AppDomain.CurrentDomain.add_AssemblyResolve handler
-
+let internal typExcel(cfg:TypeProviderConfig) =
     let executingAssembly = System.Reflection.Assembly.GetExecutingAssembly()
 
     // Create the main provided type
