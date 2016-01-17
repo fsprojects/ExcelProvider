@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
+<head>
+    <meta charset="utf-8" />
     <title>ExcelProvider
 </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="This library is for the .NET platform implementing a Excel type provider."/>
-    <meta name="author" content="Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="This library is for the .NET platform implementing a Excel type provider." />
+    <meta name="author" content="Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme" />
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
     <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet" />
 
     <link type="text/css" rel="stylesheet" href="/ExcelProvider/content/style.css" />
     <script type="text/javascript" src="/ExcelProvider/content/tips.js"></script>
@@ -19,20 +19,20 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="http://fsharp.org">fsharp.org</a></li>
-          <li><a href="http://github.com/fsprojects/ExcelProvider">github page</a></li>
-        </ul>
-        <h3 class="muted"><a href="/ExcelProvider/index.html">ExcelProvider</a></h3>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="span9" id="main">
-          
+        <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="http://fsharp.org">fsharp.org</a></li>
+                <li><a href="http://github.com/fsprojects/ExcelProvider">github page</a></li>
+            </ul>
+            <h3 class="muted"><a href="/ExcelProvider/index.html">ExcelProvider</a></h3>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="span9" id="main">
+                
 <h1><a name="ExcelProvider" class="anchor" href="#ExcelProvider">ExcelProvider</a></h1>
 <p>This library is for the .NET platform implementing a Excel type provider.</p>
 <div class="row">
@@ -88,34 +88,15 @@
 </code></pre></td>
 </tr>
 </table>
-<h2><a name="Multiple-regions" class="anchor" href="#Multiple-regions">Multiple regions</a></h2>
-<p>It's also possible to configure the type provider to access multiple regions.</p>
-<p><img src="img/Excel.png" alt="alt text" title="Excel sample file" /></p>
-<p>With this file we can do the following:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="t">MultipleRegions</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span> <span class="s">&quot;MultipleRegions.xlsx&quot;</span>, <span class="s">&quot;A1:C5,E3:G5&quot;</span>, <span class="k">true</span><span class="o">&gt;</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 15)" onmouseover="showTip(event, 'fs10', 15)" class="i">data</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="t">MultipleRegions</span>()
-<span class="k">for</span> <span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="i">row</span> <span class="k">in</span> <span onmouseout="hideTip(event, 'fs10', 18)" onmouseover="showTip(event, 'fs10', 18)" class="i">data</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 19)" onmouseover="showTip(event, 'fs5', 19)" class="i">Data</span> <span class="k">do</span>
-    <span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="f">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">, </span><span class="pf">%A</span><span class="s">, </span><span class="pf">%A</span><span class="s">, </span><span class="pf">%A</span><span class="s">, </span><span class="pf">%A</span><span class="s">, </span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs11', 21)" onmouseover="showTip(event, 'fs11', 21)" class="i">row</span><span class="o">.</span><span class="i">First</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="i">row</span><span class="o">.</span><span class="i">Second</span> <span onmouseout="hideTip(event, 'fs11', 23)" onmouseover="showTip(event, 'fs11', 23)" class="i">row</span><span class="o">.</span><span class="i">Third</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="i">row</span><span class="o">.</span><span class="i">Fourth</span> <span onmouseout="hideTip(event, 'fs11', 25)" onmouseover="showTip(event, 'fs11', 25)" class="i">row</span><span class="o">.</span><span class="i">Fifth</span> <span onmouseout="hideTip(event, 'fs11', 26)" onmouseover="showTip(event, 'fs11', 26)" class="i">row</span><span class="o">.</span><span class="i">Sixth</span>
-
-<span class="fsi">&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;, &quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;</span>
-<span class="fsi">&quot;A4&quot;, &quot;A5&quot;, &quot;A6&quot;, &quot;B4&quot;, &quot;B5&quot;, &quot;B6&quot;</span>
-<span class="fsi">&quot;A7&quot;, &quot;A8&quot;, &quot;A9&quot;, &lt;null&gt;, &lt;null&gt;, &lt;null&gt;</span>
-<span class="fsi">&quot;A10&quot;, &quot;A11&quot;, &quot;A12&quot;, &lt;null&gt;, &lt;null&gt;, &lt;null&gt;</span>
-</code></pre></td>
-</tr>
-</table>
+<h2><a name="Documentation" class="anchor" href="#Documentation">Documentation</a></h2>
+<p>For more information see the Documentation pages:</p>
+<ul>
+<li><a href="getting-started.html">Getting Started</a> contains an overview of the library.</li>
+<li><a href="sheets.html">Accessing Sheets</a> shows how to access different sheets in a workbook.</li>
+<li><a href="rows.html">Accessing Rows</a> shows how to access individual rows in a worksheet.</li>
+<li><a href="cells.html">Accessing Cells</a> shows how to access individual cells within a row of a worksheet.</li>
+<li><a href="ranges.html">Accessing Ranges</a> shows how to access multiple ranges of data within a worksheet.</li>
+</ul>
 <h2><a name="Contributing-and-copyright" class="anchor" href="#Contributing-and-copyright">Contributing and copyright</a></h2>
 <p>The project is hosted on <a href="https://github.com/fsprojects/ExcelProvider">GitHub</a> where you can <a href="https://github.com/fsprojects/ExcelProvider/issues">report issues</a>, fork
 the project and submit pull requests. If you're adding new public API, please also
@@ -133,26 +114,28 @@ redistribution for both commercial and non-commercial purposes. For more informa
 <div class="tip" id="fs6">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
 <div class="tip" id="fs7">val head : source:seq&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Collections.Seq.head</div>
 <div class="tip" id="fs8">module String<br /><br />from Microsoft.FSharp.Core</div>
-<div class="tip" id="fs9">type MultipleRegions = obj<br /><br />Full name: Index.MultipleRegions</div>
-<div class="tip" id="fs10">val data : MultipleRegions<br /><br />Full name: Index.data</div>
-<div class="tip" id="fs11">val row : obj</div>
-<div class="tip" id="fs12">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
 
+            </div>
+            <div class="span3">
+                <img src="/ExcelProvider/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />
+                <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+                    <li class="nav-header">ExcelProvider</li>
+                    <li><a href="/ExcelProvider/index.html">Home page</a></li>
+                    <li class="divider"></li>
+                    <li><a href="http://nuget.org/packages/ExcelProvider">Get Library via NuGet</a></li>
+                    <li><a href="http://github.com/fsprojects/ExcelProvider">Source Code on GitHub</a></li>
+                    <li><a href="/ExcelProvider/license.html">License</a></li>
+                    <li><a href="/ExcelProvider/release-notes.html">Release Notes</a></li>
+                    <li class="nav-header">Documentation</li>
+                    <li><a href="/ExcelProvider/getting-started.html">Getting Started</a></li>
+                    <li><a href="/ExcelProvider/sheets.html">Accessing Sheets</a></li>
+                    <li><a href="/ExcelProvider/rows.html">Accessing Rows</a></li>
+                    <li><a href="/ExcelProvider/cells.html">Accessing Cells</a></li>
+                    <li><a href="/ExcelProvider/ranges.html">Accessing Ranges</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="span3">
-          <img src="/ExcelProvider/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
-          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">ExcelProvider</li>
-            <li><a href="/ExcelProvider/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/ExcelProvider">Get Library via NuGet</a></li>
-            <li><a href="http://github.com/fsprojects/ExcelProvider">Source Code on GitHub</a></li>
-            <li><a href="/ExcelProvider/license.html">License</a></li>
-            <li><a href="/ExcelProvider/release-notes.html">Release Notes</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
-    <a href="http://github.com/fsprojects/ExcelProvider"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
-  </body>
-  </html>
+    <a href="http://github.com/fsprojects/ExcelProvider"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" /></a>
+</body>
+</html>
