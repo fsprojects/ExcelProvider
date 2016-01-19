@@ -40,6 +40,8 @@
   <span>Namespace: FSharp.ExcelProvider</span><br />
 </p>
 <div class="xmldoc">
+<p>Typed representation of data in an Excel file.</p>
+
 </div>
   <h3>Static parameters</h3>
   <table class="table table-bordered member-list">
@@ -51,7 +53,7 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
-            filename
+            FileName
           </code>
           <div class="tip" id="8">
             <strong>Signature:</strong> string<br />
@@ -62,14 +64,16 @@
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Location of the Excel file.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
-            sheetname
+            SheetName
           </code>
           <div class="tip" id="9">
             <strong>Signature:</strong> string (optional, default = &quot;&quot;)<br />
@@ -80,16 +84,38 @@
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Name of sheet containing data. Defaults to first sheet.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
-            forcestring
+            Range
           </code>
           <div class="tip" id="10">
+            <strong>Signature:</strong> string (optional, default = &quot;&quot;)<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/docs/tools/startup#L1-1" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Specification using <code>A1:D3</code> type addresses of one or more ranges. Defaults to use whole sheet.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '11', 11)" onmouseover="showTip(event, '11', 11)">
+            ForceString
+          </code>
+          <div class="tip" id="11">
             <strong>Signature:</strong> bool (optional, default = false)<br />
                       </div>
         </td>
@@ -98,7 +124,9 @@
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Specifies forcing data to be processed as strings. Defaults to <code>false</code>.</p>
+
+
         </td>
       </tr>
     </tbody>
