@@ -15,6 +15,26 @@ You can then create a type for an individual workbook. The simplest option is to
 You will then be given typed access to the data held in the first sheet. 
 The first row of the sheet will be treated as field names and the subsequent rows will be treated as values for these fields.
 
+Parameters
+----------
+
+When creating the type you can specify the following parameters:
+
+* `FileName` Location of the Excel file.
+* `SheetName` Name of sheet containing data. Defaults to first sheet.
+* `Range` Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.
+* `ForceString` Specifies forcing data to be processed as strings. Defaults to `false`.
+
+All but the first are optional. 
+
+The parameters can be specified by position or by using the name - for example the following are equivalent:
+*)
+
+type MultipleSheets1 = ExcelFile<"MultipleSheets.xlsx", "B">
+type MultipleSheets2 = ExcelFile<"MultipleSheets.xlsx", SheetName="B">
+
+
+(**
 Example
 -------
 

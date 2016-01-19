@@ -71,10 +71,10 @@ let internal getColumnDefinitions (data : View) forcestring =
             yield (processedColumnName, (columnIndex, cellType, getter))]
 
 // Simple type wrapping Excel data
-type ExcelFileInternal(filename, range) =
+type ExcelFileInternal(filename, sheetname, range) =
 
     let data =
-        let view = openWorkbookView filename range
+        let view = openWorkbookView filename sheetname range
         let columns = [for (columnName, (columnIndex, _, _)) in getColumnDefinitions view true -> columnName, columnIndex] |> Map.ofList
         let buildRow rowIndex = new Row(rowIndex, getCellValue view, columns)
         seq{ 1 .. view.RowCount}
@@ -149,22 +149,18 @@ let internal typExcel(cfg:TypeProviderConfig) =
         set.Add name |> ignore
         name
 
-    
-
-    do excelFileProvidedType.DefineStaticParameters(staticParams, fun tyName paramValues ->
-        let (filename, range, forcestring) =
-            match paramValues with
-            | [| :? string  as filename;   :? string as range;  :? bool as forcestring|] -> (filename, range, forcestring)
-            | [| :? string  as filename;   :? bool as forcestring |] -> (filename, String.Empty, forcestring)
-            | [| :? string  as filename|] -> (filename, String.Empty, false)
-            | _ -> ("no file specified to type provider", String.Empty,  true)
+    let buildTypes (typeName:string) (args:obj[]) =
+        let filename = args.[0] :?> string
+        let sheetname = args.[1] :?> string
+        let range = args.[2] :?> string
+        let forcestring = args.[3] :?> bool
 
         // resolve the filename relative to the resolution folder
         let resolvedFilename = Path.Combine(cfg.ResolutionFolder, filename)
 
-        let ProvidedTypeDefinitionExcelCall (filename, range, forcestring)  =
+        let ProvidedTypeDefinitionExcelCall (filename, sheetname, range, forcestring)  =
             let gen = uniqueGenerator id
-            let data = openWorkbookView resolvedFilename range
+            let data = openWorkbookView resolvedFilename sheetname range
 
             // define a provided type for each row, erasing to a int -> obj
             let providedRowType = ProvidedTypeDefinition("Row", Some(typeof<Row>))
@@ -179,13 +175,13 @@ let internal typExcel(cfg:TypeProviderConfig) =
                 providedRowType.AddMember(prop)
 
             // define the provided type, erasing to an seq<int -> obj>
-            let providedExcelFileType = ProvidedTypeDefinition(executingAssembly, rootNamespace, tyName, Some(typeof<ExcelFileInternal>))
+            let providedExcelFileType = ProvidedTypeDefinition(executingAssembly, rootNamespace, typeName, Some(typeof<ExcelFileInternal>))
 
             // add a parameterless constructor which loads the file that was used to define the schema
-            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, range) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, sheetname, range) @@>)))
 
             // add a constructor taking the filename to load
-            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, range) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, sheetname, range) @@>)))
 
             // add a new, more strongly typed Data property (which uses the existing property at runtime)
             providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), GetterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))
@@ -195,7 +191,23 @@ let internal typExcel(cfg:TypeProviderConfig) =
 
             providedExcelFileType
 
-        (memoize ProvidedTypeDefinitionExcelCall)(filename, range, forcestring))
+        (memoize ProvidedTypeDefinitionExcelCall)(filename, sheetname, range, forcestring)
+    
+    let parameters = 
+        [ ProvidedStaticParameter("FileName", typeof<string>) 
+          ProvidedStaticParameter("SheetName", typeof<string>, parameterDefaultValue = "") 
+          ProvidedStaticParameter("Range", typeof<string>, parameterDefaultValue = "") 
+          ProvidedStaticParameter("ForceString", typeof<bool>, parameterDefaultValue = false) ]
+
+    let helpText = 
+        """<summary>Typed representation of data in an Excel file.</summary>
+           <param name='FileName'>Location of the Excel file.</param>
+           <param name='SheetName'>Name of sheet containing data. Defaults to first sheet.</param>
+           <param name='Range'>Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.</param>
+           <param name='ForceString'>Specifies forcing data to be processed as strings. Defaults to `false`.</param>"""
+
+    do excelFileProvidedType.AddXmlDoc helpText
+    do excelFileProvidedType.DefineStaticParameters(parameters, buildTypes)
 
     // add the type to the namespace
     excelFileProvidedType

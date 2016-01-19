@@ -7,9 +7,9 @@ open FsUnit
 open System
 open System.IO
 
-type BookTest = ExcelFile<"BookTest.xls", "Sheet1", true>
-type HeaderTest = ExcelFile<"BookTestWithHeader.xls", "A2", true>
-type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", "A1:C5,E3:G5", true>
+type BookTest = ExcelFile<"BookTest.xls", "Sheet1", ForceString=true>
+type HeaderTest = ExcelFile<"BookTestWithHeader.xls", Range="A2", ForceString=true>
+type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", Range="A1:C5,E3:G5", ForceString=true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
 type DataTypes = ExcelFile<"DataTypes.xlsx">
 type CaseInsensitive = ExcelFile<"DataTypes.XLSX">
@@ -17,6 +17,7 @@ type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
+type MultipleSheetsSecondRange = ExcelFile<"MultipleSheets.xlsx", "B", "A2">
 
 [<Test>]
 let ``Read Text as String``() =
@@ -181,7 +182,7 @@ let ``Can load from multiple ranges``() =
     rows.[3].Sixth |> should equal null
 
 [<Test>]
-let ``Can load from first multiple sheets - first``() =
+let ``Can load from multiple sheets - first``() =
     let file = MultipleSheetsFirst()
     let rows = file.Data |> Seq.toArray
 
@@ -194,7 +195,7 @@ let ``Can load from first multiple sheets - first``() =
     rows.[1].Third |> should equal "b"
 
 [<Test>]
-let ``Can load from first multiple sheets - second``() =
+let ``Can load from multiple sheets - second``() =
     let file = MultipleSheetsSecond()
     let rows = file.Data |> Seq.toArray
 
@@ -203,6 +204,13 @@ let ``Can load from first multiple sheets - second``() =
 
     rows.[1].Fourth |> should equal 3.2
     rows.[1].Fifth |> should equal (new DateTime(2013,2,1))
+
+[<Test>]
+let ``Can load from multiple sheets with range``() =
+    let file = MultipleSheetsSecondRange()
+    let rows = file.Data |> Seq.toArray
+
+    rows.[0].``2.2`` |> should equal 3.2
 
 [<Test>]
 let ``Can load file with different casing``() =
