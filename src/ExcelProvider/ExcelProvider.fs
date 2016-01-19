@@ -113,11 +113,6 @@ let internal typExcel(cfg:TypeProviderConfig) =
     // Create the main provided type
     let excelFileProvidedType = ProvidedTypeDefinition(executingAssembly, rootNamespace, "ExcelFile", Some(typeof<ExcelFileInternal>))
 
-    // Parameterize the type by the file to use as a template
-    let filename = ProvidedStaticParameter("filename", typeof<string>)
-    let range = ProvidedStaticParameter("sheetname", typeof<string>, "")
-    let forcestring = ProvidedStaticParameter("forcestring", typeof<bool>, false)
-    let staticParams = [ filename; range; forcestring ]
     /// Given a function to format names (such as `niceCamelName` or `nicePascalName`)
     /// returns a name generator that never returns duplicate name (by appending an
     /// index to already used names)
