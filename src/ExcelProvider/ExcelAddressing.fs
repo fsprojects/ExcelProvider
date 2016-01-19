@@ -108,12 +108,12 @@ let getRangeView (workbook : DataSet) range =
     { StartColumn = topLeft.Column; StartRow = topLeft.Row; EndColumn = bottomRight.Column; EndRow = bottomRight.Row; Sheet = sheet }
 
 ///Gets a View object which can be used to read data from the given range in the DataSet
-let public getView (workbook : DataSet) range =
+let public getView (workbook : DataSet) sheetname range =
     let worksheets = workbook.Tables
     
     let workSheetName = 
-        if worksheets.Contains range 
-        then range
+        if worksheets.Contains sheetname 
+        then sheetname
         else worksheets.[0].TableName
 
     let ranges = 
@@ -159,7 +159,7 @@ let getCellValue view row column =
     else null
 
 ///Reads the contents of an excel file into a DataSet
-let public openWorkbookView filename range =
+let public openWorkbookView filename sheetname range =
 
     let fail action (ex : exn) =
         let exceptionTypeName = ex.GetType().Name
@@ -195,4 +195,4 @@ let public openWorkbookView filename range =
         then workbook.Tables.[0].TableName
         else range
 
-    getView workbook range
+    getView workbook sheetname range
