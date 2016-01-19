@@ -1,3 +1,6 @@
+#### 0.6.0 - 19.01.2016
+* BREAKING CHANGE: Update handling of parameters - https://github.com/fsprojects/ExcelProvider/pull/25
+
 #### 0.5.0 - 09.01.2016
 * Using ProjectScaffold infrastructure
 * Allow range parameter to take a sheet name - https://github.com/fsprojects/ExcelProvider/pull/18
