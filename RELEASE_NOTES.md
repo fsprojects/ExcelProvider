@@ -1,3 +1,6 @@
+#### 0.7.0 - 20.01.2016
+* HasHeaders type provider parameter  - https://github.com/fsprojects/ExcelProvider/pull/26
+
 #### 0.6.0 - 19.01.2016
 * BREAKING CHANGE: Update handling of parameters - https://github.com/fsprojects/ExcelProvider/pull/25
 
