@@ -7,14 +7,12 @@ Accessing Rows
 
 Rows are returned as a sequence from the `Data` element of the ExcelFile type.
 
-Y 
-
 Example
 -------
 
 ![alt text](img/MultSheets.png "Excel sample file with multiple sheets")
 
-This example demonstrates loadings the second row (with index 1) into the variable test:
+This example demonstrates loading the second row (with index 1) into the variable test:
 
 *)
 

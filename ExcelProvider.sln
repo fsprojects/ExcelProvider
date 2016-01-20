@@ -27,7 +27,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83F16175
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
+		docs\content\cells.fsx = docs\content\cells.fsx
+		docs\content\DataTypes.xlsx = docs\content\DataTypes.xlsx
+		docs\content\DataTypesNoHeader.xlsx = docs\content\DataTypesNoHeader.xlsx
+		docs\content\getting-started.fsx = docs\content\getting-started.fsx
+		docs\content\headers.fsx = docs\content\headers.fsx
 		docs\content\index.fsx = docs\content\index.fsx
+		docs\content\license.md = docs\content\license.md
+		docs\content\MultipleRegions.xlsx = docs\content\MultipleRegions.xlsx
+		docs\content\MultipleSheets.xlsx = docs\content\MultipleSheets.xlsx
+		docs\content\ranges.fsx = docs\content\ranges.fsx
+		docs\content\release-notes.md = docs\content\release-notes.md
+		docs\content\rows.fsx = docs\content\rows.fsx
+		docs\content\sheets.fsx = docs\content\sheets.fsx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD-2B06-4030-9F0F-DC548F98E1C4}"

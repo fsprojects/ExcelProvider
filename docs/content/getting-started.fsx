@@ -23,6 +23,7 @@ When creating the type you can specify the following parameters:
 * `FileName` Location of the Excel file.
 * `SheetName` Name of sheet containing data. Defaults to first sheet.
 * `Range` Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.
+* `HasHeaders` Whether the range contains the names of the columns as its first line.
 * `ForceString` Specifies forcing data to be processed as strings. Defaults to `false`.
 
 All but the first are optional. 

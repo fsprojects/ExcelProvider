@@ -5,9 +5,10 @@
 Accessing Ranges
 ===========================
 
-To access a particular sheet you need to specify the sheet name as the second parameter when creating the ExcelProvider type.
+To access a range you need to specify the range (or ranges) to be used.
 
-If you do not include a second parameter then the first sheet in the workbook is used.
+You can either specify this as the second parameter or the named `Range` parameter.
+
 
 Example
 -------

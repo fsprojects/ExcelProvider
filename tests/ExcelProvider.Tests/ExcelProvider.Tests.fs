@@ -12,6 +12,9 @@ type HeaderTest = ExcelFile<"BookTestWithHeader.xls", Range="A2", ForceString=tr
 type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", Range="A1:C5,E3:G5", ForceString=true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
 type DataTypes = ExcelFile<"DataTypes.xlsx">
+type DataTypesHeaderTrue = ExcelFile<"DataTypes.xlsx", HasHeaders=true>
+type DataTypesHeaderFalse = ExcelFile<"DataTypes.xlsx", HasHeaders=false, ForceString=true>
+type DataTypesNoHeader = ExcelFile<"DataTypesNoHeader.xlsx", HasHeaders=false>
 type CaseInsensitive = ExcelFile<"DataTypes.XLSX">
 type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 
@@ -225,3 +228,37 @@ let ``Multiline column name should be converted to a single line``() =
     let file = MultiLine()
     let rows = file.Data |> Seq.toArray
     rows.[0].``Multiline\nheader`` |> should equal "foo"
+
+[<Test>]
+let ``HashHeader defaults true``() =
+    let file = DataTypesHeaderTrue()
+    let row = file.Data |> Seq.head
+    row.String |> should equal "A"
+    Assert.That(row.Boolean, Is.True)
+    row.Float |> should equal 1.0
+    row.Date |> should equal (new DateTime(2014,1,1))
+    let expectedTime = new DateTime(1899, 12, 31, 8, 0, 0)
+    row.Time |> should equal expectedTime
+    row.Currency |> should equal 100.0M
+
+[<Test>]
+let ``HashHeader false - first row as data``() =
+    let file = DataTypesHeaderFalse()
+    let row = file.Data |> Seq.head
+    let row2 = file.Data |> Seq.skip 1 |> Seq.head
+    row.Column1 |> should equal "String"
+    row.Column2 |> should equal "Float"
+    row2.Column1 |> should equal "A"
+    row2.Column2 |> should equal "1"
+
+[<Test>]
+let ``HashHeader false with header removed``() =
+    let file = DataTypesNoHeader()
+    let row = file.Data |> Seq.head
+    row.Column1 |> should equal "A"
+    row.Column2 |> should equal 1.0
+    Assert.That(row.Column3, Is.True)
+    row.Column4 |> should equal (new DateTime(2014,1,1))
+    let expectedTime = new DateTime(1899, 12, 31, 8, 0, 0)
+    row.Column5 |> should equal expectedTime
+    row.Column6 |> should equal 100.0M

@@ -50,10 +50,10 @@ let internal propertyImplementation columnIndex (value : obj) =
     | _ -> typeof<obj>, (fun row -> <@@ (%%row: Row).GetValue columnIndex @@>) |> singleItemOrFail
 
 // gets a list of column definition information for the columns in a view
-let internal getColumnDefinitions (data : View) forcestring =
+let internal getColumnDefinitions (data : View) hasheaders forcestring =
     let getCell = getCellValue data
     [for columnIndex in 0 .. data.ColumnMappings.Count - 1 do
-        let rawColumnName = getCell 0 columnIndex |> string
+        let rawColumnName = if hasheaders then getCell 0 columnIndex |> string else "Column" + (columnIndex+1).ToString()
         if not (String.IsNullOrWhiteSpace(rawColumnName)) then
             let processedColumnName = rawColumnName.Replace("\n", "\\n")
             let cellType, getter =
@@ -66,18 +66,18 @@ let internal getColumnDefinitions (data : View) forcestring =
                                     @@>) |> singleItemOrFail
                     typedefof<string>, getter
                 else
-                    let cellValue = getCell 1 columnIndex
+                    let cellValue = getCell (if hasheaders then 1 else 0) columnIndex
                     propertyImplementation columnIndex cellValue
             yield (processedColumnName, (columnIndex, cellType, getter))]
 
 // Simple type wrapping Excel data
-type ExcelFileInternal(filename, sheetname, range) =
+type ExcelFileInternal(filename, sheetname, range, hasheaders) =
 
     let data =
         let view = openWorkbookView filename sheetname range
-        let columns = [for (columnName, (columnIndex, _, _)) in getColumnDefinitions view true -> columnName, columnIndex] |> Map.ofList
+        let columns = [for (columnName, (columnIndex, _, _)) in getColumnDefinitions view hasheaders true -> columnName, columnIndex] |> Map.ofList
         let buildRow rowIndex = new Row(rowIndex, getCellValue view, columns)
-        seq{ 1 .. view.RowCount}
+        seq{(if hasheaders then 1 else 0) .. view.RowCount}
         |> Seq.map buildRow
 
     member __.Data = data
@@ -148,12 +148,13 @@ let internal typExcel(cfg:TypeProviderConfig) =
         let filename = args.[0] :?> string
         let sheetname = args.[1] :?> string
         let range = args.[2] :?> string
-        let forcestring = args.[3] :?> bool
+        let hasheaders = args.[3] :?> bool
+        let forcestring = args.[4] :?> bool
 
         // resolve the filename relative to the resolution folder
         let resolvedFilename = Path.Combine(cfg.ResolutionFolder, filename)
 
-        let ProvidedTypeDefinitionExcelCall (filename, sheetname, range, forcestring)  =
+        let ProvidedTypeDefinitionExcelCall (filename, sheetname, range, hasheaders, forcestring)  =
             let gen = uniqueGenerator id
             let data = openWorkbookView resolvedFilename sheetname range
 
@@ -161,22 +162,22 @@ let internal typExcel(cfg:TypeProviderConfig) =
             let providedRowType = ProvidedTypeDefinition("Row", Some(typeof<Row>))
 
             // add one property per Excel field
-            let columnProperties = getColumnDefinitions data forcestring
+            let columnProperties = getColumnDefinitions data hasheaders forcestring
             for (columnName, (columnIndex, propertyType, getter)) in columnProperties do
 
                 let prop = ProvidedProperty(columnName |> gen, propertyType, GetterCode = getter)
                 // Add metadata defining the property's location in the referenced file
-                prop.AddDefinitionLocation(1, columnIndex, filename)
+                prop.AddDefinitionLocation((if hasheaders then 1 else 0), columnIndex, filename)
                 providedRowType.AddMember(prop)
 
             // define the provided type, erasing to an seq<int -> obj>
             let providedExcelFileType = ProvidedTypeDefinition(executingAssembly, rootNamespace, typeName, Some(typeof<ExcelFileInternal>))
 
             // add a parameterless constructor which loads the file that was used to define the schema
-            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, sheetname, range) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, sheetname, range, hasheaders) @@>)))
 
             // add a constructor taking the filename to load
-            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, sheetname, range) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, sheetname, range, hasheaders) @@>)))
 
             // add a new, more strongly typed Data property (which uses the existing property at runtime)
             providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), GetterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))
@@ -186,12 +187,13 @@ let internal typExcel(cfg:TypeProviderConfig) =
 
             providedExcelFileType
 
-        (memoize ProvidedTypeDefinitionExcelCall)(filename, sheetname, range, forcestring)
+        (memoize ProvidedTypeDefinitionExcelCall)(filename, sheetname, range, hasheaders, forcestring)
     
     let parameters = 
         [ ProvidedStaticParameter("FileName", typeof<string>) 
           ProvidedStaticParameter("SheetName", typeof<string>, parameterDefaultValue = "") 
-          ProvidedStaticParameter("Range", typeof<string>, parameterDefaultValue = "") 
+          ProvidedStaticParameter("Range", typeof<string>, parameterDefaultValue = "")
+          ProvidedStaticParameter("HasHeaders", typeof<bool>, parameterDefaultValue = true)
           ProvidedStaticParameter("ForceString", typeof<bool>, parameterDefaultValue = false) ]
 
     let helpText = 
@@ -199,6 +201,7 @@ let internal typExcel(cfg:TypeProviderConfig) =
            <param name='FileName'>Location of the Excel file.</param>
            <param name='SheetName'>Name of sheet containing data. Defaults to first sheet.</param>
            <param name='Range'>Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.</param>
+           <param name='HasHeaders'>Whether the range contains the names of the columns as its first line.</param>
            <param name='ForceString'>Specifies forcing data to be processed as strings. Defaults to `false`.</param>"""
 
     do excelFileProvidedType.AddXmlDoc helpText

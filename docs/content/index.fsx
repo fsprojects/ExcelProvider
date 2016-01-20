@@ -65,6 +65,7 @@ For more information see the Documentation pages:
  * [Accessing Rows](rows.html) shows how to access individual rows in a worksheet.
  * [Accessing Cells](cells.html) shows how to access individual cells within a row of a worksheet.
  * [Accessing Ranges](ranges.html) shows how to access multiple ranges of data within a worksheet.
+ * [Without Headers](headers.html) shows how to process sheets which do not include headers.
  
 
 Contributing and copyright
