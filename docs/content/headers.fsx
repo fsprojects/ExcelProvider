@@ -22,8 +22,8 @@ This example shows the use of the type provider in an F# script on a sheet conta
 *)
 
 // reference the type provider dll
-#r "ExcelProvider4.dll"
-open FSharp.ExcelProvider4
+#r "ExcelProvider.dll"
+open FSharp.ExcelProvider
 
 // Let the type provider do it's work
 type DataTypesTest = ExcelFile<"DataTypesNoHeader.xlsx">
