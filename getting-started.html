@@ -46,6 +46,7 @@ The first row of the sheet will be treated as field names and the subsequent row
 <li><code>FileName</code> Location of the Excel file.</li>
 <li><code>SheetName</code> Name of sheet containing data. Defaults to first sheet.</li>
 <li><code>Range</code> Specification using <code>A1:D3</code> type addresses of one or more ranges. Defaults to use whole sheet.</li>
+<li><code>HasHeaders</code> Whether the range contains the names of the columns as its first line.</li>
 <li><code>ForceString</code> Specifies forcing data to be processed as strings. Defaults to <code>false</code>.</li>
 </ul>
 <p>All but the first are optional.</p>
@@ -91,7 +92,7 @@ The first row of the sheet will be treated as field names and the subsequent row
 <div class="tip" id="fs3">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
 <div class="tip" id="fs4">namespace FSharp.ExcelProvider</div>
 <div class="tip" id="fs5">type DataTypesTest = ExcelFile&lt;...&gt;<br /><br />Full name: Getting-started.DataTypesTest</div>
-<div class="tip" id="fs6">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile<br /><em><br /><br />&lt;summary&gt;Typed representation of data in an Excel file.&lt;/summary&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;FileName&#39;&gt;Location of the Excel file.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;SheetName&#39;&gt;Name of sheet containing data. Defaults to first sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;Range&#39;&gt;Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;ForceString&#39;&gt;Specifies forcing data to be processed as strings. Defaults to `false`.&lt;/param&gt;</em></div>
+<div class="tip" id="fs6">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile<br /><em><br /><br />&lt;summary&gt;Typed representation of data in an Excel file.&lt;/summary&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;FileName&#39;&gt;Location of the Excel file.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;SheetName&#39;&gt;Name of sheet containing data. Defaults to first sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;Range&#39;&gt;Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;HasHeaders&#39;&gt;Whether the range contains the names of the columns as its first line.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;ForceString&#39;&gt;Specifies forcing data to be processed as strings. Defaults to `false`.&lt;/param&gt;</em></div>
 <div class="tip" id="fs7">val file : DataTypesTest<br /><br />Full name: Getting-started.file</div>
 <div class="tip" id="fs8">val row : ExcelFile&lt;...&gt;.Row<br /><br />Full name: Getting-started.row</div>
 <div class="tip" id="fs9">property ExcelFile&lt;...&gt;.Data: System.Collections.Generic.IEnumerable&lt;ExcelFile&lt;...&gt;.Row&gt;</div>
@@ -117,6 +118,7 @@ The first row of the sheet will be treated as field names and the subsequent row
                     <li><a href="/ExcelProvider/rows.html">Accessing Rows</a></li>
                     <li><a href="/ExcelProvider/cells.html">Accessing Cells</a></li>
                     <li><a href="/ExcelProvider/ranges.html">Accessing Ranges</a></li>
+                    <li><a href="/ExcelProvider/headers.html">Without Headers</a></li>
                 </ul>
             </div>
         </div>

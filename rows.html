@@ -35,10 +35,9 @@
                 
 <h1><a name="Accessing-Rows" class="anchor" href="#Accessing-Rows">Accessing Rows</a></h1>
 <p>Rows are returned as a sequence from the <code>Data</code> element of the ExcelFile type.</p>
-<p>Y</p>
 <h2><a name="Example" class="anchor" href="#Example">Example</a></h2>
 <p><img src="img/MultSheets.png" alt="alt text" title="Excel sample file with multiple sheets" /></p>
-<p>This example demonstrates loadings the second row (with index 1) into the variable test:</p>
+<p>This example demonstrates loading the second row (with index 1) into the variable test:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -69,7 +68,7 @@
 <div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
 <div class="tip" id="fs2">namespace FSharp.ExcelProvider</div>
 <div class="tip" id="fs3">type MultipleSheetsSecond = ExcelFile&lt;...&gt;<br /><br />Full name: Rows.MultipleSheetsSecond</div>
-<div class="tip" id="fs4">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile<br /><em><br /><br />&lt;summary&gt;Typed representation of data in an Excel file.&lt;/summary&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;FileName&#39;&gt;Location of the Excel file.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;SheetName&#39;&gt;Name of sheet containing data. Defaults to first sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;Range&#39;&gt;Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;ForceString&#39;&gt;Specifies forcing data to be processed as strings. Defaults to `false`.&lt;/param&gt;</em></div>
+<div class="tip" id="fs4">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile<br /><em><br /><br />&lt;summary&gt;Typed representation of data in an Excel file.&lt;/summary&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;FileName&#39;&gt;Location of the Excel file.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;SheetName&#39;&gt;Name of sheet containing data. Defaults to first sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;Range&#39;&gt;Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;HasHeaders&#39;&gt;Whether the range contains the names of the columns as its first line.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;ForceString&#39;&gt;Specifies forcing data to be processed as strings. Defaults to `false`.&lt;/param&gt;</em></div>
 <div class="tip" id="fs5">val file : MultipleSheetsSecond<br /><br />Full name: Rows.file</div>
 <div class="tip" id="fs6">val rows : ExcelFile&lt;...&gt;.Row []<br /><br />Full name: Rows.rows</div>
 <div class="tip" id="fs7">property ExcelFile&lt;...&gt;.Data: System.Collections.Generic.IEnumerable&lt;ExcelFile&lt;...&gt;.Row&gt;</div>
@@ -94,6 +93,7 @@
                     <li><a href="/ExcelProvider/rows.html">Accessing Rows</a></li>
                     <li><a href="/ExcelProvider/cells.html">Accessing Cells</a></li>
                     <li><a href="/ExcelProvider/ranges.html">Accessing Ranges</a></li>
+                    <li><a href="/ExcelProvider/headers.html">Without Headers</a></li>
                 </ul>
             </div>
         </div>
