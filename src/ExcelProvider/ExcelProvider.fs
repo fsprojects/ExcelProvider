@@ -15,6 +15,18 @@ open ProviderImplementation.ProvidedTypes
 type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
     member this.GetValue columnIndex = getCellValue rowIndex columnIndex
 
+    member this.GetValue columnName =
+        match columns.TryFind columnName with
+        | Some(columnIndex) -> this.GetValue columnIndex
+        | None ->
+            columns
+            |> Seq.map (fun kvp -> kvp.Key)
+            |> Seq.tryFind (fun header -> String.Equals(header, columnName, StringComparison.OrdinalIgnoreCase))
+            |> function
+                | Some header -> sprintf "Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
+                | None -> sprintf "Column \"%s\" was not found." columnName
+            |> failwith
+
     override this.ToString() =
         let columnValueList =
             [for column in columns do
@@ -43,11 +55,11 @@ let private emptyListOrFail func items =
 // get the type, and implementation of a getter property based on a template value
 let internal propertyImplementation columnIndex (value : obj) =
     match value with
-    | :? float -> typeof<double>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<double>).GetValueOrDefault()) @@>) |> singleItemOrFail
-    | :? bool -> typeof<bool>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<bool>).GetValueOrDefault()) @@>) |> singleItemOrFail
-    | :? DateTime -> typeof<DateTime>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> (v :?> Nullable<DateTime>).GetValueOrDefault()) @@>) |> singleItemOrFail
-    | :? string -> typeof<string>, (fun row -> <@@ (%%row: Row).GetValue columnIndex |> (fun v -> v :?> string) @@>) |> singleItemOrFail
-    | _ -> typeof<obj>, (fun row -> <@@ (%%row: Row).GetValue columnIndex @@>) |> singleItemOrFail
+    | :? float -> typeof<double>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> (v :?> Nullable<double>).GetValueOrDefault()) @@>) |> singleItemOrFail
+    | :? bool -> typeof<bool>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> (v :?> Nullable<bool>).GetValueOrDefault()) @@>) |> singleItemOrFail
+    | :? DateTime -> typeof<DateTime>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> (v :?> Nullable<DateTime>).GetValueOrDefault()) @@>) |> singleItemOrFail
+    | :? string -> typeof<string>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> v :?> string) @@>) |> singleItemOrFail
+    | _ -> typeof<obj>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) @@>) |> singleItemOrFail
 
 // gets a list of column definition information for the columns in a view
 let internal getColumnDefinitions (data : View) hasheaders forcestring =

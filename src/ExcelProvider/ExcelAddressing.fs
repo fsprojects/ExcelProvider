@@ -1,6 +1,7 @@
 ﻿module internal ExcelProvider.ExcelAddressing
 
 open System
+open System.Collections.Generic
 open System.Data
 open System.Text.RegularExpressions
 open System.IO
@@ -147,16 +148,19 @@ let public getView (workbook : DataSet) sheetname range =
 
 ///Reads the value of a cell from a view
 let getCellValue view row column =
+    if column < 0 then failwith "Column index must be nonnegative"
     let columns = view.ColumnMappings
-    let sheetColumn, rangeView = columns.[column]
-    let row = rangeView.StartRow + row
-    let sheet = rangeView.Sheet
-    if row < sheet.Rows.Count && sheetColumn < sheet.Columns.Count 
-    then 
-        match rangeView.Sheet.Rows.[row].Item(sheetColumn) with
-        | :? System.DBNull -> null
-        | nonNullValue -> nonNullValue
-    else null
+    match columns.TryFind column with
+    | Some(sheetColumn, rangeView) ->
+        let row = rangeView.StartRow + row
+        let sheet = rangeView.Sheet
+        if row < sheet.Rows.Count && sheetColumn < sheet.Columns.Count 
+        then 
+            match rangeView.Sheet.Rows.[row].Item(sheetColumn) with
+            | :? System.DBNull -> null
+            | nonNullValue -> nonNullValue
+        else null
+    | _ -> null
 
 ///Reads the contents of an excel file into a DataSet
 let public openWorkbookView filename sheetname range =
