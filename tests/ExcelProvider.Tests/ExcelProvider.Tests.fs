@@ -5,6 +5,7 @@ open FSharp.ExcelProvider
 open FsUnit
 
 open System
+open System.Collections.Generic
 open System.IO
 
 type BookTest = ExcelFile<"BookTest.xls", "Sheet1", ForceString=true>
@@ -120,6 +121,37 @@ let ``ToString format``() =
     printfn "%O" firstRow
 
     string firstRow |> should equal expectedToString
+
+[<Test>]
+let ``Can get row cell value by column header``() =
+    let file = BookTest()
+    let row = file.Data |> Seq.head
+    row.GetValue "SEC" |> should equal "ASI"
+
+[<Test>]
+let ``GetValue with column header is case-sensitive``() =
+    let file = BookTest()
+    let row = file.Data |> Seq.head
+    row.GetValue "SEC" |> should equal "ASI"
+    (fun () -> row.GetValue "SeC" |> ignore) |> should throw typeof<Exception>
+
+[<Test>]
+let ``GetValue with negative column index should fail``() =
+    let file = BookTest()
+    let row = file.Data |> Seq.head
+    (fun () -> row.GetValue -1 |> ignore) |> should throw typeof<Exception>
+
+[<Test>]
+let ``GetValue with column index out of range should be null`` () =
+    let file = BookTest()
+    let row = file.Data |> Seq.head
+    row.GetValue (Int32.MaxValue) |> should equal null
+
+[<Test>]
+let ``GetValue with nonexistent column header should fail``() =
+    let file = BookTest()
+    let row = file.Data |> Seq.head
+    (fun () -> row.GetValue "bad header" |> ignore) |> should throw typeof<Exception>
 
 [<Test>]
 let ``Can access first row in typed excel data``() =

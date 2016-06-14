@@ -28,3 +28,12 @@ let rows = file.Data |> Seq.toArray
 let test = rows.[2].Fourth
 (** And the variable `test` has the following value: *)
 (*** include-value: test ***)
+
+(** Cells can be accessed dynamically using the zero-based column index or case-sensitive header name: *)
+let testByIndex = rows.[2].GetValue 0
+let testByHeader = rows.[2].GetValue "Fourth"
+(** The variables `testByIndex` and `testByHeader` have the respective values: *)
+(*** include-value: testByIndex ***)
+(*** include-value: testByHeader ***)
+
+(** Accessing cell values by index or string header sacrifices type safety; the result signature is `obj`. *)
