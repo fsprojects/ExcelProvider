@@ -1,3 +1,6 @@
+#### 0.8.0 - 14.06.2016
+* Support Row.GetValue("column") and handle of out-of-range column indexes explicitly - https://github.com/fsprojects/ExcelProvider/pull/27
+
 #### 0.7.0 - 20.01.2016
 * HasHeaders type provider parameter  - https://github.com/fsprojects/ExcelProvider/pull/26
 
