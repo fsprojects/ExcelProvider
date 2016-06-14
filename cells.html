@@ -62,6 +62,19 @@
 </table>
 <p>And the variable <code>test</code> has the following value:</p>
 <table class="pre"><tr><td><pre><code>4.2</code></pre></td></tr></table>
+<p>Cells can be accessed dynamically using the zero-based column index or case-sensitive header name:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="i">testByIndex</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 15)" onmouseover="showTip(event, 'fs6', 15)" class="i">rows</span><span class="o">.</span>[<span class="n">2</span>]<span class="o">.</span><span class="f">GetValue</span> <span class="n">0</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 16)" onmouseover="showTip(event, 'fs12', 16)" class="i">testByHeader</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 17)" onmouseover="showTip(event, 'fs6', 17)" class="i">rows</span><span class="o">.</span>[<span class="n">2</span>]<span class="o">.</span><span class="f">GetValue</span> <span class="s">&quot;Fourth&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The variables <code>testByIndex</code> and <code>testByHeader</code> have the respective values:</p>
+<table class="pre"><tr><td><pre><code>4.2</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>4.2</code></pre></td></tr></table>
+<p>Accessing cell values by index or string header sacrifices type safety; the result signature is <code>obj</code>.</p>
 
 <div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
 <div class="tip" id="fs2">namespace FSharp.ExcelProvider</div>
@@ -73,6 +86,8 @@
 <div class="tip" id="fs8">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
 <div class="tip" id="fs9">val toArray : source:seq&lt;&#39;T&gt; -&gt; &#39;T []<br /><br />Full name: Microsoft.FSharp.Collections.Seq.toArray</div>
 <div class="tip" id="fs10">val test : float<br /><br />Full name: Cells.test</div>
+<div class="tip" id="fs11">val testByIndex : obj<br /><br />Full name: Cells.testByIndex</div>
+<div class="tip" id="fs12">val testByHeader : obj<br /><br />Full name: Cells.testByHeader</div>
 
             </div>
             <div class="span3">

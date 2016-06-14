@@ -40,6 +40,8 @@
   <span>Namespace: ProviderImplementation.ProvidedTypes</span><br />
 </p>
 <div class="xmldoc">
+<p>A provided generated assembly</p>
+
 </div>
   <h3>Constructors</h3>
   <table class="table table-bordered member-list">
@@ -50,19 +52,21 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '19', 19)" onmouseover="showTip(event, '19', 19)">
+          <code onmouseout="hideTip(event, '12', 12)" onmouseover="showTip(event, '12', 12)">
             new(assemblyFileName)
           </code>
-          <div class="tip" id="19">
+          <div class="tip" id="12">
             <strong>Signature:</strong> assemblyFileName:string -&gt; ProvidedAssembly<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2501-2501" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2765-2765" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Create a provided generated assembly</p>
+
+
               <p>CompiledName: <code>.ctor</code></p>
         </td>
       </tr>
@@ -77,37 +81,47 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '20', 20)" onmouseover="showTip(event, '20', 20)">
+          <code onmouseout="hideTip(event, '13', 13)" onmouseover="showTip(event, '13', 13)">
             AddNestedTypes(...)
           </code>
-          <div class="tip" id="20">
-            <strong>Signature:</strong> (providedTypeDefinitions:ProvidedTypeDefinition list * enclosingTypeNames:string list) -&gt; unit<br />
+          <div class="tip" id="13">
+            <strong>Signature:</strong> (types:ProvidedTypeDefinition list * enclosingGeneratedTypeNames:string list) -&gt; unit<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2525-2525" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2789-2789" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Emit the given nested provided type definitions as part of the assembly.
+and adjust the 'Assembly' property of all provided type definitions to return that
+assembly.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '21', 21)" onmouseover="showTip(event, '21', 21)">
-            AddTypes(providedTypeDefinitions)
+          <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
+            AddTypes(types)
           </code>
-          <div class="tip" id="21">
-            <strong>Signature:</strong> (providedTypeDefinitions:ProvidedTypeDefinition list) -&gt; unit<br />
+          <div class="tip" id="14">
+            <strong>Signature:</strong> (types:ProvidedTypeDefinition list) -&gt; unit<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2526-2526" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2790-2790" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Emit the given provided type definitions as part of the assembly
+and adjust the 'Assembly' property of all provided type definitions to return that
+assembly.</p>
+<p>The assembly is only emitted when the Assembly property on the root type is accessed for the first time.
+The host F# compiler does this when processing a generative type declaration for the type.</p>
+
+
         </td>
       </tr>
     </tbody>
@@ -121,19 +135,21 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '22', 22)" onmouseover="showTip(event, '22', 22)">
+          <code onmouseout="hideTip(event, '15', 15)" onmouseover="showTip(event, '15', 15)">
             RegisterGenerated(fileName)
           </code>
-          <div class="tip" id="22">
+          <div class="tip" id="15">
             <strong>Signature:</strong> fileName:string -&gt; Assembly<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2529-2529" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L2793-2793" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Register that a given file is a provided generated assembly</p>
+
+
         </td>
       </tr>
     </tbody>

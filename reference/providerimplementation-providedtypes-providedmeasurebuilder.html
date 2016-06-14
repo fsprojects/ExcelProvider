@@ -40,34 +40,9 @@
   <span>Namespace: ProviderImplementation.ProvidedTypes</span><br />
 </p>
 <div class="xmldoc">
-</div>
-  <h3>Constructors</h3>
-  <table class="table table-bordered member-list">
-    <thead>
-      <tr><td>Constructor</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="member-name">
+<p>Helps create erased provided unit-of-measure annotations.</p>
 
-          <code onmouseout="hideTip(event, '75', 75)" onmouseover="showTip(event, '75', 75)">
-            new()
-          </code>
-          <div class="tip" id="75">
-            <strong>Signature:</strong> unit -&gt; ProvidedMeasureBuilder<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1209-1209" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>.ctor</code></p>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+</div>
   <h3>Instance members</h3>
   <table class="table table-bordered member-list">
     <thead>
@@ -77,128 +52,143 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '76', 76)" onmouseover="showTip(event, '76', 76)">
-            AnnotateType(basicType, annotation)
+          <code onmouseout="hideTip(event, '54', 54)" onmouseover="showTip(event, '54', 54)">
+            AnnotateType(basic, argument)
           </code>
-          <div class="tip" id="76">
-            <strong>Signature:</strong> (basicType:Type * annotation:Type list) -&gt; Type<br />
+          <div class="tip" id="54">
+            <strong>Signature:</strong> (basic:Type * argument:Type list) -&gt; Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1255-1255" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1945-1945" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns a type where the type has been annotated with the given types and/or units-of-measure.
+e.g. float<kg>, Vector<int, kg></p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '77', 77)" onmouseover="showTip(event, '77', 77)">
-            Inverse(m)
+          <code onmouseout="hideTip(event, '55', 55)" onmouseover="showTip(event, '55', 55)">
+            Inverse(denominator)
           </code>
-          <div class="tip" id="77">
-            <strong>Signature:</strong> m:Type -&gt; Type<br />
+          <div class="tip" id="55">
+            <strong>Signature:</strong> denominator:Type -&gt; Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1228-1228" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1923-1923" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns the measure indicating the inverse of two units of measure, e.g. 1 / s</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '78', 78)" onmouseover="showTip(event, '78', 78)">
+          <code onmouseout="hideTip(event, '56', 56)" onmouseover="showTip(event, '56', 56)">
             One
           </code>
-          <div class="tip" id="78">
+          <div class="tip" id="56">
             <strong>Signature:</strong> Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1226-1226" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1921-1921" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Gets the measure indicating the "1" unit of measure, that is the unitless measure.</p>
+
+
               <p>CompiledName: <code>get_One</code></p>
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '79', 79)" onmouseover="showTip(event, '79', 79)">
-            Product(m1, m2)
+          <code onmouseout="hideTip(event, '57', 57)" onmouseover="showTip(event, '57', 57)">
+            Product(measure1, measure1)
           </code>
-          <div class="tip" id="79">
-            <strong>Signature:</strong> (m1:Type * m2:Type) -&gt; Type<br />
+          <div class="tip" id="57">
+            <strong>Signature:</strong> (measure1:Type * measure1:Type) -&gt; Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1227-1227" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1922-1922" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns the measure indicating the product of two units of measure, e.g. kg * m</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '80', 80)" onmouseover="showTip(event, '80', 80)">
-            Ratio(m1, m2)
+          <code onmouseout="hideTip(event, '58', 58)" onmouseover="showTip(event, '58', 58)">
+            Ratio(numerator, denominator)
           </code>
-          <div class="tip" id="80">
-            <strong>Signature:</strong> (m1:Type * m2:Type) -&gt; Type<br />
+          <div class="tip" id="58">
+            <strong>Signature:</strong> (numerator:Type * denominator:Type) -&gt; Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1229-1229" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1924-1924" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns the measure indicating the ratio of two units of measure, e.g. kg / m</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '81', 81)" onmouseover="showTip(event, '81', 81)">
-            SI(m)
+          <code onmouseout="hideTip(event, '59', 59)" onmouseover="showTip(event, '59', 59)">
+            SI(unitName)
           </code>
-          <div class="tip" id="81">
-            <strong>Signature:</strong> m:string -&gt; Type<br />
+          <div class="tip" id="59">
+            <strong>Signature:</strong> unitName:string -&gt; Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1235-1235" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1930-1930" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns the measure for an SI unit from the F# core library, where the string is in capitals and US spelling, e.g. Meter</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '82', 82)" onmouseover="showTip(event, '82', 82)">
-            Square(m)
+          <code onmouseout="hideTip(event, '60', 60)" onmouseover="showTip(event, '60', 60)">
+            Square(measure)
           </code>
-          <div class="tip" id="82">
-            <strong>Signature:</strong> m:Type -&gt; Type<br />
+          <div class="tip" id="60">
+            <strong>Signature:</strong> measure:Type -&gt; Type<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1230-1230" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1925-1925" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns the measure indicating the square of a unit of measure, e.g. m * m</p>
+
+
         </td>
       </tr>
     </tbody>
@@ -212,19 +202,21 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '83', 83)" onmouseover="showTip(event, '83', 83)">
+          <code onmouseout="hideTip(event, '61', 61)" onmouseover="showTip(event, '61', 61)">
             Default
           </code>
-          <div class="tip" id="83">
+          <div class="tip" id="61">
             <strong>Signature:</strong> ProvidedMeasureBuilder<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1225-1225" class="github-link">
+            <a href="http://github.com/fsprojects/ExcelProvider/tree/master/paket-files/fsprojects/FSharp.TypeProviders.StarterPack/src/ProvidedTypes.fs#L1920-1920" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>The ProvidedMeasureBuilder for building measures.</p>
+
+
               <p>CompiledName: <code>get_Default</code></p>
         </td>
       </tr>
