@@ -26,7 +26,7 @@ This example shows the use of the type provider in an F# script on a sheet conta
 open FSharp.ExcelProvider
 
 // Let the type provider do it's work
-type DataTypesTest = ExcelFile<"DataTypesNoHeader.xlsx">
+type DataTypesTest = ExcelFile<"DataTypesNoHeader.xlsx", HasHeaders=false>
 let file = new DataTypesTest()
 let row = file.Data |> Seq.head
 let test = row.Column2
