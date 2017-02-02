@@ -199,4 +199,6 @@ let public openWorkbookView filename sheetname range =
         then workbook.Tables.[0].TableName
         else range
 
-    getView workbook sheetname range
+    let view = getView workbook sheetname range
+    (excelReader :> IDisposable).Dispose()
+    view
