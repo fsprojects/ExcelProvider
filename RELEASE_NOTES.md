@@ -1,3 +1,11 @@
+#### 0.8.1 - 02.02.2017
+* Clean up created temp folders by disposing ExcelDataReader - https://github.com/fsprojects/ExcelProvider/pull/37
+* Upgrade to latest versions of dependencies
+    ProvidedTypes.fs
+    ProvidedTypes.fsi
+    FAKE (4.50)
+    Octokit (0.24)
+
 #### 0.8.0 - 14.06.2016
 * Support Row.GetValue("column") and handle of out-of-range column indexes explicitly - https://github.com/fsprojects/ExcelProvider/pull/27
 
