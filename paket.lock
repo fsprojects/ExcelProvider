@@ -5,12 +5,12 @@ NUGET
     SharpZipLib (0.86)
 GITHUB
   remote: fsprojects/FSharp.TypeProviders.StarterPack
-    src/ProvidedTypes.fs (2bf9330417734c6e4976691bc88c9335f2337c6e)
-    src/ProvidedTypes.fsi (2bf9330417734c6e4976691bc88c9335f2337c6e)
+    src/ProvidedTypes.fs (1dab4f94411500794342f61f877feab772e5a754)
+    src/ProvidedTypes.fsi (1dab4f94411500794342f61f877feab772e5a754)
 GROUP Build
 NUGET
   remote: https://www.nuget.org/api/v2
-    FAKE (4.50)
+    FAKE (4.61.2)
     FSharp.Compiler.Service (2.0.0.6)
     FSharp.Formatting (2.14.4)
       FSharp.Compiler.Service (2.0.0.6)
@@ -28,7 +28,7 @@ NUGET
     SourceLink.Fake (1.1)
 GITHUB
   remote: fsharp/FAKE
-    modules/Octokit/Octokit.fsx (e842705560e95dd75dd2c6a78fb1ae62db545297)
+    modules/Octokit/Octokit.fsx (43917109af4ef38194d8993215c3e7c862b19d36)
       Octokit (>= 0.20)
 GROUP Test
 NUGET
