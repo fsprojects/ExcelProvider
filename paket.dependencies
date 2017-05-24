@@ -7,7 +7,7 @@ github fsprojects/FSharp.TypeProviders.StarterPack src/ProvidedTypes.fs
 
 group Build
   source https://nuget.org/api/v2
-  
+
   nuget SourceLink.Fake
   nuget FAKE
   nuget FSharp.Formatting
@@ -16,6 +16,11 @@ group Build
 
 group Test
   source https://nuget.org/api/v2
-  
-  nuget NUnit ~> 2
-  nuget NUnit.Runners ~> 2
+  framework: net461
+
+  nuget NUnit redirects: force
+  nuget NUnit.Console
+  nuget NUnit3TestAdapter version_in_path: true
+  nuget FSharp.Core redirects: force, content: none
+
+  github fsprojects/FsUnit src/FsUnit.NUnit/FsUnit.fs
