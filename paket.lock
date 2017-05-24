@@ -31,7 +31,27 @@ GITHUB
     modules/Octokit/Octokit.fsx (43917109af4ef38194d8993215c3e7c862b19d36)
       Octokit (>= 0.20)
 GROUP Test
+FRAMEWORK: NET461
 NUGET
   remote: https://www.nuget.org/api/v2
-    NUnit (2.6.4)
-    NUnit.Runners (2.6.4)
+    FSharp.Core (4.1.17) - content: none, redirects: force
+      System.ValueTuple (>= 4.3)
+    NUnit (3.6.1) - redirects: force
+    NUnit.Console (3.6.1)
+      NUnit.ConsoleRunner (>= 3.6.1)
+      NUnit.Extension.NUnitProjectLoader (>= 3.5)
+      NUnit.Extension.NUnitV2Driver (>= 3.6)
+      NUnit.Extension.NUnitV2ResultWriter (>= 3.5)
+      NUnit.Extension.TeamCityEventListener (>= 1.0.2)
+      NUnit.Extension.VSProjectLoader (>= 3.5)
+    NUnit.ConsoleRunner (3.6.1)
+    NUnit.Extension.NUnitProjectLoader (3.5)
+    NUnit.Extension.NUnitV2Driver (3.6)
+    NUnit.Extension.NUnitV2ResultWriter (3.5)
+    NUnit.Extension.TeamCityEventListener (1.0.2)
+    NUnit.Extension.VSProjectLoader (3.5)
+    NUnit3TestAdapter (3.7.0) - version_in_path: true
+    System.ValueTuple (4.3.1) - content: none, redirects: force
+GITHUB
+  remote: fsprojects/FsUnit
+    src/FsUnit.NUnit/FsUnit.fs (d2700b69771379e7a28afa0b4e43da57f2da6e9b)
