@@ -49,7 +49,7 @@ let tags = "F# fsharp typeproviders Excel"
 let solutionFile  = "ExcelProvider.sln"
 
 // Pattern specifying assemblies to be tested using NUnit
-let testAssemblies = "tests/**/bin/Release/*Tests*.dll"
+let testAssemblies = "tests/**/bin/Release/net461/*Tests*.dll"
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
@@ -144,7 +144,7 @@ Target "RunTests" (fun _ ->
     |> NUnit3 (fun p ->
         { p with
             ShadowCopy = true
-            WorkingDir = "tests/ExcelProvider.Tests"
+            WorkingDir = "tests/ExcelProvider.Tests/bin/Release/net461"
             TimeOut = TimeSpan.FromMinutes 20. })
 )
 
