@@ -4,7 +4,7 @@ build_script:
   - cmd: build.cmd
 test: off
 before_build:
-  - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
+  - cmd: set PATH=C:\Program Files (x86)\MSBuild\15.0\Bin;%PATH%
 version: 0.0.1.{build}
 artifacts:
   - path: bin
