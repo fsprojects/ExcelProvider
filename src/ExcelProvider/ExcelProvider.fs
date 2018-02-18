@@ -45,6 +45,13 @@ let private singleItemOrFail func items =
     | _ -> failwith "Expected single item list."
 
 // Avoids "warning FS0025: Incomplete pattern matches on this expression"
+// when using: (fun [row] -> <@@ ... @@>)
+let private twoItemsOrFail func items = 
+    match items with
+    | [ a; b ] -> func a b
+    | _ -> failwith "Expected two item list."
+
+// Avoids "warning FS0025: Incomplete pattern matches on this expression"
 // when using: (fun [] -> <@@ ... @@>)
 let private emptyListOrFail func items = 
     match items with
@@ -190,6 +197,9 @@ let internal typExcel(cfg:TypeProviderConfig) =
 
             // add a constructor taking the filename to load
             providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, sheetname, range, hasheaders) @@>)))
+
+             // add a constructor taking the filename and sheetname to load
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>); ProvidedParameter("sheetname", typeof<string>)], InvokeCode = twoItemsOrFail (fun fileName sheetname -> <@@ ExcelFileInternal(%%fileName, %%sheetname, range, hasheaders) @@>)))
 
             // add a new, more strongly typed Data property (which uses the existing property at runtime)
             providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), GetterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))
