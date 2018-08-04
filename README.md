@@ -14,7 +14,6 @@ This library is for the .NET platform implementing a Excel type provider. <a hre
 ## Maintainer(s)
 
 - [@JohnDoeKyrgyz](https://github.com/JohnDoeKyrgyz)
-- [@forki](https://github.com/forki)
-- [@luajalla](https://github.com/luajalla)
+- [@dsyme](https://github.com/dsyme)
 
 The default maintainer account for projects under "fsprojects" is [@fsprojectsgit](https://github.com/fsprojectsgit) - F# Community Project Incubation Space (repo management)
