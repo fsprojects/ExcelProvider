@@ -7,13 +7,14 @@
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <DocumentationFile>ExcelProvider.XML</DocumentationFile>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.TypeProviders.StarterPack\src\ProvidedTypes.fsi">
+    <Compile Include="..\..\paket-files\fsprojects\FSharp.TypeProviders.SDK\src\ProvidedTypes.fsi">
       <Paket>True</Paket>
       <Link>paket-files/ProvidedTypes.fsi</Link>
     </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.TypeProviders.StarterPack\src\ProvidedTypes.fs">
+    <Compile Include="..\..\paket-files\fsprojects\FSharp.TypeProviders.SDK\src\ProvidedTypes.fs">
       <Paket>True</Paket>
       <Link>paket-files/ProvidedTypes.fs</Link>
     </Compile>
@@ -21,7 +22,6 @@
     <Compile Include="TypeProviders.Helper.fs" />
     <Compile Include="ExcelAddressing.fs" />
     <Compile Include="ExcelProvider.fs" />
-    <None Include="app.config" />
     <None Include="paket.references" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
