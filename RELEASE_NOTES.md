@@ -1,5 +1,9 @@
+#### 0.9.0
+* Upgrading ProvidedTypes.fs to latest FSharp.TypeProviders.SDK for  https://github.com/fsprojects/ExcelProvider/issues/52
+
 #### 0.8.2 - 05.16.2017
-* Upgrading ProvidedTypes.fs from FSharp.TypeProviders.StarterPack to fix a Mono5 compatibility issue.
+* Upgrading ProvidedTypes.fs from FSharp.TypeProviders.SDK to fix a Mono5 compatibility issue.
+
 #### 0.8.1 - 02.02.2017
 * Clean up created temp folders by disposing ExcelDataReader - https://github.com/fsprojects/ExcelProvider/pull/37
 * Upgrade to latest versions of dependencies

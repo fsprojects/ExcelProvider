@@ -184,7 +184,7 @@ let internal typExcel(cfg:TypeProviderConfig) =
             let columnProperties = getColumnDefinitions data hasheaders forcestring
             for (columnName, (columnIndex, propertyType, getter)) in columnProperties do
 
-                let prop = ProvidedProperty(columnName |> gen, propertyType, GetterCode = getter)
+                let prop = ProvidedProperty(columnName |> gen, propertyType, getterCode = getter)
                 // Add metadata defining the property's location in the referenced file
                 prop.AddDefinitionLocation((if hasheaders then 1 else 0), columnIndex, filename)
                 providedRowType.AddMember(prop)
@@ -193,16 +193,16 @@ let internal typExcel(cfg:TypeProviderConfig) =
             let providedExcelFileType = ProvidedTypeDefinition(executingAssembly, rootNamespace, typeName, Some(typeof<ExcelFileInternal>))
 
             // add a parameterless constructor which loads the file that was used to define the schema
-            providedExcelFileType.AddMember(ProvidedConstructor([], InvokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, sheetname, range, hasheaders) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([], invokeCode = emptyListOrFail (fun () -> <@@ ExcelFileInternal(resolvedFilename, sheetname, range, hasheaders) @@>)))
 
             // add a constructor taking the filename to load
-            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], InvokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, sheetname, range, hasheaders) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>)], invokeCode = singleItemOrFail (fun filename -> <@@ ExcelFileInternal(%%filename, sheetname, range, hasheaders) @@>)))
 
              // add a constructor taking the filename and sheetname to load
-            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>); ProvidedParameter("sheetname", typeof<string>)], InvokeCode = twoItemsOrFail (fun fileName sheetname -> <@@ ExcelFileInternal(%%fileName, %%sheetname, range, hasheaders) @@>)))
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>); ProvidedParameter("sheetname", typeof<string>)], invokeCode = twoItemsOrFail (fun fileName sheetname -> <@@ ExcelFileInternal(%%fileName, %%sheetname, range, hasheaders) @@>)))
 
             // add a new, more strongly typed Data property (which uses the existing property at runtime)
-            providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), GetterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))
+            providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), getterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))
 
             // add the row type as a nested type
             providedExcelFileType.AddMember(providedRowType)
@@ -234,7 +234,7 @@ let internal typExcel(cfg:TypeProviderConfig) =
 
 [<TypeProvider>]
 type public ExcelProvider(cfg:TypeProviderConfig) as this =
-    inherit TypeProviderForNamespaces()
+    inherit TypeProviderForNamespaces(cfg)
 
     do this.AddNamespace(rootNamespace,[typExcel cfg])
 

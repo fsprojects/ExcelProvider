@@ -1,16 +1,21 @@
 source https://nuget.org/api/v2
 
-nuget ExcelDataReader
+framework: >= net45
 
-github fsprojects/FSharp.TypeProviders.StarterPack src/ProvidedTypes.fsi
-github fsprojects/FSharp.TypeProviders.StarterPack src/ProvidedTypes.fs
+nuget SharpZipLib
+nuget ExcelDataReader 2.1.2.3
+nuget FSharp.Core 4.1.17
+
+github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fsi
+github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fs
 
 group Build
   source https://nuget.org/api/v2
+  framework: net45
 
   nuget SourceLink.Fake
-  nuget FAKE
-  nuget FSharp.Formatting
+  nuget FAKE 4.64.13
+  nuget FSharp.Formatting 2.14.4
 
   github fsharp/FAKE modules/Octokit/Octokit.fsx
 
@@ -18,9 +23,9 @@ group Test
   source https://nuget.org/api/v2
   framework: net461
 
-  nuget NUnit redirects: force
-  nuget NUnit.Console
-  nuget NUnit3TestAdapter version_in_path: true
-  nuget FSharp.Core redirects: force, content: none
+  nuget NUnit 3.6.1
+  nuget NUnit.Console 3.6.1
+  nuget NUnit3TestAdapter 3.7.0 version_in_path: true
+  nuget FSharp.Core 4.3.4
 
   github fsprojects/FsUnit src/FsUnit.NUnit/FsUnit.fs

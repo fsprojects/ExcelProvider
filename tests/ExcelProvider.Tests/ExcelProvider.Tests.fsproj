@@ -8,6 +8,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
+    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\paket-files\test\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnit.fs">
@@ -38,6 +40,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <ProjectReference Include="..\..\src\ExcelProvider\ExcelProvider.fsproj">
       <Name>ExcelProvider</Name>
       <Project>{7e90d6ce-a10b-4858-a5bc-41df7250cbca}</Project>
