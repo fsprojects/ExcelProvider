@@ -11,8 +11,20 @@ open ICSharpCode.SharpZipLib.Zip
 open Microsoft.FSharp.Core.CompilerServices
 open ProviderImplementation.ProvidedTypes
 
+let failInvalidCast (fromType:Type) (toType:Type) columnName rowIndex filename sheetname =
+    sprintf
+        "ExcelProvider: Cannot cast '%s' to '%s'.\nFile: '%s'. Sheet: '%s'\nColumn '%s'. Row %i."
+        fromType.FullName
+        toType.FullName
+        filename
+        sheetname
+        columnName
+        rowIndex
+    |> InvalidCastException
+    |> raise
+
 // Represents a row in a provided ExcelFileInternal
-type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
+type Row(filename, sheetname, rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
     member this.GetValue columnIndex = getCellValue rowIndex columnIndex
 
     member this.GetValue columnName =
@@ -26,6 +38,18 @@ type Row(rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
                 | Some header -> sprintf "Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
                 | None -> sprintf "Column \"%s\" was not found." columnName
             |> failwith
+
+    member this.TryGetValue<'a> (columnIndex:int) columnName =
+        let value = this.GetValue columnIndex
+        try value :?> 'a
+        with :? InvalidCastException ->
+            failInvalidCast (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
+
+    member this.TryGetNullableValue<'a when 'a : (new : unit -> 'a) and 'a : struct and 'a :> ValueType> (columnIndex:int) columnName =
+        let value = this.GetValue columnIndex
+        try (value :?> Nullable<'a>).GetValueOrDefault()
+        with :? InvalidCastException ->
+            failInvalidCast (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
 
     override this.ToString() =
         let columnValueList =
@@ -60,13 +84,14 @@ let private emptyListOrFail func items =
 
 
 // get the type, and implementation of a getter property based on a template value
-let internal propertyImplementation columnIndex (value : obj) =
+let internal propertyImplementation columnIndex columnName (value : obj) =
     match value with
-    | :? float -> typeof<double>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> (v :?> Nullable<double>).GetValueOrDefault()) @@>) |> singleItemOrFail
-    | :? bool -> typeof<bool>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> (v :?> Nullable<bool>).GetValueOrDefault()) @@>) |> singleItemOrFail
-    | :? DateTime -> typeof<DateTime>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> (v :?> Nullable<DateTime>).GetValueOrDefault()) @@>) |> singleItemOrFail
-    | :? string -> typeof<string>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) |> (fun v -> v :?> string) @@>) |> singleItemOrFail
-    | _ -> typeof<obj>, (fun row -> <@@ (%%row: Row).GetValue (columnIndex : int) @@>) |> singleItemOrFail
+    | :? float -> typeof<double>, (fun row -> <@@ (%%row: Row).TryGetNullableValue<double> columnIndex columnName @@>)
+    | :? bool -> typeof<bool>, (fun row -> <@@ (%%row: Row).TryGetNullableValue<bool> columnIndex columnName @@>)
+    | :? DateTime -> typeof<DateTime>, (fun row -> <@@ (%%row: Row).TryGetNullableValue<DateTime> columnIndex columnName @@>)
+    | :? string -> typeof<string>, (fun row -> <@@ (%%row: Row).TryGetValue<string> columnIndex columnName @@>)
+    | _ -> typeof<obj>, (fun row -> <@@ (%%row: Row).GetValue columnIndex @@>)
+    |> fun (cellType, getter) -> cellType, singleItemOrFail getter
 
 // gets a list of column definition information for the columns in a view
 let internal getColumnDefinitions (data : View) hasheaders forcestring =
@@ -86,7 +111,7 @@ let internal getColumnDefinitions (data : View) hasheaders forcestring =
                     typedefof<string>, getter
                 else
                     let cellValue = getCell (if hasheaders then 1 else 0) columnIndex
-                    propertyImplementation columnIndex cellValue
+                    propertyImplementation columnIndex processedColumnName cellValue
             yield (processedColumnName, (columnIndex, cellType, getter))]
 
 // Simple type wrapping Excel data
@@ -95,7 +120,7 @@ type ExcelFileInternal(filename, sheetname, range, hasheaders) =
     let data =
         let view = openWorkbookView filename sheetname range
         let columns = [for (columnName, (columnIndex, _, _)) in getColumnDefinitions view hasheaders true -> columnName, columnIndex] |> Map.ofList
-        let buildRow rowIndex = new Row(rowIndex, getCellValue view, columns)
+        let buildRow rowIndex = new Row(filename, sheetname, rowIndex, getCellValue view, columns)
         seq{(if hasheaders then 1 else 0) .. view.RowCount}
         |> Seq.map buildRow
 
