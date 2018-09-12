@@ -27,6 +27,6 @@ files
 references
     ExcelProvider.dll
 dependencies
-    FSharp.Core >= CURRENTVERSION
-    ExcelDataReader >= CURRENTVERSION
-    SharpZipLib >= CURRENTVERSION
+    FSharp.Core >= LOCKEDVERSION
+    ExcelDataReader >= LOCKEDVERSION
+    SharpZipLib >= LOCKEDVERSION

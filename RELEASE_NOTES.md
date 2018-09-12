@@ -1,3 +1,6 @@
+#### 0.9.1
+* Correct dependencies
+
 #### 0.9.0
 * Upgrading ProvidedTypes.fs to latest FSharp.TypeProviders.SDK for  https://github.com/fsprojects/ExcelProvider/issues/52
 * Give better release notes

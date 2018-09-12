@@ -55,8 +55,8 @@ NUGET
     System.ValueTuple (4.5) - restriction: && (>= net45) (< netstandard1.6)
 GITHUB
   remote: fsprojects/FSharp.TypeProviders.SDK
-    src/ProvidedTypes.fs (d50b7556cc57c403cd53bd1116027450d60c72db)
-    src/ProvidedTypes.fsi (d50b7556cc57c403cd53bd1116027450d60c72db)
+    src/ProvidedTypes.fs (cf758762e435eff617a62ca85d17169566e0eee5)
+    src/ProvidedTypes.fsi (cf758762e435eff617a62ca85d17169566e0eee5)
 GROUP Build
 RESTRICTION: == net45
 NUGET
@@ -68,11 +68,10 @@ NUGET
       FSharpVSPowerTools.Core (>= 2.3 < 2.4)
     FSharpVSPowerTools.Core (2.3)
       FSharp.Compiler.Service (>= 2.0.0.3)
-    Octokit (0.31)
-    SourceLink.Fake (1.1)
+    Octokit (0.32)
 GITHUB
   remote: fsharp/FAKE
-    modules/Octokit/Octokit.fsx (1fe6a9d37a67c975eb36cbc88b7eab9a098247f1)
+    modules/Octokit/Octokit.fsx (7e6ab7004d39ecf4f83b317c15df9370fb3bddd4)
       Octokit (>= 0.20)
 GROUP Test
 RESTRICTION: == net461
