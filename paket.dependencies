@@ -13,7 +13,6 @@ group Build
   source https://nuget.org/api/v2
   framework: net45
 
-  nuget SourceLink.Fake
   nuget FAKE 4.64.13
   nuget FSharp.Formatting 2.14.4
 

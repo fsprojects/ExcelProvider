@@ -21,4 +21,12 @@ description
 tags
     F# fsharp typeproviders Excel
 files
-    ../bin/ExcelProvider/*.* ==> lib 
+    ../bin/ExcelProvider/net45/ExcelProvider.dll ==> lib/net45
+    ../bin/ExcelProvider/net45/Excel.dll ==> lib/net45
+    ../bin/ExcelProvider/net45/ICSharpCode.SharpZipLib.dll ==> lib/net45
+references
+    ExcelProvider.dll
+dependencies
+    FSharp.Core >= LOCKEDVERSION
+    ExcelDataReader >= LOCKEDVERSION
+    SharpZipLib >= LOCKEDVERSION

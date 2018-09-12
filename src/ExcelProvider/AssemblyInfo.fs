@@ -5,13 +5,13 @@ open System.Reflection
 [<assembly: AssemblyTitleAttribute("ExcelProvider")>]
 [<assembly: AssemblyProductAttribute("ExcelProvider")>]
 [<assembly: AssemblyDescriptionAttribute("This library is for the .NET platform implementing a Excel type provider.")>]
-[<assembly: AssemblyVersionAttribute("0.8.2")>]
-[<assembly: AssemblyFileVersionAttribute("0.8.2")>]
+[<assembly: AssemblyVersionAttribute("0.9.1")>]
+[<assembly: AssemblyFileVersionAttribute("0.9.1")>]
 do ()
 
 module internal AssemblyVersionInformation =
     let [<Literal>] AssemblyTitle = "ExcelProvider"
     let [<Literal>] AssemblyProduct = "ExcelProvider"
     let [<Literal>] AssemblyDescription = "This library is for the .NET platform implementing a Excel type provider."
-    let [<Literal>] AssemblyVersion = "0.8.2"
-    let [<Literal>] AssemblyFileVersion = "0.8.2"
+    let [<Literal>] AssemblyVersion = "0.9.1"
+    let [<Literal>] AssemblyFileVersion = "0.9.1"
