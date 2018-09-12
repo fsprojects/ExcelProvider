@@ -1,5 +1,3 @@
-[![Issue Stats](http://issuestats.com/github/fsprojects/ExcelProvider/badge/issue)](http://issuestats.com/github/fsprojects/ExcelProvider)
-[![Issue Stats](http://issuestats.com/github/fsprojects/ExcelProvider/badge/pr)](http://issuestats.com/github/fsprojects/ExcelProvider)
 
 ExcelProvider [![NuGet Status](http://img.shields.io/nuget/v/ExcelProvider.svg?style=flat)](https://www.nuget.org/packages/ExcelProvider/)
 =============
