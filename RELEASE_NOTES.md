@@ -1,3 +1,6 @@
+#### 1.0.1
+* Fix bug in nuget package
+
 #### 1.0.0
 * Support .NET Core output
 * Support .NET Standard output

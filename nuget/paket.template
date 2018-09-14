@@ -27,7 +27,7 @@ files
     ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/netcoreapp2.0/*.dll ==> typeproviders/fsharp41/netcoreapp2.0
     ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/net45/*.dll ==> typeproviders/fsharp41/net45
 references
-    ExcelProvider.dll
+    ExcelProvider.Runtime.dll
 dependencies
   FSharp.Core >= LOCKEDVERSION
   ExcelDataReader >= LOCKEDVERSION
