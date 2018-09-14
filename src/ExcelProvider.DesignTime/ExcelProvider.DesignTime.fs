@@ -145,11 +145,6 @@ module internal Helpers =
 
     let rootNamespace = "FSharp.ExcelProvider"
 
-#if NETSTANDARD || NETCOREAPP
-// Register encodings
-do System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance)
-#endif
-
 [<TypeProvider>]
 type public ExcelProvider(cfg:TypeProviderConfig) as this =
     inherit TypeProviderForNamespaces(cfg, addDefaultProbingLocation=true, assemblyReplacementMap=[("ExcelProvider.DesignTime", "ExcelProvider.Runtime")])

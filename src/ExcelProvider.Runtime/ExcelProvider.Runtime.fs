@@ -171,6 +171,10 @@ module internal ExcelAddressing =
     ///Reads the contents of an excel file into a DataSet
     let public openWorkbookView filename sheetname range =
 
+#if NETSTANDARD || NETCOREAPP
+        // Register encodings
+        do System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance)
+#endif
         let fail action (ex : exn) =
             let exceptionTypeName = ex.GetType().Name
             let message = sprintf "Could not %s. %s - %s" action exceptionTypeName (ex.Message)
@@ -286,10 +290,6 @@ type ExcelFileInternal(filename, sheetname, range, hasheaders) =
 
 
 module Attributes = 
-#if NETSTANDARD || NETCOREAPP
-    // Register encodings
-    do System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance)
-#endif
 
     [<TypeProviderAssembly("ExcelProvider.DesignTime.dll")>]
     do ()
