@@ -1,3 +1,9 @@
+#### 1.0.0
+* Support .NET Core output
+* Support .NET Standard output
+* Support running in .NET SDK tools (.NET Core tools)
+* Rename primary namespace to `FSharp.Interop.Excel`
+
 #### 0.9.2
 * Update ExcelDataReader
 

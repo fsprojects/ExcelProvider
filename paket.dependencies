@@ -4,7 +4,7 @@ frameworks: net45, netcoreapp2.0, netstandard2.0
 
 nuget ExcelDataReader
 nuget ExcelDataReader.DataSet
-nuget FSharp.Core 4.1.17
+nuget FSharp.Core 4.3.4
 nuget NetStandard.Library.NetFramework
 nuget System.Text.Encoding.CodePages
 

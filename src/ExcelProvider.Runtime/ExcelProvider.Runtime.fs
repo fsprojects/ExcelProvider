@@ -1,4 +1,4 @@
-namespace FSharp.Interop.ExcelProvider
+namespace FSharp.Interop.Excel.ExcelProvider
 
 open System
 open System.Collections.Generic

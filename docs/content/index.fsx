@@ -29,7 +29,7 @@ This example demonstrates the use of the type provider:
 
 // reference the type provider dll
 #r "ExcelProvider.dll"
-open FSharp.ExcelProvider
+open FSharp.Interop.Excel
 
 
 // Let the type provider do it's work

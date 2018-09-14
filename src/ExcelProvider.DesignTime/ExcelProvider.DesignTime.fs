@@ -1,10 +1,10 @@
-module FSharp.Interop.ExcelProvider.ProviderImplementation
+module FSharp.Interop.Excel.ExcelProvider.ProviderImplementation
 
 open System
 open System.Collections.Generic
 open System.IO
 
-open FSharp.Interop.ExcelProvider
+open FSharp.Interop.Excel.ExcelProvider
 open Microsoft.FSharp.Core.CompilerServices
 open ProviderImplementation.ProvidedTypes
 
@@ -143,7 +143,7 @@ module internal Helpers =
                 yield (processedColumnName, (columnIndex, cellType, getter))]
 
 
-    let rootNamespace = "FSharp.ExcelProvider"
+    let rootNamespace = "FSharp.Interop.Excel"
 
 [<TypeProvider>]
 type public ExcelProvider(cfg:TypeProviderConfig) as this =

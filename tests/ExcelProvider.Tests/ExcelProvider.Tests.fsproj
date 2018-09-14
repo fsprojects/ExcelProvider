@@ -32,10 +32,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
+    <None Include="ExcelProvider.Tests.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0"/>
     <ProjectReference Include="..\..\src\ExcelProvider.Runtime\ExcelProvider.Runtime.fsproj">
       <Name>ExcelProvider.Runtime</Name>
       <Project>{7e90d6ce-a10b-4858-a5bc-41df7250cbca}</Project>

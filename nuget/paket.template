@@ -21,13 +21,18 @@ description
 tags
     F# fsharp typeproviders Excel
 files
-    ../bin/ExcelProvider/net45/Excel*.dll ==> lib/net45
-    ../bin/ExcelProvider/netstandard2.0/Excel*.dll ==> lib/netstandard2.0
-    ../bin/ExcelProvider/netstandard2.0/System.*.dll ==> lib/netstandard2.0
-    ../bin/ExcelProvider/netstandard2.0/netstandard.dll ==> lib/netstandard2.0
+    ../bin/ExcelProvider.Runtime/net45/ExcelProvider.Runtime.* ==> lib/net45
+    ../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.* ==> lib/netstandard2.0
+    ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/netstandard2.0/*.dll ==> typeproviders/fsharp41/netstandard2.0
+    ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/netcoreapp2.0/*.dll ==> typeproviders/fsharp41/netcoreapp2.0
+    ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/net45/*.dll ==> typeproviders/fsharp41/net45
 references
     ExcelProvider.dll
 dependencies
-    FSharp.Core >= LOCKEDVERSION
-    ExcelDataReader >= LOCKEDVERSION
-    ExcelDataReader.DataSet >= LOCKEDVERSION
+  FSharp.Core >= LOCKEDVERSION
+  ExcelDataReader >= LOCKEDVERSION
+  ExcelDataReader.DataSet >= LOCKEDVERSION
+  framework: netcoreapp2.0
+    System.Text.Encoding.CodePages >= LOCKEDVERSION
+  framework: netstandard2.0
+    System.Text.Encoding.CodePages >= LOCKEDVERSION

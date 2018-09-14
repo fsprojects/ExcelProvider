@@ -155,7 +155,7 @@ Target "RunTests" (fun _ ->
             WorkingDir = "tests/ExcelProvider.Tests/bin/Release/net461"
             TimeOut = TimeSpan.FromMinutes 20. })
   else
-    DotNetCli.Test  (fun p -> { p with Configuration = "Release"; Project = "ExcelProvider.sln"; ToolPath =  getSdkPath() })
+    DotNetCli.Test  (fun p -> { p with Configuration = "Release"; Project = "tests/ExcelProvider.Tests/ExcelProvider.Tests.fsproj"; ToolPath =  getSdkPath() })
 
 )
 
