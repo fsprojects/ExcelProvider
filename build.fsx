@@ -40,12 +40,6 @@ let authors = [ "Steffen Forkmann"; "Gustavo Guerra"; "JohnDoeKyrgyz"; "Don Syme
 // Tags for your project (for NuGet package)
 let tags = "F# fsharp typeproviders Excel"
 
-// File system information
-let solutionFile  = "ExcelProvider.sln"
-
-// Pattern specifying assemblies to be tested using NUnit
-let testAssemblies = "tests/**/bin/Release/net461/*Tests*.dll"
-
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
 let gitOwner = "fsprojects"
@@ -56,6 +50,23 @@ let gitName = "ExcelProvider"
 
 // The url for the raw files hosted
 let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/fsprojects"
+
+// --------------------------------------------------------------------------------------
+// Support for both "dotnet" (.NET Core) and "msbuild" (.NET Framework/Mono) toolchains
+// --------------------------------------------------------------------------------------
+
+let useMsBuildToolchain = environVar "USE_MSBUILD" <> null
+let dotnetSdkVersion = "2.1.401"
+let sdkPath = lazy DotNetCli.InstallDotNetSDK dotnetSdkVersion
+let getSdkPath() = sdkPath.Value
+
+printfn "Desired .NET SDK version = %s" dotnetSdkVersion
+printfn "DotNetCli.isInstalled() = %b" (DotNetCli.isInstalled())
+if DotNetCli.isInstalled() then printfn "DotNetCli.getVersion() = %s" (DotNetCli.getVersion())
+
+let exec p args = 
+    printfn "Executing %s %s" p args 
+    Shell.Exec(p, args) |> function 0 -> () | d -> failwithf "%s %s exited with error %d" p args d
 
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps
@@ -126,21 +137,26 @@ Target "CleanDocs" (fun _ ->
 // Build library & test project
 
 Target "Build" (fun _ ->
-    !! solutionFile
-    |> MSBuildRelease "" "Rebuild"
-    |> ignore
+  if useMsBuildToolchain then
+    MSBuildRelease "" "Rebuild" (!! "ExcelProvider.sln") |> ignore
+  else
+    DotNetCli.Build  (fun p -> { p with Configuration = "Release"; Project = "ExcelProvider.sln"; ToolPath =  getSdkPath() })
 )
 
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 
 Target "RunTests" (fun _ ->
-    !! testAssemblies
+  if useMsBuildToolchain then
+    !! "tests/**/bin/Release/net461/*Tests*.dll"
     |> NUnit3 (fun p ->
         { p with
             ShadowCopy = true
             WorkingDir = "tests/ExcelProvider.Tests/bin/Release/net461"
             TimeOut = TimeSpan.FromMinutes 20. })
+  else
+    DotNetCli.Test  (fun p -> { p with Configuration = "Release"; Project = "tests/ExcelProvider.Tests/ExcelProvider.Tests.fsproj"; ToolPath =  getSdkPath() })
+
 )
 
 // --------------------------------------------------------------------------------------

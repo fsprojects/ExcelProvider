@@ -23,7 +23,7 @@ This example shows the use of the type provider in an F# script on a sheet conta
 
 // reference the type provider dll
 #r "ExcelProvider.dll"
-open FSharp.ExcelProvider
+open FSharp.Interop.Excel
 
 // Let the type provider do it's work
 type DataTypesTest = ExcelFile<"DataTypesNoHeader.xlsx", HasHeaders=false>

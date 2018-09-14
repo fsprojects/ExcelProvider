@@ -19,7 +19,7 @@ This example demonstrates referencing the first column (with name `Fourth`) on r
 
 // reference the type provider dll
 #r "ExcelProvider.dll"
-open FSharp.ExcelProvider
+open FSharp.Interop.Excel
 
 // Let the type provider do it's work
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">

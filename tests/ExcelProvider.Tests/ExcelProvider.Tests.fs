@@ -1,7 +1,7 @@
-module FSharp.ExcelProvider.Tests.ExcelProviderTests
+module FSharp.Interop.Excel.Tests.ExcelProviderTests
 
 open NUnit.Framework
-open FSharp.ExcelProvider
+open FSharp.Interop.Excel
 open FsUnit
 
 open System
