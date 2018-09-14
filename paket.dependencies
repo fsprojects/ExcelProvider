@@ -1,10 +1,12 @@
 source https://nuget.org/api/v2
 
-framework: >= net45
+frameworks: net45, netcoreapp2.0, netstandard2.0
 
-nuget SharpZipLib
-nuget ExcelDataReader 2.1.2.3
+nuget ExcelDataReader
+nuget ExcelDataReader.DataSet
 nuget FSharp.Core 4.1.17
+nuget NetStandard.Library.NetFramework
+nuget System.Text.Encoding.CodePages
 
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fsi
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fs
@@ -20,7 +22,7 @@ group Build
 
 group Test
   source https://nuget.org/api/v2
-  framework: net461
+  frameworks: net461, netcoreapp2.0
 
   nuget NUnit 3.6.1
   nuget NUnit.Console 3.6.1

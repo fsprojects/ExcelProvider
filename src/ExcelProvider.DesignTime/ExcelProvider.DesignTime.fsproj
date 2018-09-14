@@ -2,12 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.0;net45</TargetFrameworks>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <DocumentationFile>ExcelProvider.XML</DocumentationFile>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\paket-files\fsprojects\FSharp.TypeProviders.SDK\src\ProvidedTypes.fsi">
@@ -19,10 +20,12 @@
       <Link>paket-files/ProvidedTypes.fs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="TypeProviders.Helper.fs" />
-    <Compile Include="ExcelAddressing.fs" />
-    <Compile Include="ExcelProvider.fs" />
+    <Compile Include="..\ExcelProvider.Runtime\ExcelProvider.Runtime.fs" />
+    <Compile Include="ExcelProvider.DesignTime.fs" />
     <None Include="paket.references" />
+    <None Include="..\..\packages\NetStandard.Library.NetFramework\build\net461\lib\netstandard.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

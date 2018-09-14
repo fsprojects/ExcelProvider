@@ -1,3 +1,6 @@
+#### 0.9.2
+* Update ExcelDataReader
+
 #### 0.9.1
 * Correct dependencies
 

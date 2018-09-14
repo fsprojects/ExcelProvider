@@ -1,13 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ExcelProvider.Tests</RootNamespace>
-    <TargetFramework>net461</TargetFramework>
-    <Name>ExcelProvider.Tests</Name>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
+    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -16,6 +9,7 @@
       <Paket>True</Paket>
       <Link>paket-files/FsUnit.fs</Link>
     </Compile>
+    <Compile Include="ExcelProvider.Tests.fs" />
     <Content Include="BookTest.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -31,18 +25,19 @@
     <Content Include="MultipleRegions.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Compile Include="ExcelProvider.Tests.fs" />
-    <None Include="paket.references" />
-    <None Include="DifferentMainSheet.xlsx" />
+    <None Include="DifferentMainSheet.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="MultilineHeader.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
+    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-    <ProjectReference Include="..\..\src\ExcelProvider\ExcelProvider.fsproj">
-      <Name>ExcelProvider</Name>
+    <ProjectReference Include="..\..\src\ExcelProvider.Runtime\ExcelProvider.Runtime.fsproj">
+      <Name>ExcelProvider.Runtime</Name>
       <Project>{7e90d6ce-a10b-4858-a5bc-41df7250cbca}</Project>
       <Private>True</Private>
     </ProjectReference>
