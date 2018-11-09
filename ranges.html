@@ -53,33 +53,22 @@
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// reference the type provider dll</span>
 <span class="prep">#r</span> <span class="s">&quot;ExcelProvider.dll&quot;</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">FSharp</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">ExcelProvider</span>
+<span class="k">open</span> <span class="i">FSharp</span><span class="o">.</span><span class="i">Interop</span><span class="o">.</span><span class="i">Excel</span>
 
 <span class="c">// Let the type provider do it&#39;s work</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="t">MultipleRegions</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="t">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;MultipleRegions.xlsx&quot;</span>, <span class="i">Range</span><span class="o">=</span><span class="s">&quot;A1:C5,E3:G5&quot;</span>, <span class="i">ForceString</span><span class="o">=</span><span class="k">true</span><span class="o">&gt;</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">file</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="t">MultipleRegions</span>()
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="i">rows</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="i">file</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="i">Data</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs9', 11)" onmouseover="showTip(event, 'fs9', 11)" class="f">toArray</span>
+<span class="k">type</span> <span class="i">MultipleRegions</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;MultipleRegions.xlsx&quot;</span>, <span class="i">Range</span><span class="o">=</span><span class="s">&quot;A1:C5,E3:G5&quot;</span>, <span class="i">ForceString</span><span class="o">=</span><span class="k">true</span><span class="o">&gt;</span>
+<span class="k">let</span> <span class="i">file</span> <span class="o">=</span> <span class="k">new</span> <span class="i">MultipleRegions</span>()
+<span class="k">let</span> <span class="i">rows</span> <span class="o">=</span> <span class="i">file</span><span class="o">.</span><span class="i">Data</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">toArray</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 12)" onmouseover="showTip(event, 'fs10', 12)" class="i">test1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 13)" onmouseover="showTip(event, 'fs6', 13)" class="i">rows</span><span class="o">.</span>[<span class="n">0</span>]<span class="o">.</span><span class="i">First</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="i">test2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 15)" onmouseover="showTip(event, 'fs6', 15)" class="i">rows</span><span class="o">.</span>[<span class="n">0</span>]<span class="o">.</span><span class="i">Fourth</span>
+<span class="k">let</span> <span class="i">test1</span> <span class="o">=</span> <span class="i">rows</span><span class="o">.</span>[<span class="n">0</span>]<span class="o">.</span><span class="i">First</span>
+<span class="k">let</span> <span class="i">test2</span> <span class="o">=</span> <span class="i">rows</span><span class="o">.</span>[<span class="n">0</span>]<span class="o">.</span><span class="i">Fourth</span>
 </code></pre></td>
 </tr>
 </table>
 <p>And the variables <code>test1</code> and <code>test2</code> have the following values:</p>
-<table class="pre"><tr><td><pre><code>"A1"</code></pre></td></tr></table>
-<table class="pre"><tr><td><pre><code>"B1"</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>No value has been returned</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>No value has been returned</code></pre></td></tr></table>
 
-<div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="tip" id="fs2">namespace FSharp.ExcelProvider</div>
-<div class="tip" id="fs3">type MultipleRegions = ExcelFile&lt;...&gt;<br /><br />Full name: Ranges.MultipleRegions</div>
-<div class="tip" id="fs4">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile<br /><em><br /><br />&lt;summary&gt;Typed representation of data in an Excel file.&lt;/summary&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;FileName&#39;&gt;Location of the Excel file.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;SheetName&#39;&gt;Name of sheet containing data. Defaults to first sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;Range&#39;&gt;Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;HasHeaders&#39;&gt;Whether the range contains the names of the columns as its first line.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;ForceString&#39;&gt;Specifies forcing data to be processed as strings. Defaults to `false`.&lt;/param&gt;</em></div>
-<div class="tip" id="fs5">val file : MultipleRegions<br /><br />Full name: Ranges.file</div>
-<div class="tip" id="fs6">val rows : ExcelFile&lt;...&gt;.Row []<br /><br />Full name: Ranges.rows</div>
-<div class="tip" id="fs7">property ExcelFile&lt;...&gt;.Data: System.Collections.Generic.IEnumerable&lt;ExcelFile&lt;...&gt;.Row&gt;</div>
-<div class="tip" id="fs8">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs9">val toArray : source:seq&lt;&#39;T&gt; -&gt; &#39;T []<br /><br />Full name: Microsoft.FSharp.Collections.Seq.toArray</div>
-<div class="tip" id="fs10">val test1 : string<br /><br />Full name: Ranges.test1</div>
-<div class="tip" id="fs11">val test2 : string<br /><br />Full name: Ranges.test2</div>
 
             </div>
             <div class="span3">

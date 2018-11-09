@@ -36,7 +36,7 @@
 <h1><a name="Getting-Started" class="anchor" href="#Getting-Started">Getting Started</a></h1>
 <p>To get started simply add ExcelProvider.dll as a reference to your project.</p>
 <p>If you are using F# scripts then just add the dll using the <code>#r</code> option.</p>
-<p>If you then open <code>FSharp.ExcelProvider</code> you will have access to the Type Provider functionality.</p>
+<p>If you then open <code>FSharp.Interop.Excel</code> you will have access to the Type Provider functionality.</p>
 <p>You can then create a type for an individual workbook. The simplest option is to specify just the name of the workbook.
 You will then be given typed access to the data held in the first sheet.
 The first row of the sheet will be treated as field names and the subsequent rows will be treated as values for these fields.</p>
@@ -54,8 +54,8 @@ The first row of the sheet will be treated as field names and the subsequent row
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="t">MultipleSheets1</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;MultipleSheets.xlsx&quot;</span>, <span class="s">&quot;B&quot;</span><span class="o">&gt;</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="t">MultipleSheets2</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;MultipleSheets.xlsx&quot;</span>, <span class="i">SheetName</span><span class="o">=</span><span class="s">&quot;B&quot;</span><span class="o">&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">MultipleSheets1</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;MultipleSheets.xlsx&quot;</span>, <span class="s">&quot;B&quot;</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">MultipleSheets2</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;MultipleSheets.xlsx&quot;</span>, <span class="i">SheetName</span><span class="o">=</span><span class="s">&quot;B&quot;</span><span class="o">&gt;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -74,32 +74,19 @@ The first row of the sheet will be treated as field names and the subsequent row
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// reference the type provider dll</span>
 <span class="prep">#r</span> <span class="s">&quot;ExcelProvider.dll&quot;</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">FSharp</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">ExcelProvider</span>
+<span class="k">open</span> <span class="i">FSharp</span><span class="o">.</span><span class="i">Interop</span><span class="o">.</span><span class="i">Excel</span>
 
 <span class="c">// Let the type provider do it&#39;s work</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="t">DataTypesTest</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="t">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;DataTypes.xlsx&quot;</span><span class="o">&gt;</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">file</span> <span class="o">=</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="t">DataTypesTest</span>()
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="i">row</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="i">file</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs9', 11)" onmouseover="showTip(event, 'fs9', 11)" class="i">Data</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs10', 12)" onmouseover="showTip(event, 'fs10', 12)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 13)" onmouseover="showTip(event, 'fs11', 13)" class="f">head</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 14)" onmouseover="showTip(event, 'fs12', 14)" class="i">test</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 15)" onmouseover="showTip(event, 'fs8', 15)" class="i">row</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 16)" onmouseover="showTip(event, 'fs13', 16)" class="i">Float</span>
+<span class="k">type</span> <span class="i">DataTypesTest</span> <span class="o">=</span> <span class="i">ExcelFile</span><span class="o">&lt;</span><span class="s">&quot;DataTypes.xlsx&quot;</span><span class="o">&gt;</span>
+<span class="k">let</span> <span class="i">file</span> <span class="o">=</span> <span class="k">new</span> <span class="i">DataTypesTest</span>()
+<span class="k">let</span> <span class="i">row</span> <span class="o">=</span> <span class="i">file</span><span class="o">.</span><span class="i">Data</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">head</span>
+<span class="k">let</span> <span class="i">test</span> <span class="o">=</span> <span class="i">row</span><span class="o">.</span><span class="i">Float</span>
 </code></pre></td>
 </tr>
 </table>
 <p>And the variable <code>test</code> has the following value:</p>
-<table class="pre"><tr><td><pre><code>1.0</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>No value has been returned</code></pre></td></tr></table>
 
-<div class="tip" id="fs1">type MultipleSheets1 = obj<br /><br />Full name: Getting-started.MultipleSheets1</div>
-<div class="tip" id="fs2">type MultipleSheets2 = obj<br /><br />Full name: Getting-started.MultipleSheets2</div>
-<div class="tip" id="fs3">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="tip" id="fs4">namespace FSharp.ExcelProvider</div>
-<div class="tip" id="fs5">type DataTypesTest = ExcelFile&lt;...&gt;<br /><br />Full name: Getting-started.DataTypesTest</div>
-<div class="tip" id="fs6">type ExcelFile =<br />&#160;&#160;inherit ExcelFileInternal<br />&#160;&#160;member Data : seq&lt;Row&gt;<br /><br />Full name: FSharp.ExcelProvider.ExcelFile<br /><em><br /><br />&lt;summary&gt;Typed representation of data in an Excel file.&lt;/summary&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;FileName&#39;&gt;Location of the Excel file.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;SheetName&#39;&gt;Name of sheet containing data. Defaults to first sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;Range&#39;&gt;Specification using `A1:D3` type addresses of one or more ranges. Defaults to use whole sheet.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;HasHeaders&#39;&gt;Whether the range contains the names of the columns as its first line.&lt;/param&gt;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;param name=&#39;ForceString&#39;&gt;Specifies forcing data to be processed as strings. Defaults to `false`.&lt;/param&gt;</em></div>
-<div class="tip" id="fs7">val file : DataTypesTest<br /><br />Full name: Getting-started.file</div>
-<div class="tip" id="fs8">val row : ExcelFile&lt;...&gt;.Row<br /><br />Full name: Getting-started.row</div>
-<div class="tip" id="fs9">property ExcelFile&lt;...&gt;.Data: System.Collections.Generic.IEnumerable&lt;ExcelFile&lt;...&gt;.Row&gt;</div>
-<div class="tip" id="fs10">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs11">val head : source:seq&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Collections.Seq.head</div>
-<div class="tip" id="fs12">val test : float<br /><br />Full name: Getting-started.test</div>
-<div class="tip" id="fs13">property ExcelFile&lt;...&gt;.Row.Float: float</div>
 
             </div>
             <div class="span3">
