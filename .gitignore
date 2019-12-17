@@ -187,3 +187,6 @@ docs/content/release-notes.md
 .fake
 docs/tools/FSharp.Formatting.svclog
 *.bak
+
+# Ionide is a plugin for Fsharp for VSCODE
+.ionide/

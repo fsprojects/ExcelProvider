@@ -6,6 +6,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0; net45</TargetFrameworks>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <Target Name="BeforeBuild">
-    <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Restore"  />
+    <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Restore" />
     <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=netcoreapp2.0" />
     <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=netstandard2.0" />
     <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=net45" />
