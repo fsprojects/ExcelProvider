@@ -64,8 +64,8 @@ printfn "Desired .NET SDK version = %s" dotnetSdkVersion
 printfn "DotNetCli.isInstalled() = %b" (DotNetCli.isInstalled())
 if DotNetCli.isInstalled() then printfn "DotNetCli.getVersion() = %s" (DotNetCli.getVersion())
 
-let exec p args = 
-    printfn "Executing %s %s" p args 
+let exec p args =
+    printfn "Executing %s %s" p args
     Shell.Exec(p, args) |> function 0 -> () | d -> failwithf "%s %s exited with error %d" p args d
 
 // --------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ Target "AssemblyInfo" (fun _ ->
           Attribute.Version release.AssemblyVersion
           Attribute.FileVersion release.AssemblyVersion ]
 
-    let getProjectDetails projectPath =
+    let getProjectDetails (projectPath:String) =
         let projectName = System.IO.Path.GetFileNameWithoutExtension(projectPath)
         ( projectPath,
           projectName,
