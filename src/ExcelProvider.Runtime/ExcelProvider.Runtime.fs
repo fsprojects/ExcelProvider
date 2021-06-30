@@ -182,7 +182,7 @@ module internal ExcelAddressing =
 
         use stream =
             try
-                File.OpenRead(filename)
+                new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
             with
             | ex ->
                 let action = sprintf "open file '%s'" filename
