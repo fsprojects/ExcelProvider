@@ -1,18 +1,19 @@
-namespace FSharp.Interop.Excel.ExcelProvider
-
-open System
-open System.Collections.Generic
-open System.IO
-open System.Data
-open System.Reflection
-open System.Text.RegularExpressions
-open ExcelDataReader
-open FSharp.Core.CompilerServices
+namespace FSharp.Interop.Excel
 
 type ExcelFormat =
     | Xlsx
     | Csv
     | Binary
+
+namespace FSharp.Interop.Excel.ExcelProvider
+
+open System
+open System.IO
+open System.Data
+open System.Text.RegularExpressions
+open ExcelDataReader
+open FSharp.Core.CompilerServices
+open FSharp.Interop.Excel
 
 [<AutoOpen>]
 module internal ExcelAddressing = 
