@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0; net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
     <DebugType>portable</DebugType>
   </PropertyGroup>
@@ -23,22 +23,10 @@
 
   <Target Name="BeforeBuild">
     <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Restore" />
-    <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=netcoreapp2.0" />
     <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=netstandard2.0" />
-    <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=net45" />
   </Target>
 
   <Target Name="AfterBuild">
-    <CreateItem Include="..\ExcelProvider.DesignTime\bin\$(Configuration)\netcoreapp2.0\*.dll;..\ExcelProvider.DesignTime\bin\$(Configuration)\netcoreapp2.0\*.pdb">
-      <Output TaskParameter="Include" ItemName="DesignTimeBinaries1" />
-    </CreateItem>
-    <Copy SourceFiles="@(DesignTimeBinaries1)" DestinationFolder="$(OutputPath)/../typeproviders/fsharp41/netcoreapp2.0" />
-
-    <CreateItem Include="..\ExcelProvider.DesignTime\bin\$(Configuration)\net45\*.dll;..\ExcelProvider.DesignTime\bin\$(Configuration)\net45\*.pdb">
-      <Output TaskParameter="Include" ItemName="DesignTimeBinaries2" />
-    </CreateItem>
-    <Copy SourceFiles="@(DesignTimeBinaries2)" DestinationFolder="$(OutputPath)/../typeproviders/fsharp41/net45" />
-
     <CreateItem Include="..\ExcelProvider.DesignTime\bin\$(Configuration)\netstandard2.0\*.dll;..\ExcelProvider.DesignTime\bin\$(Configuration)\netstandard2.0\*.pdb">
       <Output TaskParameter="Include" ItemName="DesignTimeBinaries3" />
     </CreateItem>
