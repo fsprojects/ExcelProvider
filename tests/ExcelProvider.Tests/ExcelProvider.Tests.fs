@@ -184,6 +184,23 @@ let ``Can load data from spreadsheet``() =
     row.VOL |> should equal "322"
 
 [<Test>]
+let ``Can load data from stream``() =
+    let file = Path.Combine(Environment.CurrentDirectory, "BookTestDifferentData.xls")
+
+    printfn "%s" file
+
+    use stream = new FileStream(file, FileMode.Open)
+    let otherBook = BookTest(stream, ExcelFormat.Binary)
+    let row = otherBook.Data |> Seq.head
+
+    row.SEC |> should equal "TASI"
+    row.STYLE |> should equal "B"
+    row.``STRIKE 1`` |> should equal "3"
+    row.``STRIKE 2`` |> should equal "4"
+    row.``STRIKE 3`` |> should equal "5"
+    row.VOL |> should equal "322"
+
+[<Test>]
 let ``Can load from multiple ranges``() =
     let file = MultipleRegions()
     let rows = file.Data |> Seq.toArray
