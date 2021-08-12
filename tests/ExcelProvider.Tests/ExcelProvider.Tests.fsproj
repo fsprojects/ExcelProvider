@@ -1,14 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\paket-files\test\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnit.fs">
-      <Paket>True</Paket>
-      <Link>paket-files/FsUnit.fs</Link>
-    </Compile>
     <Compile Include="ExcelProvider.Tests.fs" />
     <Content Include="BookTest.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -37,7 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0"/>
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <ProjectReference Include="..\..\src\ExcelProvider.Runtime\ExcelProvider.Runtime.fsproj">
       <Name>ExcelProvider.Runtime</Name>
       <Project>{7e90d6ce-a10b-4858-a5bc-41df7250cbca}</Project>
