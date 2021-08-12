@@ -5,6 +5,9 @@
 #r "paket: groupref Build //"
 #load ".fake/build.fsx/intellisense.fsx"
 
+#if !Fake
+#r "netstandard"
+#endif
 
 //open Fake
 //open Fake.Git
