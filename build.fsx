@@ -163,21 +163,16 @@ Target.create "Build" (fun _ ->
     DotNet.build setParams "ExcelProvider.sln")
 
 
-//// --------------------------------------------------------------------------------------
-//// Run the unit tests using test runner
-
-//Target "RunTests" (fun _ ->
-//  if useMsBuildToolchain then
-//    !! "tests/**/bin/Release/net461/*Tests*.dll"
-//    |> NUnit3 (fun p ->
-//        { p with
-//            ShadowCopy = true
-//            WorkingDir = "tests/ExcelProvider.Tests/bin/Release/net461"
-//            TimeOut = TimeSpan.FromMinutes 20. })
-//  else
-//    DotNetCli.Test  (fun p -> { p with Configuration = "Release"; Project = "tests/ExcelProvider.Tests/ExcelProvider.Tests.fsproj"; ToolPath =  getSdkPath() })
-
-//)
+// --------------------------------------------------------------------------------------
+// Run the unit tests using test runner
+Target.create "RunTests" (fun _ ->
+    Trace.log "-- Run the unit tests using test runner"
+    let testProj =
+        "./tests/ExcelProvider.Tests/ExcelProvider.Tests.fsproj"
+    let testOptions (defaults: DotNet.TestOptions) =
+        { defaults with
+              Configuration = DotNet.BuildConfiguration.Release }
+    DotNet.test testOptions testProj)
 
 //// --------------------------------------------------------------------------------------
 //// Build a NuGet package
@@ -361,8 +356,8 @@ Target.create "All" ignore
 "Clean"
     ==> "AssemblyInfo"
     ==> "Build"
+    ==> "RunTests"
 //  ==> "CopyBinaries"
-//  ==> "RunTests"
 //  ==> "GenerateReferenceDocs"
 //  ==> "GenerateDocs"
     ==> "All"
