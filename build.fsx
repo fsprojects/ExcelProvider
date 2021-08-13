@@ -150,15 +150,18 @@ Target.create "Clean" (fun _ ->
 //    CleanDirs ["docs/output"]
 //)
 
-//// --------------------------------------------------------------------------------------
-//// Build library & test project
+// --------------------------------------------------------------------------------------
+// Build library & test project
 
-//Target "Build" (fun _ ->
-//  if useMsBuildToolchain then
-//    MSBuildRelease "" "Rebuild" (!! "ExcelProvider.sln") |> ignore
-//  else
-//    DotNetCli.Build  (fun p -> { p with Configuration = "Release"; Project = "ExcelProvider.sln"; ToolPath =  getSdkPath() })
-//)
+Target.create "Build" (fun _ ->
+    Trace.log "--Building the binary files for distribution and the test project"
+
+    let setParams (p: DotNet.BuildOptions) =
+        { p with
+                Configuration = DotNet.BuildConfiguration.Release }
+
+    DotNet.build setParams "ExcelProvider.sln")
+
 
 //// --------------------------------------------------------------------------------------
 //// Run the unit tests using test runner
@@ -357,7 +360,7 @@ Target.create "All" ignore
 
 "Clean"
     ==> "AssemblyInfo"
-//  ==> "Build"
+    ==> "Build"
 //  ==> "CopyBinaries"
 //  ==> "RunTests"
 //  ==> "GenerateReferenceDocs"
