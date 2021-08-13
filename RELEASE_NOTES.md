@@ -5,8 +5,12 @@
 * Update FSharp.Formatting to version 11.4.2 and using dotnet tools (fsdocs command line).
 * Update to dotnet 5.0 which is newest version of dotnet at time of writing.
 * Update to FSharp.Core to 4.7.2.
-* Update documentation to reflect changes.
 * Fix issue when file locked by another process.
+
+Still to be done in modernising the build infrastructure:
+* Update the documentation generation and publishing.
+* Update the publishing of nuget package to Nuget. 
+* Update the generation of releases on GitHub.
 
 #### 1.0.1
 * Fix bug in nuget package
