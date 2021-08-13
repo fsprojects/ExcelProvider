@@ -1,3 +1,13 @@
+### 2.0.0-rc1
+
+* Only build for NetStandard 2.0.  (reason for bump to V2)
+* Convert paket to use dotnet tools infrastructure.
+* Update FSharp.Formatting to version 11.4.2 and using dotnet tools (fsdocs command line).
+* Update to dotnet 5.0 which is newest version of dotnet at time of writing.
+* Update to FSharp.Core to 4.7.2.
+* Update documentation to reflect changes.
+* Fix issue when file locked by another process.
+
 #### 1.0.1
 * Fix bug in nuget package
 

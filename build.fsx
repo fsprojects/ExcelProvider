@@ -7,39 +7,39 @@
 
 open Fake.Core
 open Fake.Core.TargetOperators
+open Fake.DotNet
 open Fake.IO
 open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 
 //open Fake.Git
 //open Fake.Testing.NUnit3
-//open Fake.AssemblyInfoFile
 //open Fake.ReleaseNotesHelper
 //open Fake.UserInputHelper
 open System
-//open System.IO
+open System.IO
 
 Target.initEnvironment ()
 
 
 
-//// --------------------------------------------------------------------------------------
-//// START TODO: Provide project-specific details below
-//// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+// START TODO: Provide project-specific details below
+// --------------------------------------------------------------------------------------
 
-//// Information about the project are used
-////  - for version and project name in generated AssemblyInfo file
-////  - by the generated NuGet package
-////  - to run tests and to publish documentation on GitHub gh-pages
-////  - for documentation, you also need to edit info in "docs/tools/generate.fsx"
+// Information about the project are used
+//  - for version and project name in generated AssemblyInfo file
+//  - by the generated NuGet package
+//  - to run tests and to publish documentation on GitHub gh-pages
+//  - for documentation, you also need to edit info in "docs/tools/generate.fsx"
 
-//// The name of the project
-//// (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
-//let project = "ExcelProvider"
+// The name of the project
+// (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
+let project = "ExcelProvider"
 
-//// Short summary of the project
-//// (used as description in AssemblyInfo and as a short summary for NuGet package)
-//let summary = "This library is for the .NET platform implementing a Excel type provider."
+// Short summary of the project
+// (used as description in AssemblyInfo and as a short summary for NuGet package)
+let summary = "This library is for the .NET platform implementing a Excel type provider."
 
 //// Longer description of the project
 //// (used as a description for NuGet package; line breaks are automatically cleaned up)
@@ -79,49 +79,45 @@ Target.initEnvironment ()
 //    printfn "Executing %s %s" p args
 //    Shell.Exec(p, args) |> function 0 -> () | d -> failwithf "%s %s exited with error %d" p args d
 
-//// --------------------------------------------------------------------------------------
-//// END TODO: The rest of the file includes standard build steps
-//// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+// END TODO: The rest of the file includes standard build steps
+// --------------------------------------------------------------------------------------
 
-//// Read additional information from the release notes document
-//let release = LoadReleaseNotes "RELEASE_NOTES.md"
+// Read additional information from the release notes document
+let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
-//// Helper active pattern for project types
-//let (|Fsproj|Csproj|Vbproj|Shproj|) (projFileName:string) =
-//    match projFileName with
-//    | f when f.EndsWith("fsproj") -> Fsproj
-//    | f when f.EndsWith("csproj") -> Csproj
-//    | f when f.EndsWith("vbproj") -> Vbproj
-//    | f when f.EndsWith("shproj") -> Shproj
-//    | _                           -> failwith (sprintf "Project file %s not supported. Unknown project type." projFileName)
+// Helper active pattern for project types
+let (|Fsproj|) (projFileName:string) =
+    match projFileName with
+    | f when f.EndsWith("fsproj") -> Fsproj
+    | _                           -> failwith (sprintf "Project file %s not supported. Unknown project type." projFileName)
 
-//// Generate assembly info files with the right version & up-to-date information
-//Target "AssemblyInfo" (fun _ ->
-//    let getAssemblyInfoAttributes projectName =
-//        [ Attribute.Title (projectName)
-//          Attribute.Product project
-//          Attribute.Description summary
-//          Attribute.Version release.AssemblyVersion
-//          Attribute.FileVersion release.AssemblyVersion ]
+// Generate assembly info files with the right version & up-to-date information
+Target.create "AssemblyInfo" (fun _ ->
+    Trace.log "--Creating new assembly files with appropriate version number and info"
 
-//    let getProjectDetails (projectPath:String) =
-//        let projectName = System.IO.Path.GetFileNameWithoutExtension(projectPath)
-//        ( projectPath,
-//          projectName,
-//          System.IO.Path.GetDirectoryName(projectPath),
-//          (getAssemblyInfoAttributes projectName)
-//        )
+    let getAssemblyInfoAttributes projectName =
+        [ AssemblyInfo.Title(projectName)
+          AssemblyInfo.Product project
+          AssemblyInfo.Description summary
+          AssemblyInfo.Version release.AssemblyVersion
+          AssemblyInfo.FileVersion release.AssemblyVersion ]
 
-//    !! "src/**/*.??proj"
-//    |> Seq.map getProjectDetails
-//    |> Seq.iter (fun (projFileName, projectName, folderName, attributes) ->
-//        match projFileName with
-//        | Fsproj -> CreateFSharpAssemblyInfo (folderName </> "AssemblyInfo.fs") attributes
-//        | Csproj -> CreateCSharpAssemblyInfo ((folderName </> "Properties") </> "AssemblyInfo.cs") attributes
-//        | Vbproj -> CreateVisualBasicAssemblyInfo ((folderName </> "My Project") </> "AssemblyInfo.vb") attributes
-//        | Shproj -> ()
-//        )
-//)
+    let getProjectDetails (projectPath:string) =
+        let projectName =
+            Path.GetFileNameWithoutExtension(projectPath)
+
+        let directoryName = Path.GetDirectoryName(projectPath)
+        let assemblyInfoAttributes = getAssemblyInfoAttributes projectName
+        (projectPath, projectName, directoryName, assemblyInfoAttributes)
+
+    !! "src/**/*.??proj"
+    |> Seq.map getProjectDetails
+    |> Seq.iter (fun (projFileName, _, folderName, attributes) ->
+        match projFileName with
+        | Fsproj ->
+            let fileName = folderName + @"/" + "AssemblyInfo.fs"
+            AssemblyInfoFile.createFSharp fileName attributes))
 
 //// Copies binaries from default VS location to expected bin folder
 //// But keeps a subdirectory structure for each project in the
@@ -360,13 +356,13 @@ Target.create "Clean" (fun _ ->
 Target.create "All" ignore
 
 "Clean"
-//  ==> "AssemblyInfo"
+    ==> "AssemblyInfo"
 //  ==> "Build"
 //  ==> "CopyBinaries"
 //  ==> "RunTests"
 //  ==> "GenerateReferenceDocs"
 //  ==> "GenerateDocs"
-==> "All"
+    ==> "All"
 //  =?> ("ReleaseDocs",isLocalBuild)
 
 //"All"
