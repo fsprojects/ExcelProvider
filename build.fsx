@@ -62,18 +62,11 @@ let summary = "This library is for the .NET platform implementing a Excel type p
 //// The url for the raw files hosted
 //let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/fsprojects"
 
-//// --------------------------------------------------------------------------------------
-//// Support for both "dotnet" (.NET Core) and "msbuild" (.NET Framework/Mono) toolchains
-//// --------------------------------------------------------------------------------------
+Trace.log "--Installing DotNet Core SDK if necessary"
+let install = lazy DotNet.install DotNet.Versions.FromGlobalJson
+let getSdkPath () = install.Value
+Trace.log $"Value of getSdkPath = %A{getSdkPath}"
 
-//let useMsBuildToolchain = environVar "USE_MSBUILD" <> null
-//let dotnetSdkVersion = "2.1.401"
-//let sdkPath = lazy DotNetCli.InstallDotNetSDK dotnetSdkVersion
-//let getSdkPath() = sdkPath.Value
-
-//printfn "Desired .NET SDK version = %s" dotnetSdkVersion
-//printfn "DotNetCli.isInstalled() = %b" (DotNetCli.isInstalled())
-//if DotNetCli.isInstalled() then printfn "DotNetCli.getVersion() = %s" (DotNetCli.getVersion())
 
 //let exec p args =
 //    printfn "Executing %s %s" p args
@@ -183,16 +176,15 @@ Target.create "RunTests" (fun _ ->
               Configuration = DotNet.BuildConfiguration.Release }
     DotNet.test testOptions testProj)
 
-//// --------------------------------------------------------------------------------------
-//// Build a NuGet package
-
-//Target "NuGet" (fun _ ->
-//    Paket.Pack(fun p ->
-//        { p with
-//            OutputPath = "bin"
-//            Version = release.NugetVersion
-//            ReleaseNotes = toLines release.Notes})
-//)
+// --------------------------------------------------------------------------------------
+// Build a NuGet package
+Target.create "Nuget" (fun _ ->
+    Trace.log "--Create the Nuget package using Paket pack"
+    let inline dotnetSimple arg = DotNet.Options.lift install.Value arg
+    let exitCode = DotNet.exec dotnetSimple "paket" "pack --template ./nuget/paket.template ./bin"
+    if not exitCode.OK  then
+        failwithf "Process exit code '%d' <> 0. " exitCode.ExitCode
+    )
 
 //Target "PublishNuget" (fun _ ->
 //    Paket.Push(fun p ->
@@ -355,7 +347,7 @@ Target.create "RunTests" (fun _ ->
 //    |> Async.RunSynchronously
 //)
 
-//Target "BuildPackage" DoNothing
+Target.create "BuildPackage" ignore
 
 //// --------------------------------------------------------------------------------------
 //// Run all targets by default. Invoke 'build <Target>' to override
@@ -372,9 +364,9 @@ Target.create "All" ignore
     ==> "All"
 //  =?> ("ReleaseDocs",isLocalBuild)
 
-//"All"
-//  ==> "NuGet"
-//  ==> "BuildPackage"
+"All"
+  ==> "NuGet"
+  ==> "BuildPackage"
 
 //"CleanDocs"
 //  ==> "GenerateHelp"
