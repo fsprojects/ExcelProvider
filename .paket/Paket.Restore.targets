@@ -359,8 +359,7 @@
               NuspecProperties="$(NuspecProperties)"
               PackageLicenseFile="$(PackageLicenseFile)"
               PackageLicenseExpression="$(PackageLicenseExpression)"
-              PackageLicenseExpressionVersion="$(PackageLicenseExpressionVersion)"
-              NoDefaultExcludes="$(NoDefaultExcludes)" />
+              PackageLicenseExpressionVersion="$(PackageLicenseExpressionVersion)" />
 
     <PackTask Condition="$(UseMSBuild15_9_Pack)"
               PackItem="$(PackProjectInputFile)"

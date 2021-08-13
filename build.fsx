@@ -1,7 +1,3 @@
-// --------------------------------------------------------------------------------------
-// FAKE build script
-// --------------------------------------------------------------------------------------
-
 #r "paket: groupref Build //"
 #load ".fake/build.fsx/intellisense.fsx"
 
@@ -9,14 +5,23 @@
 #r "netstandard"
 #endif
 
-//open Fake
+open Fake.Core
+open Fake.Core.TargetOperators
+open Fake.IO
+open Fake.IO.FileSystemOperators
+open Fake.IO.Globbing.Operators
+
 //open Fake.Git
 //open Fake.Testing.NUnit3
 //open Fake.AssemblyInfoFile
 //open Fake.ReleaseNotesHelper
 //open Fake.UserInputHelper
-//open System
+open System
 //open System.IO
+
+Target.initEnvironment ()
+
+
 
 //// --------------------------------------------------------------------------------------
 //// START TODO: Provide project-specific details below
@@ -128,12 +133,22 @@
 //    |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
 //)
 
-//// --------------------------------------------------------------------------------------
-//// Clean build results
+// --------------------------------------------------------------------------------------
+// Clean build results
+Target.create "Clean" (fun _ ->
+    Trace.log "--Cleaning various directories"
+    !! "bin"
+    ++ "temp"
+    ++ "tmp"
+    ++ "test/bin"
+    ++ "test/obj"
+    ++ "src/**/bin"
+    ++ "src/**/obj"
+    |> Shell.cleanDirs)
 
-//Target "Clean" (fun _ ->
-//    CleanDirs ["bin"; "temp"]
-//)
+
+
+
 
 //Target "CleanDocs" (fun _ ->
 //    CleanDirs ["docs/output"]
@@ -342,16 +357,16 @@
 //// --------------------------------------------------------------------------------------
 //// Run all targets by default. Invoke 'build <Target>' to override
 
-//Target "All" DoNothing
+Target.create "All" ignore
 
-//"Clean"
+"Clean"
 //  ==> "AssemblyInfo"
 //  ==> "Build"
 //  ==> "CopyBinaries"
 //  ==> "RunTests"
 //  ==> "GenerateReferenceDocs"
 //  ==> "GenerateDocs"
-//  ==> "All"
+==> "All"
 //  =?> ("ReleaseDocs",isLocalBuild)
 
 //"All"
@@ -370,4 +385,4 @@
 //  ==> "PublishNuget"
 //  ==> "Release"
 
-//RunTargetOrDefault "All"
+Target.runOrDefaultWithArguments "All"
