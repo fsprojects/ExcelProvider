@@ -119,15 +119,24 @@ Target.create "AssemblyInfo" (fun _ ->
             let fileName = folderName + @"/" + "AssemblyInfo.fs"
             AssemblyInfoFile.createFSharp fileName attributes))
 
-//// Copies binaries from default VS location to expected bin folder
-//// But keeps a subdirectory structure for each project in the
-//// src folder to support multiple project outputs
-//Target "CopyBinaries" (fun _ ->
-//    !! "src/**/*.??proj"
-//    -- "src/**/*.shproj"
-//    |>  Seq.map (fun f -> ((System.IO.Path.GetDirectoryName f) </> "bin/Release", "bin" </> (System.IO.Path.GetFileNameWithoutExtension f)))
-//    |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
-//)
+// Copies binaries from default VS location to expected bin folder
+// But keeps a subdirectory structure for each project in the
+// src folder to support multiple project outputs
+Target.create "CopyBinaries" (fun _ ->
+    Trace.log "-- Copy binaries to desired location"
+    !! "src/**/*.??proj"
+    -- "src/**/*.shproj"
+    |> Seq.map (fun f ->
+        (
+         let source =
+             (Path.GetDirectoryName f) </> "bin/Release"
+
+         let target =
+             "bin" </> (Path.GetFileNameWithoutExtension f)
+
+         source, target))
+    |> Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true)))
+
 
 // --------------------------------------------------------------------------------------
 // Clean build results
@@ -357,7 +366,7 @@ Target.create "All" ignore
     ==> "AssemblyInfo"
     ==> "Build"
     ==> "RunTests"
-//  ==> "CopyBinaries"
+    ==> "CopyBinaries"
 //  ==> "GenerateReferenceDocs"
 //  ==> "GenerateDocs"
     ==> "All"
