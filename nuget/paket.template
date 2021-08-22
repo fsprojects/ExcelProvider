@@ -1,9 +1,11 @@
 type file
 id ExcelProvider
+version
+    2.0.0-rc1
 authors
-    Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme
+    Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme, Quintus Marais
 owners
-    Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme
+    Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme, Quintus Marais
 projectUrl
     http://github.com/fsprojects/ExcelProvider
 iconUrl
@@ -15,24 +17,23 @@ requireLicenseAcceptance
 tags
     F# fsharp typeproviders Excel
 summary
-    This library is for the .NET platform implementing a Excel type provider.
+    This library implements an Excel type provider for Net Standard 2.0.
 description
-    This library is for the .NET platform implementing a Excel type provider.
+    This library implements an Excel type provider for Net Standard 2.0.
 tags
     F# fsharp typeproviders Excel
+releaseNotes
+    Only built for NetStandard 2.0.
+    Fix issue when file locked by another process.
+
 files
-    ../bin/ExcelProvider.Runtime/net45/ExcelProvider.Runtime.* ==> lib/net45
     ../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.* ==> lib/netstandard2.0
     ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/netstandard2.0/*.dll ==> typeproviders/fsharp41/netstandard2.0
-    ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/netcoreapp2.0/*.dll ==> typeproviders/fsharp41/netcoreapp2.0
-    ../bin/ExcelProvider.Runtime/typeproviders/fsharp41/net45/*.dll ==> typeproviders/fsharp41/net45
 references
     ExcelProvider.Runtime.dll
 dependencies
+  framework: netstandard2.0
   FSharp.Core >= LOCKEDVERSION
   ExcelDataReader >= LOCKEDVERSION
   ExcelDataReader.DataSet >= LOCKEDVERSION
-  framework: netcoreapp2.0
-    System.Text.Encoding.CodePages >= LOCKEDVERSION
-  framework: netstandard2.0
-    System.Text.Encoding.CodePages >= LOCKEDVERSION
+  System.Text.Encoding.CodePages >= LOCKEDVERSION
