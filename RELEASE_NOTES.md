@@ -1,4 +1,8 @@
-### 2.0.0-rc1
+#### 2.0.0-rc2
+
+* Add improved error messages when an invalid cast is attempted
+
+#### 2.0.0-rc1
 
 * Only build for NetStandard 2.0.  (reason for bump to V2)
 * Convert paket to use dotnet tools infrastructure.
