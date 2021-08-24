@@ -1,32 +1,40 @@
-source https://nuget.org/api/v2
+source https://api.nuget.org/v3/index.json
 
-frameworks: net45, netcoreapp2.0, netstandard2.0
+frameworks: netstandard2.0
 
 nuget ExcelDataReader
 nuget ExcelDataReader.DataSet
-nuget FSharp.Core 4.3.4
-nuget NetStandard.Library.NetFramework
+nuget FSharp.Core 4.7.2
+nuget NetStandard.Library
 nuget System.Text.Encoding.CodePages
 
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fsi
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fs
 
 group Build
-  source https://nuget.org/api/v2
-  framework: net45
+  source https://api.nuget.org/v3/index.json
+  frameworks: net5.0, netstandard2.0
+  generate_load_scripts:true
+  nuget Fake.Api.Github
+  nuget Fake.Core.Environment
+  nuget Fake.Core.UserInput
+  nuget Fake.Core.Target
+  nuget Fake.Core.ReleaseNotes
+  nuget Fake.DotNet.AssemblyInfoFile
+  nuget Fake.DotNet.Cli
+  nuget Fake.DotNet.Testing.NUnit
+  nuget Fake.DotNet.Paket
+  nuget Fake.IO.FileSystem
+  nuget Fake.Tools.Git
+  nuget Fantomas.Extras
+  nuget FSharp.Core
+  nuget FSharp.Compiler.Service 39
 
-  nuget FAKE 4.64.13
-  nuget FSharp.Formatting 2.14.4
-
-  github fsharp/FAKE modules/Octokit/Octokit.fsx
 
 group Test
-  source https://nuget.org/api/v2
-  frameworks: net461, netcoreapp2.0
-
-  nuget NUnit 3.6.1
-  nuget NUnit.Console 3.6.1
-  nuget NUnit3TestAdapter 3.7.0 version_in_path: true
-  nuget FSharp.Core 4.3.4
-
-  github fsprojects/FsUnit src/FsUnit.NUnit/FsUnit.fs
+  source https://api.nuget.org/v3/index.json
+  frameworks: net5.0
+  nuget NUnit
+  nuget NUnit.Console
+  nuget NUnit3TestAdapter version_in_path: true
+  nuget FsUnit

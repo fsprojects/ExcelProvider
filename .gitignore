@@ -166,8 +166,11 @@ $RECYCLE.BIN/
 # NuGet Packages Directory
 packages/
 
-# Generated documentation folder
+# Generated documentation items from fsdocs
 docs/output/
+output/
+tmp/
+.fsdocs/
 
 # Temp folder used for publishing docs
 temp/
@@ -190,3 +193,6 @@ docs/tools/FSharp.Formatting.svclog
 
 # Ionide is a plugin for Fsharp for VSCODE
 .ionide/
+
+# IDEA is the extension for Jetbrains IDE's
+/.idea/.idea.ExcelProvider/.idea
