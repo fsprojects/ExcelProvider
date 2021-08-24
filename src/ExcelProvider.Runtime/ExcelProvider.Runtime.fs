@@ -217,9 +217,10 @@ module internal ExcelAddressing =
         view
 
     
-    let failInvalidCast (fromType:Type) (toType:Type) columnName rowIndex filename sheetname =
+    let failInvalidCast fromObj (fromType:Type) (toType:Type) columnName rowIndex filename sheetname =
         sprintf
-            "ExcelProvider: Cannot cast '%s' to '%s'.\nFile: '%s'. Sheet: '%s'\nColumn '%s'. Row %i."
+            "ExcelProvider: Cannot cast '%A' a '%s' to '%s'.\nFile: '%s'. Sheet: '%s'\nColumn '%s'. Row %i."
+            fromObj
             fromType.FullName
             toType.FullName
             filename
@@ -258,13 +259,13 @@ type Row(filename, sheetname, rowIndex, getCellValue: int -> int -> obj, columns
         let value = this.GetValue columnIndex
         try value :?> 'a
         with :? InvalidCastException ->
-            failInvalidCast (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
+            failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
 
     member this.TryGetNullableValue<'a when 'a : (new : unit -> 'a) and 'a : struct and 'a :> ValueType> (columnIndex:int) columnName =
         let value = this.GetValue columnIndex
         try (value :?> Nullable<'a>).GetValueOrDefault()
         with :? InvalidCastException ->
-            failInvalidCast (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
+            failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
 
     override this.ToString() =
         let columnValueList =
