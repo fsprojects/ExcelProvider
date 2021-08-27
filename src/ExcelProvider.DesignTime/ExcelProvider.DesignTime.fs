@@ -3,7 +3,7 @@ module FSharp.Interop.Excel.ExcelProvider.ProviderImplementation
 open System
 open System.Collections.Generic
 open System.IO
-
+open FSharp.Interop.Excel
 open FSharp.Interop.Excel.ExcelProvider
 open Microsoft.FSharp.Core.CompilerServices
 open ProviderImplementation.ProvidedTypes
@@ -102,6 +102,13 @@ module internal Helpers =
     let twoItemsOrFail func items = 
         match items with
         | [ a; b ] -> func a b
+        | _ -> failwith "Expected two item list."
+    
+    // Avoids "warning FS0025: Incomplete pattern matches on this expression"
+    // when using: (fun [row] -> <@@ ... @@>)
+    let threeItemsOrFail func items = 
+        match items with
+        | [ a; b; c ] -> func a b c
         | _ -> failwith "Expected two item list."
 
     // Avoids "warning FS0025: Incomplete pattern matches on this expression"
@@ -224,6 +231,12 @@ type public ExcelProvider(cfg:TypeProviderConfig) as this =
 
              // add a constructor taking the filename and sheetname to load
             providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("filename", typeof<string>); ProvidedParameter("sheetname", typeof<string>)], invokeCode = twoItemsOrFail (fun fileName sheetname -> <@@ ExcelFileInternal(%%fileName, %%sheetname, range, hasheaders) @@>)))
+            
+            // add a constructor taking the stream to load
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("stream", typeof<Stream>); ProvidedParameter("format", typeof<ExcelFormat>)], invokeCode = twoItemsOrFail (fun stream format -> <@@ ExcelFileInternal(%%stream, %%format, sheetname, range, hasheaders) @@>)))
+
+             // add a constructor taking the stream and sheetname to load
+            providedExcelFileType.AddMember(ProvidedConstructor([ProvidedParameter("stream", typeof<Stream>); ProvidedParameter("format", typeof<ExcelFormat>); ProvidedParameter("sheetname", typeof<string>)], invokeCode = threeItemsOrFail (fun stream format sheetname -> <@@ ExcelFileInternal(%%stream, %%format, %%sheetname, range, hasheaders) @@>)))
 
             // add a new, more strongly typed Data property (which uses the existing property at runtime)
             providedExcelFileType.AddMember(ProvidedProperty("Data", typedefof<seq<_>>.MakeGenericType(providedRowType), getterCode = singleItemOrFail (fun excFile -> <@@ (%%excFile:ExcelFileInternal).Data @@>)))

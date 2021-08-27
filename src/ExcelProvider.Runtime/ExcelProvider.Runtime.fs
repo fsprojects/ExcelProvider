@@ -1,13 +1,19 @@
+namespace FSharp.Interop.Excel
+
+type ExcelFormat =
+    | Xlsx
+    | Csv
+    | Binary
+
 namespace FSharp.Interop.Excel.ExcelProvider
 
 open System
-open System.Collections.Generic
 open System.IO
 open System.Data
-open System.Reflection
 open System.Text.RegularExpressions
 open ExcelDataReader
 open FSharp.Core.CompilerServices
+open FSharp.Interop.Excel
 
 [<AutoOpen>]
 module internal ExcelAddressing = 
@@ -216,6 +222,43 @@ module internal ExcelAddressing =
         (excelReader :> IDisposable).Dispose()
         view
 
+    ///Reads the contents of an excel file into a DataSet
+    let public openWorkbookViewFromStream (stream:Stream, format:ExcelFormat) sheetname range =
+
+#if NETSTANDARD || NETCOREAPP
+        // Register encodings
+        do System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance)
+#endif
+        let fail action (ex : exn) =
+            let exceptionTypeName = ex.GetType().Name
+            let message = sprintf "Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+            failwith message
+        
+        let excelReader =        
+            let action = "create ExcelDataReader"
+            try          
+                let reader =  
+                    match format with
+                    | Xlsx -> ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(stream)
+                    | Csv -> ExcelDataReader.ExcelReaderFactory.CreateCsvReader(stream)
+                    | Binary -> ExcelDataReader.ExcelReaderFactory.CreateBinaryReader(stream)
+
+                if reader.IsClosed then fail action (Exception "The reader was closed on startup without raising a specific exception")
+
+                reader
+            with
+            | ex -> fail action ex
+
+        let workbook = excelReader.AsDataSet(new ExcelDataSetConfiguration(ConfigureDataTable = (fun _ -> new ExcelDataTableConfiguration(UseHeaderRow = false))))
+
+        let range =
+            if String.IsNullOrWhiteSpace range
+            then workbook.Tables.[0].TableName
+            else range
+
+        let view = getView workbook sheetname range
+        (excelReader :> IDisposable).Dispose()
+        view
     
     let failInvalidCast fromObj (fromType:Type) (toType:Type) columnName rowIndex filename sheetname =
         sprintf
@@ -240,7 +283,7 @@ module internal ExcelAddressing =
                 yield (processedColumnName, columnIndex)]
 
 // Represents a row in a provided ExcelFileInternal
-type Row(filename, sheetname, rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
+type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, columns: Map<string, int>) =
     member this.GetValue columnIndex = getCellValue rowIndex columnIndex
 
     member this.GetValue columnName =
@@ -259,13 +302,13 @@ type Row(filename, sheetname, rowIndex, getCellValue: int -> int -> obj, columns
         let value = this.GetValue columnIndex
         try value :?> 'a
         with :? InvalidCastException ->
-            failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
+            failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex documentId sheetname
 
     member this.TryGetNullableValue<'a when 'a : (new : unit -> 'a) and 'a : struct and 'a :> ValueType> (columnIndex:int) columnName =
         let value = this.GetValue columnIndex
         try (value :?> Nullable<'a>).GetValueOrDefault()
         with :? InvalidCastException ->
-            failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex filename sheetname
+            failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex documentId sheetname
 
     override this.ToString() =
         let columnValueList =
@@ -278,14 +321,21 @@ type Row(filename, sheetname, rowIndex, getCellValue: int -> int -> obj, columns
         sprintf "Row %d%s%s" rowIndex Environment.NewLine columnValueList
 
 // Simple type wrapping Excel data
-type ExcelFileInternal(filename, sheetname, range, hasheaders) =
+type ExcelFileInternal private (view, documentId, sheetname, hasheaders) =
 
     let data =
-        let view = openWorkbookView filename sheetname range
         let columns = [for (columnName, columnIndex) in getColumnDefinitions view hasheaders -> columnName, columnIndex] |> Map.ofList
-        let buildRow rowIndex = new Row(filename, sheetname, rowIndex, getCellValue view, columns)
+        let buildRow rowIndex = new Row(documentId, sheetname, rowIndex, getCellValue view, columns)
         seq{(if hasheaders then 1 else 0) .. view.RowCount}
         |> Seq.map buildRow
+
+    new (filename, sheetname, range, hasheaders) = 
+        let view = openWorkbookView filename sheetname range
+        ExcelFileInternal(view, filename, sheetname, hasheaders)
+
+    new(stream, format, sheetname, range, hasheaders) = 
+        let view = openWorkbookViewFromStream (stream, format) sheetname range
+        ExcelFileInternal(view, "stream", sheetname, hasheaders)
 
     member __.Data = data
 
