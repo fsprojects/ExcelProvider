@@ -1,7 +1,7 @@
 type file
 id ExcelProvider
 version
-    2.0.0-rc2
+    2.0.0-rc3
 authors
     Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme, Quintus Marais
 owners
@@ -23,8 +23,7 @@ description
 tags
     F# fsharp typeproviders Excel
 releaseNotes
-    Only built for NetStandard 2.0.
-    Fix issue when file locked by another process.
+    Add ability to read from stream not only from file
 
 files
     ../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.* ==> lib/netstandard2.0

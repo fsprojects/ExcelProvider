@@ -1,3 +1,7 @@
+#### 2.0.0-rc3
+
+* Add ability to read from stream instead of file
+
 #### 2.0.0-rc2
 
 * Add improved error messages when an invalid cast is attempted
@@ -13,7 +17,7 @@
 
 Still to be done in modernising the build infrastructure:
 * Update the documentation generation and publishing.
-* Update the publishing of nuget package to Nuget. 
+* Update the publishing of nuget package to Nuget.
 * Update the generation of releases on GitHub.
 
 #### 1.0.1
