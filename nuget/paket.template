@@ -23,8 +23,7 @@ description
 tags
     F# fsharp typeproviders Excel
 releaseNotes
-    Only built for NetStandard 2.0.
-    Fix issue when file locked by another process.
+    Add ability to read from stream not only from file
 
 files
     ../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.* ==> lib/netstandard2.0
