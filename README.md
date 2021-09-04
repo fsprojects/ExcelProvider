@@ -7,6 +7,7 @@ This library is for the .NET platform implementing a Excel type provider. <a hre
 ## Building
 
 * Windows: Run *build.cmd* 
+* Requires dotnet core 5.0 or higher to be installed.
  
 
 ## Maintainer(s)
