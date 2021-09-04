@@ -1,7 +1,7 @@
 type file
 id ExcelProvider
 version
-    2.0.0-rc3
+    2.0.0
 authors
     Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme, Quintus Marais
 owners

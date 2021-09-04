@@ -1,3 +1,8 @@
+#### 2.0.0 
+
+* See the changes for the various release candidates below.
+
+
 #### 2.0.0-rc3
 
 * Add ability to read from stream instead of file
