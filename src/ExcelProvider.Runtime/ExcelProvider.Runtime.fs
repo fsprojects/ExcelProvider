@@ -215,7 +215,7 @@ module internal ExcelAddressing =
 
         let range =
             if String.IsNullOrWhiteSpace range
-            then workbook.Tables.[0].TableName
+            then sheetname //workbook.Tables.[0].TableName <== maybe the root cause of https://github.com/fsprojects/ExcelProvider/issues/77
             else range
 
         let view = getView workbook sheetname range
