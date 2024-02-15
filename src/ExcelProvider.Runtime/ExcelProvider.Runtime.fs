@@ -127,7 +127,9 @@ module internal ExcelAddressing =
         let workSheetName = 
             if worksheets.Contains sheetname 
             then sheetname
-            else worksheets.[0].TableName
+            else 
+                //worksheets.[0].TableName
+                failwithf "Sheet [%s] not existed." sheetname
 
         let ranges = 
             parseExcelRanges workSheetName range
@@ -253,7 +255,7 @@ module internal ExcelAddressing =
 
         let range =
             if String.IsNullOrWhiteSpace range
-            then workbook.Tables.[0].TableName
+            then sheetname //workbook.Tables.[0].TableName
             else range
 
         let view = getView workbook sheetname range
