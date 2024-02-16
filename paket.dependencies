@@ -4,8 +4,8 @@ frameworks: netstandard2.0
 
 nuget ExcelDataReader.DataSet 3.6
 nuget FSharp.Core 6.0.7
-nuget NetStandard.Library 2.0.3
-nuget Microsoft.NETCore.Platforms 6.0.11
+nuget NetStandard.Library
+nuget Microsoft.NETCore.Platforms
 nuget System.Text.Encoding.CodePages 5.0
 nuget System.Runtime.CompilerServices.Unsafe 5.0
 
