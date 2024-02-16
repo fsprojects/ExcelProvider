@@ -747,14 +747,10 @@ RESTRICTION: == net6.0
 NUGET
   remote: https://api.nuget.org/v3/index.json
     FSharp.Core (8.0.200)
-    FsUnit (5.6.1)
+    FsUnit (6.0)
       FSharp.Core (>= 5.0.2)
-      NUnit (>= 3.14 < 4.0)
-    Microsoft.NETCore.Platforms (7.0.4)
-    NETStandard.Library (2.0.3)
-      Microsoft.NETCore.Platforms (>= 1.1)
-    NUnit (3.14)
-      NETStandard.Library (>= 2.0)
+      NUnit (>= 4.0.1)
+    NUnit (4.0.1)
     NUnit.Console (3.17)
       NUnit.ConsoleRunner (>= 3.17)
       NUnit.Extension.NUnitProjectLoader (>= 3.6)
@@ -768,4 +764,4 @@ NUGET
     NUnit.Extension.NUnitV2ResultWriter (3.7)
     NUnit.Extension.TeamCityEventListener (1.0.9)
     NUnit.Extension.VSProjectLoader (3.9)
-    NUnit3TestAdapter (4.5)
+    NUnit3TestAdapter (4.5.0) - version_in_path: true
