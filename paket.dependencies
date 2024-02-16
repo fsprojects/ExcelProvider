@@ -27,10 +27,7 @@ group Build
   nuget Fake.DotNet.Paket 6.0.0
   nuget Fake.IO.FileSystem 6.0.0
   nuget Fake.Tools.Git 6.0.0
-  nuget Fantomas 4.5.2
-  nuget Fantomas.Extras 4.5.2
   nuget FSharp.Compiler.Service 41.0.7
-  nuget EditorConfig 0.12.2
   nuget Microsoft.Build 17.3.2
   nuget Microsoft.Build.Framework 17.3.2
   nuget Microsoft.Build.Tasks.Core 17.3.2
