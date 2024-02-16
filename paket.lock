@@ -13,8 +13,8 @@ NUGET
       System.Runtime.CompilerServices.Unsafe (>= 5.0)
 GITHUB
   remote: fsprojects/FSharp.TypeProviders.SDK
-    src/ProvidedTypes.fs (f4aca36af04aa84b16ec04df6f6bf55ac2f17a73)
-    src/ProvidedTypes.fsi (f4aca36af04aa84b16ec04df6f6bf55ac2f17a73)
+    src/ProvidedTypes.fs (6149ed507f15caa68a475808bcf5b3c2f52a4d34)
+    src/ProvidedTypes.fsi (6149ed507f15caa68a475808bcf5b3c2f52a4d34)
 GROUP Build
 GENERATE-LOAD-SCRIPTS: ON
 RESTRICTION: || (== net6.0) (== netstandard2.0)
