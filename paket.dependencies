@@ -2,11 +2,10 @@ source https://api.nuget.org/v3/index.json
 
 frameworks: netstandard2.0
 
-nuget ExcelDataReader 3.6
 nuget ExcelDataReader.DataSet 3.6
-nuget FSharp.Core 4.7.2
+nuget FSharp.Core 6.0.7
 nuget NetStandard.Library 2.0.3
-nuget Microsoft.NETCore.Platforms 5.0.2
+nuget Microsoft.NETCore.Platforms 6.0.11
 nuget System.Text.Encoding.CodePages 5.0
 nuget System.Runtime.CompilerServices.Unsafe 5.0
 
@@ -15,33 +14,32 @@ github fsprojects/FSharp.TypeProviders.SDK:f4aca36af04aa84b16ec04df6f6bf55ac2f17
 
 group Build
   source https://api.nuget.org/v3/index.json
-  frameworks: net5.0, netstandard2.0
+  frameworks: net6.0, netstandard2.0
   generate_load_scripts:true
-  nuget Fake.Api.Github 5.20.4
-  nuget Fake.Core.Environment 5.20.4
-  nuget Fake.Core.UserInput 5.20.4
-  nuget Fake.Core.Target 5.20.4
-  nuget Fake.Core.ReleaseNotes 5.20.4
-  nuget Fake.DotNet.AssemblyInfoFile 5.20.4
-  nuget Fake.DotNet.Cli 5.20.4
-  nuget Fake.DotNet.Testing.NUnit 5.20.4
-  nuget Fake.DotNet.Paket 5.20.4
-  nuget Fake.IO.FileSystem 5.20.4
-  nuget Fake.Tools.Git 5.20.4
+  nuget Fake.Api.Github 6.0.0
+  nuget Fake.Core.Environment 6.0.0
+  nuget Fake.Core.UserInput 6.0.0
+  nuget Fake.Core.Target 6.0.0
+  nuget Fake.Core.ReleaseNotes 6.0.0
+  nuget Fake.DotNet.AssemblyInfoFile 6.0.0
+  nuget Fake.DotNet.Cli 6.0.0
+  nuget Fake.DotNet.Testing.NUnit 6.0.0
+  nuget Fake.DotNet.Paket 6.0.0
+  nuget Fake.IO.FileSystem 6.0.0
+  nuget Fake.Tools.Git 6.0.0
   nuget Fantomas 4.5.2
   nuget Fantomas.Extras 4.5.2
-  nuget FSharp.Core 5.0.1
-  nuget FSharp.Compiler.Service 39
+  nuget FSharp.Compiler.Service 41.0.7
   nuget EditorConfig 0.12.2
-  nuget Microsoft.Build 16.11
-  nuget Microsoft.Build.Framework 16.11
-  nuget Microsoft.Build.Tasks.Core 16.11
+  nuget Microsoft.Build 17.3.2
+  nuget Microsoft.Build.Framework 17.3.2
+  nuget Microsoft.Build.Tasks.Core 17.3.2
 
 
 group Test
   source https://api.nuget.org/v3/index.json
-  frameworks: net5.0
-  nuget NUnit 3.13.2
-  nuget NUnit.Console 3.12
-  nuget NUnit3TestAdapter version_in_path: true 4.0.0
-  nuget FsUnit 4.0.6
+  frameworks: net6.0
+  nuget NUnit 3.14.0
+  nuget NUnit.Console 3.17.0
+  nuget NUnit3TestAdapter version_in_path: true 4.5.0
+  nuget FsUnit 5.6.1
