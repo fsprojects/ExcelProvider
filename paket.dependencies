@@ -5,7 +5,6 @@ frameworks: netstandard2.0
 nuget ExcelDataReader.DataSet
 nuget FSharp.Core 6.0.7
 nuget NetStandard.Library
-nuget Microsoft.NETCore.Platforms
 nuget System.Text.Encoding.CodePages
 nuget System.Runtime.CompilerServices.Unsafe 5.0
 
@@ -27,7 +26,7 @@ group Build
   nuget Fake.DotNet.Paket
   nuget Fake.IO.FileSystem
   nuget Fake.Tools.Git
-  nuget FSharp.Compiler.Service 
+  nuget FSharp.Compiler.Service
   nuget Microsoft.Build 17.3.2
   nuget Microsoft.Build.Framework 17.3.2
   nuget Microsoft.Build.Tasks.Core 17.3.2
