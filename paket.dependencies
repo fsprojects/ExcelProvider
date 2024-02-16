@@ -16,17 +16,17 @@ group Build
   source https://api.nuget.org/v3/index.json
   frameworks: net6.0, netstandard2.0
   generate_load_scripts:true
-  nuget Fake.Api.Github 6.0.0
-  nuget Fake.Core.Environment 6.0.0
-  nuget Fake.Core.UserInput 6.0.0
-  nuget Fake.Core.Target 6.0.0
-  nuget Fake.Core.ReleaseNotes 6.0.0
-  nuget Fake.DotNet.AssemblyInfoFile 6.0.0
-  nuget Fake.DotNet.Cli 6.0.0
-  nuget Fake.DotNet.Testing.NUnit 6.0.0
-  nuget Fake.DotNet.Paket 6.0.0
-  nuget Fake.IO.FileSystem 6.0.0
-  nuget Fake.Tools.Git 6.0.0
+  nuget Fake.Api.Github
+  nuget Fake.Core.Environment
+  nuget Fake.Core.UserInput
+  nuget Fake.Core.Target
+  nuget Fake.Core.ReleaseNotes
+  nuget Fake.DotNet.AssemblyInfoFile
+  nuget Fake.DotNet.Cli
+  nuget Fake.DotNet.Testing.NUnit
+  nuget Fake.DotNet.Paket
+  nuget Fake.IO.FileSystem
+  nuget Fake.Tools.Git
   nuget FSharp.Compiler.Service 41.0.7
   nuget Microsoft.Build 17.3.2
   nuget Microsoft.Build.Framework 17.3.2
