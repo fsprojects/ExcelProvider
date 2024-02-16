@@ -2,11 +2,11 @@ source https://api.nuget.org/v3/index.json
 
 frameworks: netstandard2.0
 
-nuget ExcelDataReader.DataSet 3.6
+nuget ExcelDataReader.DataSet
 nuget FSharp.Core 6.0.7
 nuget NetStandard.Library
 nuget Microsoft.NETCore.Platforms
-nuget System.Text.Encoding.CodePages 5.0
+nuget System.Text.Encoding.CodePages
 nuget System.Runtime.CompilerServices.Unsafe 5.0
 
 github fsprojects/FSharp.TypeProviders.SDK:f4aca36af04aa84b16ec04df6f6bf55ac2f17a73 src/ProvidedTypes.fsi
