@@ -1,4 +1,6 @@
+FSharp.Core
 group Test
 NUnit
-FSharp.Core
+NUnit.Console
+NUnit3TestAdapter
 FsUnit

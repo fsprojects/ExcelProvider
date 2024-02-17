@@ -2,18 +2,17 @@ source https://api.nuget.org/v3/index.json
 
 frameworks: netstandard2.0
 
-nuget ExcelDataReader
 nuget ExcelDataReader.DataSet
-nuget FSharp.Core 4.7.2
+nuget FSharp.Core 6.0.7
 nuget NetStandard.Library
-nuget System.Text.Encoding.CodePages
+nuget System.Text.Encoding.CodePages 6.0.0
 
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fsi
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fs
 
 group Build
   source https://api.nuget.org/v3/index.json
-  frameworks: net5.0, netstandard2.0
+  frameworks: net6.0, netstandard2.0
   generate_load_scripts:true
   nuget Fake.Api.Github
   nuget Fake.Core.Environment
@@ -26,14 +25,15 @@ group Build
   nuget Fake.DotNet.Paket
   nuget Fake.IO.FileSystem
   nuget Fake.Tools.Git
-  nuget Fantomas.Extras
-  nuget FSharp.Core
-  nuget FSharp.Compiler.Service 39
+  nuget FSharp.Compiler.Service
+  nuget Microsoft.Build 17.3.2
+  nuget Microsoft.Build.Framework 17.3.2
+  nuget Microsoft.Build.Tasks.Core 17.3.2
 
 
 group Test
   source https://api.nuget.org/v3/index.json
-  frameworks: net5.0
+  frameworks: net6.0
   nuget NUnit
   nuget NUnit.Console
   nuget NUnit3TestAdapter version_in_path: true

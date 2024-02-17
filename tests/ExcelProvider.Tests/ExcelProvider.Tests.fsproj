@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net5.0;</TargetFrameworks>
+        <TargetFrameworks>net6.0;</TargetFrameworks>
         <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
@@ -33,8 +33,6 @@
         <None Include="paket.references" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
         <ProjectReference Include="..\..\src\ExcelProvider.Runtime\ExcelProvider.Runtime.fsproj">
             <Name>ExcelProvider.Runtime</Name>
             <Project>{7e90d6ce-a10b-4858-a5bc-41df7250cbca}</Project>
