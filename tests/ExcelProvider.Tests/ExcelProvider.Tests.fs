@@ -8,6 +8,42 @@ open System
 open System.Collections.Generic
 open System.IO
 
+open FSharp.Compiler.Interactive.Shell
+open FSharp.Compiler.Tokenization
+
+module FsiTestContext =
+    open System.Text
+
+    // Initialize output and input streams
+    let sbOut = new StringBuilder()
+    let sbErr = new StringBuilder()
+    let inStream = new StringReader("")
+    let outStream = new StringWriter(sbOut)
+    let errStream = new StringWriter(sbErr)
+
+    // Build command line arguments & start FSI session
+    let argv = [| "C:\\fsi.exe" |]
+
+    let fi = 
+        
+#if DEBUG
+        FileInfo (__SOURCE_DIRECTORY__ + "/../../src/ExcelProvider.Runtime/bin/Debug/netstandard2.0/ExcelProvider.Runtime.dll")
+#else
+        FileInfo (__SOURCE_DIRECTORY__ + "/../../src/ExcelProvider.Runtime/bin/Release/netstandard2.0/ExcelProvider.Runtime.dll")
+
+#endif
+    let allArgs = Array.append argv [| "--noninteractive"; $"-r:{fi.FullName}" |]
+        
+    let fsiConfig =
+        FsiEvaluationSession.GetDefaultConfiguration()
+
+    let fsiSession =
+        FsiEvaluationSession.Create(fsiConfig, allArgs, inStream, outStream, errStream)
+
+
+    //let a = 123
+
+
 type BookTest = ExcelFile<"BookTest.xls", "Sheet1", ForceString=true>
 type HeaderTest = ExcelFile<"BookTestWithHeader.xls", Range="A2", ForceString=true>
 type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", Range="A1:C5,E3:G5", ForceString=true>
@@ -21,6 +57,7 @@ type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
+//type MultipleSheetsThird = ExcelFile<"MultipleSheets.xlsx", "C">
 type MultipleSheetsSecondRange = ExcelFile<"MultipleSheets.xlsx", "B", "A2">
 
 [<Test>]
@@ -256,6 +293,38 @@ let ``Can load from multiple sheets - second``() =
 
     rows.[1].Fourth |> should equal 3.2
     rows.[1].Fifth |> should equal (new DateTime(2013,2,1))
+
+[<Test>]
+let ``Can load data with schema B from specified file and specified sheetname (invalid type data should throw exception)``() =
+    let file = MultipleSheetsSecond(__SOURCE_DIRECTORY__ + "/MultipleSheets.xlsx", "A")
+    let rows = file.Data |> Seq.toArray
+
+    rows.[0].Fourth |> should equal 1.0
+    try
+        let _ = rows.[0].Fifth 
+        ()
+    with
+    | exn ->
+        exn.Message.Split("\n")[0] |> should equal "ExcelProvider: Cannot cast 'false' a 'System.Boolean' to 'System.DateTime'."
+    
+
+[<Test>]
+let ``A sheet not existed shoule not be loadable``() =
+    //printfn "__SOURCE_DIRECTORY__ %s" __SOURCE_DIRECTORY__
+    let multiSheet = __SOURCE_DIRECTORY__.Replace(@"\", "/") + "/MultipleSheets.xlsx"
+    let result, diag =
+        FsiTestContext.fsiSession.EvalInteractionNonThrowing $"""
+        open FSharp.Interop.Excel
+        type MultipleSheetsThird = ExcelFile<"{multiSheet}", "C">
+        //let file = MultipleSheetsThird()
+        ()
+        """
+    //match result with
+    //| Choice1Of2 v -> printfn "1 %A" v
+    //| Choice2Of2 v -> printfn "2 %A" v
+    //printfn "%A" diag
+    diag[0].ToString() |> should equal "input.fsx (3,36)-(3,119) typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: Sheet [C] not existed."
+    
 
 [<Test>]
 let ``Can load from multiple sheets with range``() =

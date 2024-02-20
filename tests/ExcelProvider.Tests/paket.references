@@ -1,4 +1,6 @@
 FSharp.Core
+Microsoft.NET.Test.Sdk
+FSharp.Compiler.Service
 group Test
 NUnit
 NUnit.Console
