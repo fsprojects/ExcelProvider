@@ -302,7 +302,7 @@ let ``Can load data with schema B from specified file and specified sheetname (i
     rows.[0].Fourth |> should equal 1.0
     try
         let _ = rows.[0].Fifth 
-        ()
+        failwith "should not run to here."
     with
     | exn ->
         exn.Message.Split("\n")[0] |> should equal "ExcelProvider: Cannot cast 'false' a 'System.Boolean' to 'System.DateTime'."
