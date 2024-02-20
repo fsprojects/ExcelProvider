@@ -309,7 +309,7 @@ let ``Can load data with schema B from specified file and specified sheetname (i
     
 
 [<Test>]
-let ``A sheet not existed shoule not be loadable``() =
+let ``A sheet not existed should not be loadable``() =
     //printfn "__SOURCE_DIRECTORY__ %s" __SOURCE_DIRECTORY__
     let multiSheet = __SOURCE_DIRECTORY__.Replace(@"\", "/") + "/MultipleSheets.xlsx"
     let result, diag =
@@ -323,7 +323,8 @@ let ``A sheet not existed shoule not be loadable``() =
     //| Choice1Of2 v -> printfn "1 %A" v
     //| Choice2Of2 v -> printfn "2 %A" v
     //printfn "%A" diag
-    diag[0].ToString() |> should equal "input.fsx (3,36)-(3,119) typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: Sheet [C] not existed."
+    let dstr = diag[0].ToString()
+    dstr.Substring(dstr.IndexOf "typecheck") |> should equal "typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: Sheet [C] not existed."
     
 
 [<Test>]

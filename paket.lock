@@ -13,7 +13,7 @@ NUGET
       System.Reflection.Emit (>= 4.7)
       System.Reflection.Metadata (>= 7.0)
       System.Runtime.CompilerServices.Unsafe (>= 6.0)
-    FSharp.Core (8.0.200)
+    FSharp.Core (6.0.7)
     Microsoft.NET.Test.Sdk (17.9)
     Microsoft.NETCore.Platforms (7.0.4)
     NETStandard.Library (2.0.3)
