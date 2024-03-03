@@ -131,7 +131,7 @@ module internal ExcelAddressing =
                 if sheetname = null || sheetname = "" then
                     worksheets.[0].TableName //accept TypeProvider without specific SheetName...
                 else
-                    failwithf "Sheet [%s] not existed." sheetname
+                    failwithf "Sheet [%s] does not exist." sheetname
 
         let ranges = 
             parseExcelRanges workSheetName range
