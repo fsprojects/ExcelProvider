@@ -54,10 +54,8 @@ type DataTypesHeaderFalse = ExcelFile<"DataTypes.xlsx", HasHeaders=false, ForceS
 type DataTypesNoHeader = ExcelFile<"DataTypesNoHeader.xlsx", HasHeaders=false>
 type CaseInsensitive = ExcelFile<"DataTypes.XLSX">
 type MultiLine = ExcelFile<"MultilineHeader.xlsx">
-
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
-//type MultipleSheetsThird = ExcelFile<"MultipleSheets.xlsx", "C">
 type MultipleSheetsSecondRange = ExcelFile<"MultipleSheets.xlsx", "B", "A2">
 
 [<Test>]
@@ -309,7 +307,8 @@ let ``Can load data with schema B from specified file and specified sheetname (i
     
 
 [<Test>]
-let ``A sheet not existed should not be loadable``() =
+let ``Cannot create a type referring to a non-existant sheet at runtime``() =
+    // This test is testing runtime behavior, so we need to use the FSI session to run the code
     //printfn "__SOURCE_DIRECTORY__ %s" __SOURCE_DIRECTORY__
     let multiSheet = __SOURCE_DIRECTORY__.Replace(@"\", "/") + "/MultipleSheets.xlsx"
     let result, diag =
