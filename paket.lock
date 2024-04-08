@@ -1230,7 +1230,7 @@ NUGET
       System.Text.Encoding (>= 4.3)
     System.Text.Encodings.Web (8.0) - restriction: || (== net6.0) (&& (== netstandard2.0) (>= net472)) (&& (== netstandard2.0) (>= net6.0))
       System.Runtime.CompilerServices.Unsafe (>= 6.0)
-    System.Text.Json (8.0.2)
+    System.Text.Json (8.0.3)
       System.Runtime.CompilerServices.Unsafe (>= 6.0)
       System.Text.Encodings.Web (>= 8.0)
     System.Threading (4.3)
