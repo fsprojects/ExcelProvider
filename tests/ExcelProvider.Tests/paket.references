@@ -1,5 +1,7 @@
 FSharp.Core
 group Test
+Microsoft.NET.Test.Sdk
+FSharp.Compiler.Service
 NUnit
 NUnit.Console
 NUnit3TestAdapter

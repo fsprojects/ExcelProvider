@@ -127,7 +127,11 @@ module internal ExcelAddressing =
         let workSheetName = 
             if worksheets.Contains sheetname 
             then sheetname
-            else worksheets.[0].TableName
+            else 
+                if sheetname = null || sheetname = "" then
+                    worksheets.[0].TableName //accept TypeProvider without specific SheetName...
+                else
+                    failwithf "Sheet [%s] does not exist." sheetname
 
         let ranges = 
             parseExcelRanges workSheetName range
@@ -215,7 +219,7 @@ module internal ExcelAddressing =
 
         let range =
             if String.IsNullOrWhiteSpace range
-            then workbook.Tables.[0].TableName
+            then sheetname //workbook.Tables.[0].TableName <== maybe the root cause of https://github.com/fsprojects/ExcelProvider/issues/77
             else range
 
         let view = getView workbook sheetname range
@@ -253,7 +257,7 @@ module internal ExcelAddressing =
 
         let range =
             if String.IsNullOrWhiteSpace range
-            then workbook.Tables.[0].TableName
+            then sheetname //workbook.Tables.[0].TableName <== maybe the root cause of https://github.com/fsprojects/ExcelProvider/issues/77
             else range
 
         let view = getView workbook sheetname range
