@@ -3,7 +3,6 @@ source https://api.nuget.org/v3/index.json
 frameworks: netstandard2.0
 
 nuget ExcelDataReader.DataSet
-nuget FSharp.Compiler.Service
 nuget FSharp.Core 6.0.7
 nuget NetStandard.Library
 nuget Microsoft.NET.Test.Sdk
