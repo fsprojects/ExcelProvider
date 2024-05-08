@@ -1,3 +1,8 @@
+#### 2.1.0-rc2
+
+* Remove included System.Runtime.CompilerServices and related packages that somehow got included in the nuget package
+
+
 #### 2.1.0-rc1
 
 * Fix issue [#77](https://github.com/fsprojects/ExcelProvider/issues/77).  The type provider will no longer revert to the first sheet if the sheet name is not provided. Instead, it will throw an exception.

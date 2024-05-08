@@ -2,6 +2,5 @@ FSharp.Core
 ExcelDataReader
 ExcelDataReader.DataSet
 System.Text.Encoding.CodePages restriction: == netstandard2.0
-FSharp.Compiler.Service
 File:ProvidedTypes.fsi
 File:ProvidedTypes.fs
