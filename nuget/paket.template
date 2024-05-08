@@ -1,11 +1,11 @@
 type file
 id ExcelProvider
 version
-    2.0.0
+    2.1.0-rc1
 authors
-    Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme, Quintus Marais
+    Contributors on Github
 owners
-    Steffen Forkmann, Gustavo Guerra, JohnDoeKyrgyz, Don Syme, Quintus Marais
+    sforkmann, JohnDoeKyrgyz, fsprojects, qmarais
 projectUrl
     http://github.com/fsprojects/ExcelProvider
 iconUrl
@@ -17,13 +17,14 @@ requireLicenseAcceptance
 tags
     F# fsharp typeproviders Excel
 summary
-    This library implements an Excel type provider for Net Standard 2.0.
+    This library implements a read-only Excel type provider for Net Standard 2.0.
 description
-    This library implements an Excel type provider for Net Standard 2.0.
+    Generate typed read-only access for a sheet in an Excel workbook containing data in columns
 tags
     F# fsharp typeproviders Excel
 releaseNotes
-    Add ability to read from stream not only from file
+    Fix issue #77. No longer defaults to first sheet in workbook when the requested sheet name does not exist.
+
 
 files
     ../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.* ==> lib/netstandard2.0

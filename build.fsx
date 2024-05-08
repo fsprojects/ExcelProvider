@@ -39,17 +39,8 @@ let project = "ExcelProvider"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "This library is for the .NET platform implementing a Excel type provider."
+let summary = "This library implements a read-only Excel type provider for Net Standard 2.0."
 
-//// Longer description of the project
-//// (used as a description for NuGet package; line breaks are automatically cleaned up)
-//let description = "This library is for the .NET platform implementing a Excel type provider."
-
-//// List of author names (for NuGet package)
-//let authors = [ "Steffen Forkmann"; "Gustavo Guerra"; "JohnDoeKyrgyz"; "Don Syme" ]
-
-//// Tags for your project (for NuGet package)
-//let tags = "F# fsharp typeproviders Excel"
 
 //// Git configuration (used for publishing documentation in gh-pages branch)
 //// The profile where the project is posted
@@ -71,10 +62,6 @@ Trace.log $"Value of getSdkPath = %A{getSdkPath}"
 //let exec p args =
 //    printfn "Executing %s %s" p args
 //    Shell.Exec(p, args) |> function 0 -> () | d -> failwithf "%s %s exited with error %d" p args d
-
-// --------------------------------------------------------------------------------------
-// END TODO: The rest of the file includes standard build steps
-// --------------------------------------------------------------------------------------
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.load "RELEASE_NOTES.md"
