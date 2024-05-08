@@ -378,7 +378,7 @@ Target.create "All" ignore
 
 "Clean"
 ==> "AssemblyInfo"
-==> "CheckFormat"
+==> "Format"
 ==> "Build"
 ==> "RunTests"
 ==> "CopyBinaries"
