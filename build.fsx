@@ -39,7 +39,8 @@ let project = "ExcelProvider"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "This library implements a read-only Excel type provider for Net Standard 2.0."
+let summary =
+    "This library implements a read-only Excel type provider for Net Standard 2.0."
 
 
 //// Git configuration (used for publishing documentation in gh-pages branch)
@@ -67,10 +68,10 @@ Trace.log $"Value of getSdkPath = %A{getSdkPath}"
 let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
 // Helper active pattern for project types
-let (|Fsproj|) (projFileName:string) =
+let (|Fsproj|) (projFileName: string) =
     match projFileName with
     | f when f.EndsWith("fsproj") -> Fsproj
-    | _                           -> failwith (sprintf "Project file %s not supported. Unknown project type." projFileName)
+    | _ -> failwith (sprintf "Project file %s not supported. Unknown project type." projFileName)
 
 // Generate assembly info files with the right version & up-to-date information
 Target.create "AssemblyInfo" (fun _ ->
@@ -83,9 +84,8 @@ Target.create "AssemblyInfo" (fun _ ->
           AssemblyInfo.Version release.AssemblyVersion
           AssemblyInfo.FileVersion release.AssemblyVersion ]
 
-    let getProjectDetails (projectPath:string) =
-        let projectName =
-            Path.GetFileNameWithoutExtension(projectPath)
+    let getProjectDetails (projectPath: string) =
+        let projectName = Path.GetFileNameWithoutExtension(projectPath)
 
         let directoryName = Path.GetDirectoryName(projectPath)
         let assemblyInfoAttributes = getAssemblyInfoAttributes projectName
@@ -104,15 +104,12 @@ Target.create "AssemblyInfo" (fun _ ->
 // src folder to support multiple project outputs
 Target.create "CopyBinaries" (fun _ ->
     Trace.log "-- Copy binaries to desired location"
-    !! "src/**/*.??proj"
-    -- "src/**/*.shproj"
-    |> Seq.map (fun f ->
-        (
-         let source =
-             (Path.GetDirectoryName f) </> "bin/Release"
 
-         let target =
-             "bin" </> (Path.GetFileNameWithoutExtension f)
+    !! "src/**/*.??proj" -- "src/**/*.shproj"
+    |> Seq.map (fun f ->
+        (let source = (Path.GetDirectoryName f) </> "bin/Release"
+
+         let target = "bin" </> (Path.GetFileNameWithoutExtension f)
 
          source, target))
     |> Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true)))
@@ -122,6 +119,7 @@ Target.create "CopyBinaries" (fun _ ->
 // Clean build results
 Target.create "Clean" (fun _ ->
     Trace.log "--Cleaning various directories"
+
     !! "bin"
     ++ "temp"
     ++ "tmp"
@@ -147,7 +145,7 @@ Target.create "Build" (fun _ ->
 
     let setParams (p: DotNet.BuildOptions) =
         { p with
-                Configuration = DotNet.BuildConfiguration.Release }
+            Configuration = DotNet.BuildConfiguration.Release }
 
     DotNet.build setParams "ExcelProvider.sln")
 
@@ -156,11 +154,12 @@ Target.create "Build" (fun _ ->
 // Run the unit tests using test runner
 Target.create "RunTests" (fun _ ->
     Trace.log "-- Run the unit tests using test runner"
-    let testProj =
-        "./tests/ExcelProvider.Tests/ExcelProvider.Tests.fsproj"
+    let testProj = "./tests/ExcelProvider.Tests/ExcelProvider.Tests.fsproj"
+
     let testOptions (defaults: DotNet.TestOptions) =
         { defaults with
-              Configuration = DotNet.BuildConfiguration.Release }
+            Configuration = DotNet.BuildConfiguration.Release }
+
     DotNet.test testOptions testProj)
 
 // --------------------------------------------------------------------------------------
@@ -168,10 +167,12 @@ Target.create "RunTests" (fun _ ->
 Target.create "Nuget" (fun _ ->
     Trace.log "--Create the Nuget package using Paket pack"
     let inline dotnetSimple arg = DotNet.Options.lift install.Value arg
-    let exitCode = DotNet.exec dotnetSimple "paket" "pack --template ./nuget/paket.template ./bin"
-    if not exitCode.OK  then
-        failwithf "Process exit code '%d' <> 0. " exitCode.ExitCode
-    )
+
+    let exitCode =
+        DotNet.exec dotnetSimple "paket" "pack --template ./nuget/paket.template ./bin"
+
+    if not exitCode.OK then
+        failwithf "Process exit code '%d' <> 0. " exitCode.ExitCode)
 
 //Target "PublishNuget" (fun _ ->
 //    Paket.Push(fun p ->
@@ -334,6 +335,40 @@ Target.create "Nuget" (fun _ ->
 //    |> Async.RunSynchronously
 //)
 
+
+let sourceFiles =
+    !! "src/**/*.fs" ++ "src/**/*.fsi" ++ "build.fsx"
+    -- "src/**/obj/**/*.fs"
+    -- "src/AssemblyInfo*.fs"
+
+Target.create "Format" (fun _ ->
+    let result =
+        sourceFiles
+        |> Seq.map (sprintf "\"%s\"")
+        |> String.concat " "
+        |> DotNet.exec id "fantomas"
+
+    if not result.OK then
+        printfn "Errors while formatting all files: %A" result.Messages)
+
+Target.create "CheckFormat" (fun _ ->
+    let result =
+        sourceFiles
+        |> Seq.map (sprintf "\"%s\"")
+        |> String.concat " "
+        |> sprintf "%s --check"
+        |> DotNet.exec id "fantomas"
+
+    if result.ExitCode = 0 then
+        Trace.log "No files need formatting"
+    elif result.ExitCode = 99 then
+        failwith "Some files need formatting, run `dotnet fake build -t Format` to format them"
+    else
+        Trace.logf "Errors while formatting: %A" result.Errors
+        failwith "Unknown errors while formatting")
+
+
+
 Target.create "BuildPackage" ignore
 
 //// --------------------------------------------------------------------------------------
@@ -342,18 +377,17 @@ Target.create "BuildPackage" ignore
 Target.create "All" ignore
 
 "Clean"
-    ==> "AssemblyInfo"
-    ==> "Build"
-    ==> "RunTests"
-    ==> "CopyBinaries"
+==> "AssemblyInfo"
+==> "Format"
+==> "Build"
+==> "RunTests"
+==> "CopyBinaries"
 //  ==> "GenerateReferenceDocs"
 //  ==> "GenerateDocs"
-    ==> "All"
+==> "All"
 //  =?> ("ReleaseDocs",isLocalBuild)
 
-"All"
-  ==> "NuGet"
-  ==> "BuildPackage"
+"All" ==> "NuGet" ==> "BuildPackage"
 
 //"CleanDocs"
 //  ==> "GenerateHelp"
