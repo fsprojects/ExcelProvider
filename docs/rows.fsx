@@ -7,9 +7,9 @@ index: 3
 ---
 *)
 
-
 (*** hide ***)
-#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+#r "nuget: ExcelProvider"
+
 
 (**
 Accessing Rows
@@ -26,8 +26,7 @@ This example demonstrates loading the second row (with index 1) into the variabl
 
 *)
 
-// reference the type provider dll
-#r "ExcelProvider.Runtime.dll"
+// reference the type provider
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work

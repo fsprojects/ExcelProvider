@@ -9,7 +9,8 @@ index: 5
 
 
 (*** hide ***)
-#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+#r "nuget: ExcelProvider"
+
 
 (**
 Accessing Ranges
@@ -29,8 +30,7 @@ This example demonstrates referencing multiple ranges:
 
 *)
 
-// reference the type provider dll
-#r "ExcelProvider.dll"
+// reference the type provider
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work

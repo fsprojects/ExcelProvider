@@ -6,10 +6,8 @@ categoryindex: 2
 index: 2
 ---
 *)
-
-
 (*** hide ***)
-#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+#r "nuget: ExcelProvider"
 
 
 (**
@@ -29,8 +27,7 @@ This example demonstrates referencing the second sheet (with name `B`):
 
 *)
 
-// reference the type provider dll
-#r "ExcelProvider.Runtime.dll"
+// reference the type provider
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work
