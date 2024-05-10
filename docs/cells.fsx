@@ -1,5 +1,15 @@
+(**
+---
+title: Accessing Cells
+category: Documentation
+categoryindex: 2
+index: 4
+---
+*)
+
+
 (*** hide ***)
-#I "../../bin/ExcelProvider"
+#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
 
 (**
 Accessing Cells
@@ -11,7 +21,7 @@ To access a particular cell you need to access the relevant row and use the fiel
 Example
 -------
 
-![alt text](img/MultSheets.png "Excel sample file with multiple sheets")
+![alt text](images/MultSheets.png "Excel sample file with multiple sheets")
 
 This example demonstrates referencing the first column (with name `Fourth`) on row 4:
 

@@ -1,5 +1,16 @@
+(**
+---
+title: Accessing Sheets
+category: Documentation
+categoryindex: 2
+index: 2
+---
+*)
+
+
 (*** hide ***)
-#I "../../bin/ExcelProvider"
+#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+
 
 (**
 Accessing Sheets
@@ -12,14 +23,14 @@ If you do not include a second parameter then the first sheet in the workbook is
 Example
 -------
 
-![alt text](img/MultSheets.png "Excel sample file with multiple sheets")
+![alt text](images/MultSheets.png "Excel sample file with multiple sheets")
 
 This example demonstrates referencing the second sheet (with name `B`):
 
 *)
 
 // reference the type provider dll
-#r "ExcelProvider.dll"
+#r "ExcelProvider.Runtime.dll"
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work

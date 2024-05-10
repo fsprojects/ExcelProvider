@@ -1,5 +1,15 @@
+(**
+---
+title: Accessing Ranges
+category: Documentation
+categoryindex: 2
+index: 5
+---
+*)
+
+
 (*** hide ***)
-#I "../../bin/ExcelProvider"
+#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
 
 (**
 Accessing Ranges
@@ -13,7 +23,7 @@ You can either specify this as the second parameter or the named `Range` paramet
 Example
 -------
 
-![alt text](img/Excel.png "Excel sample file with multiple ranges")
+![alt text](images/Excel.png "Excel sample file with multiple ranges")
 
 This example demonstrates referencing multiple ranges:
 

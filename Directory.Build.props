@@ -1,0 +1,9 @@
+<Project>
+<PropertyGroup>
+    <RepositoryUrl>https://github.com/fsprojects/ExcelProvider</RepositoryUrl>
+    <FsDocsLicenseLink>https://github.com/fsprojects/ExcelProvider/blob/master/LICENSE.txt</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://github.com/fsprojects/ExcelProvider/blob/master/RELEASE_NOTES.md</FsDocsReleaseNotesLink>
+    <PackageProjectUrl>https://fsprojects.github.io/ExcelProvider/</PackageProjectUrl>
+    <FsDocsLogoSource>images/logo.png</FsDocsLogoSource>
+</PropertyGroup>
+</Project>

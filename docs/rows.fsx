@@ -1,5 +1,15 @@
+(**
+---
+title: Accessing Rows
+category: Documentation
+categoryindex: 2
+index: 3
+---
+*)
+
+
 (*** hide ***)
-#I "../../bin/ExcelProvider"
+#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
 
 (**
 Accessing Rows
@@ -10,14 +20,14 @@ Rows are returned as a sequence from the `Data` element of the ExcelFile type.
 Example
 -------
 
-![alt text](img/MultSheets.png "Excel sample file with multiple sheets")
+![alt text](images/MultSheets.png "Excel sample file with multiple sheets")
 
 This example demonstrates loading the second row (with index 1) into the variable test:
 
 *)
 
 // reference the type provider dll
-#r "ExcelProvider.dll"
+#r "ExcelProvider.Runtime.dll"
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work

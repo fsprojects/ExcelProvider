@@ -1,5 +1,16 @@
+(**
+---
+title: Without Headers
+category: Documentation
+categoryindex: 2
+index: 6
+---
+*)
+
+
+
 (*** hide ***)
-#I "../../bin/ExcelProvider"
+#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
 
 (**
 Without Headers
@@ -17,12 +28,12 @@ Example
 
 This example shows the use of the type provider in an F# script on a sheet containing no headers:
 
-![alt text](img/DataTypesNoHeader.png "Excel sample file with different types and no headers")
+![alt text](images/DataTypesNoHeader.png "Excel sample file with different types and no headers")
 
 *)
 
 // reference the type provider dll
-#r "ExcelProvider.dll"
+#r "ExcelProvider.Runtime.dll"
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work
