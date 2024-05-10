@@ -142,10 +142,21 @@
     <div id="content">
         
 <h1><a name="Getting-Started" class="anchor" href="#Getting-Started">Getting Started</a></h1>
-<p>To get started simply add ExcelProvider.dll as a reference to your project.</p>
-<p>If you are using F# scripts then just add the dll using the <code>#r</code> option.</p>
-<p>If you then open <code>FSharp.Interop.Excel</code> you will have access to the Type Provider functionality.</p>
-<p>You can then create a type for an individual workbook. The simplest option is to specify just the name of the workbook.
+<p>To start using ExcelProvider simply reference the ExcelProvider NuGet Package.</p>
+<div class="row">
+  <div class="span1"></div>
+  <div class="span6">
+    <div class="well well-small" id="nuget">
+      <p>For use in a project, use the following command in the Package Manager Console:</p>
+      <pre>PM> Install-Package ExcelProvider</pre>
+      <p>For use in an F# script, use the following directive:</p>
+      <pre>#r "nuget: ExcelProvider"</pre>
+    </div>
+  </div>
+  <div class="span1"></div>
+</div>
+<p>After referencing the package, open <code>FSharp.Interop.Excel</code>  and you will have access to the Type Provider functionality.</p>
+<p>You can create a type for an individual workbook. The simplest option is to specify just the name of the workbook.
 You will then be given typed access to the data held in the first sheet.
 The first row of the sheet will be treated as field names and the subsequent rows will be treated as values for these fields.</p>
 <h2><a name="Parameters" class="anchor" href="#Parameters">Parameters</a></h2>
@@ -167,7 +178,7 @@ The first row of the sheet will be treated as field names and the subsequent row
 <h2><a name="Example" class="anchor" href="#Example">Example</a></h2>
 <p>This example shows the use of the type provider in an F# script on a sheet containing three rows of data:</p>
 <p><img src="images/DataTypes.png" alt="alt text" title="Excel sample file with different types" /></p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// reference the type provider dll</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// reference the type provider</span>
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs7', 8)" onmouseover="showTip(event, 'fs7', 8)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 9)" onmouseover="showTip(event, 'fs2', 9)" class="id">Interop</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 10)" onmouseover="showTip(event, 'fs3', 10)" class="id">Excel</span>
 
 <span class="c">// Let the type provider do it&#39;s work</span>
