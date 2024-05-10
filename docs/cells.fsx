@@ -9,7 +9,7 @@ index: 4
 
 
 (*** hide ***)
-#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+#r "nuget: ExcelProvider"
 
 (**
 Accessing Cells
@@ -27,8 +27,7 @@ This example demonstrates referencing the first column (with name `Fourth`) on r
 
 *)
 
-// reference the type provider dll
-#r "ExcelProvider.dll"
+// reference the type provider
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work

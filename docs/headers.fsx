@@ -10,7 +10,8 @@ index: 6
 
 
 (*** hide ***)
-#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+#r "nuget: ExcelProvider"
+
 
 (**
 Without Headers
@@ -32,8 +33,7 @@ This example shows the use of the type provider in an F# script on a sheet conta
 
 *)
 
-// reference the type provider dll
-#r "ExcelProvider.Runtime.dll"
+// reference the type provider
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work

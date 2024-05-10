@@ -1,33 +1,34 @@
 (*** hide ***)
-#r "../bin/ExcelProvider.Runtime/netstandard2.0/ExcelProvider.Runtime.dll"
+#r "nuget: ExcelProvider"
 
 (**
-ExcelProvider
-===========================
+# ExcelProvider
 
-This library is for the .NET platform implementing a Excel type provider.
+## Introduction
+
+ExcelProvider is a library for F# that is designed to make importing or processing data from Excel files easy. It provides a type provider which provides type-safe read-only access to the contents of Excel files.  The provider can access data organized in rows and columns in specified sheets or ranges.
 
 <div class="row">
   <div class="span1"></div>
   <div class="span6">
     <div class="well well-small" id="nuget">
-      The library can be <a href="https://nuget.org/packages/ExcelProvider">installed from NuGet</a>:
+      The library can be <a href="https://nuget.org/packages/ExcelProvider">installed from NuGet in the usual ways</a>:
+      <p>For use in a project, use the following command in the Package Manager Console:</p>
       <pre>PM> Install-Package ExcelProvider</pre>
+      <p>For use in an F# script, use the following directive:</p>
+      <pre>#r "nuget: ExcelProvider"</pre>
     </div>
   </div>
   <div class="span1"></div>
 </div>
 
-Example
--------
-
+## Example
 This example demonstrates the use of the type provider:
 
 ![alt text](images/DataTypes.png "Excel sample file with different types")
 
 *)
 // reference the type provider dll
-#r "ExcelProvider.Runtime.dll"
 open FSharp.Interop.Excel
 
 // Let the type provider do it's work
