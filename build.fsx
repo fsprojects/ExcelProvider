@@ -132,10 +132,9 @@ Target.create "Clean" (fun _ ->
 
 
 
-
-//Target "CleanDocs" (fun _ ->
-//    CleanDirs ["docs/output"]
-//)
+// --------------------------------------------------------------------------------------
+// Clean the folders created by fsdocs when generating documentation
+Target.create "CleanDocs" (fun _ -> !! "output" ++ ".fsdocs" |> Shell.cleanDirs)
 
 // --------------------------------------------------------------------------------------
 // Build library & test project
@@ -148,6 +147,22 @@ Target.create "Build" (fun _ ->
             Configuration = DotNet.BuildConfiguration.Release }
 
     DotNet.build setParams "ExcelProvider.sln")
+
+// --------------------------------------------------------------------------------------
+// Generate the documentation
+Target.create "GenerateDocs" (fun _ ->
+
+    let result =
+        DotNet.exec
+            id
+            "fsdocs"
+            ("build --properties Configuration=Release --strict --eval --clean --parameters fsdocs-package-version "
+             + release.NugetVersion)
+
+    if not result.OK then
+        printfn "Errors while generating docs: %A" result.Messages
+        failwith "Failed to generate docs")
+
 
 
 // --------------------------------------------------------------------------------------
@@ -382,8 +397,7 @@ Target.create "All" ignore
 ==> "Build"
 ==> "RunTests"
 ==> "CopyBinaries"
-//  ==> "GenerateReferenceDocs"
-//  ==> "GenerateDocs"
+==> "GenerateDocs"
 ==> "All"
 //  =?> ("ReleaseDocs",isLocalBuild)
 
