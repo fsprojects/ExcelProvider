@@ -144,13 +144,17 @@
 <main>
     <div id="content">
         <h1><a name="ExcelProvider" class="anchor" href="#ExcelProvider">ExcelProvider</a></h1>
-<p>This library is for the .NET platform implementing a Excel type provider.</p>
+<h2><a name="Introduction" class="anchor" href="#Introduction">Introduction</a></h2>
+<p>ExcelProvider is a library for F# that is designed to make importing or processing data from Excel files easy. It provides a type provider which provides type-safe read-only access to the contents of Excel files.  The provider can access data organized in rows and columns in specified sheets or ranges.</p>
 <div class="row">
   <div class="span1"></div>
   <div class="span6">
     <div class="well well-small" id="nuget">
-      The library can be <a href="https://nuget.org/packages/ExcelProvider">installed from NuGet</a>:
+      The library can be <a href="https://nuget.org/packages/ExcelProvider">installed from NuGet in the usual ways</a>:
+      <p>For use in a project, use the following command in the Package Manager Console:</p>
       <pre>PM> Install-Package ExcelProvider</pre>
+      <p>For use in an F# script, use the following directive:</p>
+      <pre>#r "nuget: ExcelProvider"</pre>
     </div>
   </div>
   <div class="span1"></div>
@@ -159,7 +163,6 @@
 <p>This example demonstrates the use of the type provider:</p>
 <p><img src="images/DataTypes.png" alt="alt text" title="Excel sample file with different types" /></p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// reference the type provider dll</span>
-<span class="pp">#r</span> <span class="s">&quot;ExcelProvider.Runtime.dll&quot;</span>
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">Interop</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">Excel</span>
 
 <span class="c">// Let the type provider do it&#39;s work</span>
@@ -225,6 +228,11 @@ from Microsoft.FSharp.Collections</div>
   <li class="level-1">
     <a href="#ExcelProvider">
       ExcelProvider
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Introduction">
+      Introduction
     </a>
   </li>
   <li class="level-2">
