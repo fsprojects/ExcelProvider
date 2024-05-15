@@ -6,8 +6,9 @@ This library is for the .NET platform implementing a read-only Excel type provid
 
 ## Building
 
-* Windows: Run *build.cmd*
+* Windows: Run ./build.cmd -t Build (see build.fsx for more options to pass in as arguments after -t)
 * Requires dotnet core 6.0.421 or higher 6.0 level sdk to be installed.
+* See DEVGUIDE.md for more information
 
 ## Maintainer(s)
 
