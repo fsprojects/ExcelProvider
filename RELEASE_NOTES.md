@@ -1,3 +1,13 @@
+### 2.1.0
+
+* Fix issue [#77](https://github.com/fsprojects/ExcelProvider/issues/77).  The type provider will no longer revert to the first sheet if the sheet name provided does not exist. Instead, the code will not compile.
+* The documentation site has been updated and a number of small issues fixed.
+* Dependencies have been updated to the latest versions.
+* Started using Fantomas.  All files now formatted with Fantomas.
+* Some build targets in build.fsx have been updated/restored i.e. Format, CheckFormat, Nuget, CleanDocs, GenerateDocs
+
+
+
 #### 2.1.0-rc2
 
 * Remove included System.Runtime.CompilerServices and related packages that somehow got included in the nuget package
