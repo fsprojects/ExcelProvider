@@ -111,28 +111,28 @@ module internal Helpers =
     let singleItemOrFail func items =
         match items with
         | [ item ] -> func item
-        | _ -> failwith "Expected single item list."
+        | _ -> failwith "ExcelProvider: Expected single item list."
 
     // Avoids "warning FS0025: Incomplete pattern matches on this expression"
     // when using: (fun [row] -> <@@ ... @@>)
     let twoItemsOrFail func items =
         match items with
         | [ a; b ] -> func a b
-        | _ -> failwith "Expected two item list."
+        | _ -> failwith "ExcelProvider: Expected two item list."
 
     // Avoids "warning FS0025: Incomplete pattern matches on this expression"
     // when using: (fun [row] -> <@@ ... @@>)
     let threeItemsOrFail func items =
         match items with
         | [ a; b; c ] -> func a b c
-        | _ -> failwith "Expected two item list."
+        | _ -> failwith "ExcelProvider: Expected two item list."
 
     // Avoids "warning FS0025: Incomplete pattern matches on this expression"
     // when using: (fun [] -> <@@ ... @@>)
     let emptyListOrFail func items =
         match items with
         | [] -> func ()
-        | _ -> failwith "Expected empty list"
+        | _ -> failwith "ExcelProvider: Expected empty list"
 
 
     // get the type, and implementation of a getter property based on a template value
