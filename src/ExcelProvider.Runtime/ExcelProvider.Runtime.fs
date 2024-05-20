@@ -104,7 +104,7 @@ module internal ExcelAddressing =
         match addresses with
         | [| a; b |] -> Bounded(a, b)
         | [| a |] -> Unbounded a
-        | _ -> failwith (sprintf "A range can contain only one or two address [%s]" range)
+        | _ -> failwith (sprintf "ExcelProvider: A range can contain only one or two address [%s]" range)
 
     ///Parses a potential sequence of excel ranges, seperated by commas
     let parseExcelRanges sheetContext (range: string) =
@@ -142,7 +142,7 @@ module internal ExcelAddressing =
             else if sheetname = null || sheetname = "" then
                 worksheets.[0].TableName //accept TypeProvider without specific SheetName...
             else
-                failwithf "Sheet [%s] does not exist." sheetname
+                failwithf "ExcelProvider: Sheet [%s] does not exist." sheetname
 
         let ranges =
             parseExcelRanges workSheetName range |> List.map (getRangeView workbook)
@@ -160,7 +160,7 @@ module internal ExcelAddressing =
             ranges |> Seq.map rangeViewOffsetRecord |> Seq.concat |> Seq.toList
 
         if rangeViewsByColumn |> Seq.distinctBy fst |> Seq.length < rangeViewsByColumn.Length then
-            failwith "Ranges cannot overlap"
+            failwith "ExcelProvider: Ranges cannot overlap"
 
         let columns =
             rangeViewsByColumn |> Seq.mapi (fun index entry -> (index, entry)) |> Map.ofSeq
@@ -171,7 +171,7 @@ module internal ExcelAddressing =
     ///Reads the value of a cell from a view
     let getCellValue view row column =
         if column < 0 then
-            failwith "Column index must be nonnegative"
+            failwith "ExcelProvider: Column index must be nonnegative"
 
         let columns = view.ColumnMappings
 
@@ -197,7 +197,7 @@ module internal ExcelAddressing =
 #endif
         let fail action (ex: exn) =
             let exceptionTypeName = ex.GetType().Name
-            let message = sprintf "Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+            let message = sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
             failwith message
 
         use stream =
@@ -220,7 +220,7 @@ module internal ExcelAddressing =
                         ExcelDataReader.ExcelReaderFactory.CreateBinaryReader(stream)
 
                 if reader.IsClosed then
-                    fail action (Exception "The reader was closed on startup without raising a specific exception")
+                    fail action (Exception "ExcelProvider: The reader was closed on startup without raising a specific exception")
 
                 reader
             with ex ->
@@ -252,7 +252,7 @@ module internal ExcelAddressing =
 #endif
         let fail action (ex: exn) =
             let exceptionTypeName = ex.GetType().Name
-            let message = sprintf "Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+            let message = sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
             failwith message
 
         let excelReader =
@@ -329,8 +329,8 @@ type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, colum
             |> Seq.map (fun kvp -> kvp.Key)
             |> Seq.tryFind (fun header -> String.Equals(header, columnName, StringComparison.OrdinalIgnoreCase))
             |> function
-                | Some header -> sprintf "Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
-                | None -> sprintf "Column \"%s\" was not found." columnName
+                | Some header -> sprintf "ExcelProvider: Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
+                | None -> sprintf "ExcelProvider: Column \"%s\" was not found." columnName
             |> failwith
 
     member this.TryGetValue<'a> (columnIndex: int) columnName =
