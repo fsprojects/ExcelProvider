@@ -1,5 +1,6 @@
 namespace FSharp.Interop.Excel
 
+[<Struct>]
 type ExcelFormat =
     | Xlsx
     | Csv
@@ -18,6 +19,7 @@ open FSharp.Interop.Excel
 [<AutoOpen>]
 module internal ExcelAddressing =
 
+    [<Struct>]
     type Address =
         { Sheet: string; Row: int; Column: int }
 
@@ -139,7 +141,7 @@ module internal ExcelAddressing =
         let workSheetName =
             if worksheets.Contains sheetname then
                 sheetname
-            else if sheetname = null || sheetname = "" then
+            elif isNull sheetname || sheetname = "" then
                 worksheets.[0].TableName //accept TypeProvider without specific SheetName...
             else
                 failwithf "ExcelProvider: Sheet [%s] does not exist." sheetname
@@ -157,7 +159,7 @@ module internal ExcelAddressing =
             |> Seq.toList
 
         let rangeViewsByColumn =
-            ranges |> Seq.map rangeViewOffsetRecord |> Seq.concat |> Seq.toList
+            ranges |> Seq.collect rangeViewOffsetRecord |> Seq.toList
 
         if rangeViewsByColumn |> Seq.distinctBy fst |> Seq.length < rangeViewsByColumn.Length then
             failwith "ExcelProvider: Ranges cannot overlap"
@@ -197,7 +199,10 @@ module internal ExcelAddressing =
 #endif
         let fail action (ex: exn) =
             let exceptionTypeName = ex.GetType().Name
-            let message = sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
+            let message =
+                sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
             failwith message
 
         use stream =
@@ -220,7 +225,10 @@ module internal ExcelAddressing =
                         ExcelDataReader.ExcelReaderFactory.CreateBinaryReader(stream)
 
                 if reader.IsClosed then
-                    fail action (Exception "ExcelProvider: The reader was closed on startup without raising a specific exception")
+                    fail
+                        action
+                        (Exception
+                            "ExcelProvider: The reader was closed on startup without raising a specific exception")
 
                 reader
             with ex ->
@@ -252,7 +260,10 @@ module internal ExcelAddressing =
 #endif
         let fail action (ex: exn) =
             let exceptionTypeName = ex.GetType().Name
-            let message = sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
+            let message =
+                sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
             failwith message
 
         let excelReader =
@@ -329,7 +340,8 @@ type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, colum
             |> Seq.map (fun kvp -> kvp.Key)
             |> Seq.tryFind (fun header -> String.Equals(header, columnName, StringComparison.OrdinalIgnoreCase))
             |> function
-                | Some header -> sprintf "ExcelProvider: Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
+                | Some header ->
+                    sprintf "ExcelProvider: Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
                 | None -> sprintf "ExcelProvider: Column \"%s\" was not found." columnName
             |> failwith
 
