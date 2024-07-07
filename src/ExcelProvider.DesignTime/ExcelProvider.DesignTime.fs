@@ -66,11 +66,9 @@ module internal Helpers =
                     | Lower _ when not takeUpper -> consume from takeUpper (i + 1)
                     | Upper _ when takeUpper -> consume from takeUpper (i + 1)
                     | _ ->
-                        let r1 = struct(from, i)
-                        let r2 = restart i
                         seq {
-                            yield r1
-                            yield! r2
+                            yield struct(from, i)
+                            yield! restart i
                         }
 
             // Split string into segments and turn them to PascalCase
