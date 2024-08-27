@@ -122,7 +122,7 @@ module internal ExcelAddressing =
 
                 topLeft,
                 { topLeft with
-                    Row = sheet.Rows.Count
+                    Row = sheet.Rows.Count - 1
                     Column = sheet.Columns.Count - 1 },
                 sheet
 
@@ -149,7 +149,7 @@ module internal ExcelAddressing =
 
         let minRow = ranges |> Seq.map (fun range -> range.StartRow) |> Seq.min
         let maxRow = ranges |> Seq.map (fun range -> range.EndRow) |> Seq.max
-        let rowCount = maxRow - minRow
+        let rowCount = (maxRow - minRow) + 1
 
         let rangeViewOffsetRecord rangeView =
             seq { rangeView.StartColumn .. rangeView.EndColumn }
