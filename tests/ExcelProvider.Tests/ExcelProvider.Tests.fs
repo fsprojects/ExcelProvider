@@ -323,7 +323,7 @@ let ``Cannot create a type referring to a non-existant sheet at runtime``() =
     //| Choice2Of2 v -> printfn "2 %A" v
     //printfn "%A" diag
     let dstr = diag[0].ToString()
-    dstr.Substring(dstr.IndexOf "typecheck") |> should equal "typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: Sheet [C] does not exist."
+    dstr.Substring(dstr.IndexOf "typecheck") |> should equal "typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: ExcelProvider: Sheet [C] does not exist."
     
 
 [<Test>]

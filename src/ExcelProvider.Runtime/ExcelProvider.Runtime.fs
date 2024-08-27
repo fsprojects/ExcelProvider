@@ -197,7 +197,10 @@ module internal ExcelAddressing =
 #endif
         let fail action (ex: exn) =
             let exceptionTypeName = ex.GetType().Name
-            let message = sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
+            let message =
+                sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
             failwith message
 
         use stream =
@@ -220,7 +223,10 @@ module internal ExcelAddressing =
                         ExcelDataReader.ExcelReaderFactory.CreateBinaryReader(stream)
 
                 if reader.IsClosed then
-                    fail action (Exception "ExcelProvider: The reader was closed on startup without raising a specific exception")
+                    fail
+                        action
+                        (Exception
+                            "ExcelProvider: The reader was closed on startup without raising a specific exception")
 
                 reader
             with ex ->
@@ -252,7 +258,10 @@ module internal ExcelAddressing =
 #endif
         let fail action (ex: exn) =
             let exceptionTypeName = ex.GetType().Name
-            let message = sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
+            let message =
+                sprintf "ExcelProvider: Could not %s. %s - %s" action exceptionTypeName (ex.Message)
+
             failwith message
 
         let excelReader =
@@ -329,7 +338,8 @@ type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, colum
             |> Seq.map (fun kvp -> kvp.Key)
             |> Seq.tryFind (fun header -> String.Equals(header, columnName, StringComparison.OrdinalIgnoreCase))
             |> function
-                | Some header -> sprintf "ExcelProvider: Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
+                | Some header ->
+                    sprintf "ExcelProvider: Column \"%s\" was not found. Did you mean \"%s\"?" columnName header
                 | None -> sprintf "ExcelProvider: Column \"%s\" was not found." columnName
             |> failwith
 
