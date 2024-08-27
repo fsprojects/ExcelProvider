@@ -57,6 +57,7 @@ type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
 type MultipleSheetsSecondRange = ExcelFile<"MultipleSheets.xlsx", "B", "A2">
+type MixedDataTypes = ExcelFile<"MixedDataTypes.xlsx">
 
 [<Test>]
 let ``Read Text as String``() =
@@ -380,3 +381,12 @@ let ``HashHeader false with header removed``() =
     let expectedTime = new DateTime(1899, 12, 31, 8, 0, 0)
     row.Column5 |> should equal expectedTime
     row.Column6 |> should equal 100.0M
+
+// See https://github.com/fsprojects/ExcelProvider/issues/14
+[<Test>]
+let ``Can automatically coerce non-string cells in a column of string data to their string form`` () =
+    let file = MixedDataTypes()
+    let printTitles data = 
+        for (row:MixedDataTypes.Row) in data do 
+            sprintf "%s (%i)" row.Title ((int) row.Year) |> ignore
+    (fun () -> printTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
