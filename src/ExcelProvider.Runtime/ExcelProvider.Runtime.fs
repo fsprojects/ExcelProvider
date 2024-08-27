@@ -383,7 +383,9 @@ type ExcelFileInternal private (view, documentId, sheetname, hasheaders) =
         let buildRow rowIndex =
             new Row(documentId, sheetname, rowIndex, getCellValue view, columns)
 
-        seq { (if hasheaders then 1 else 0) .. view.RowCount } |> Seq.map buildRow
+        let zeroBasedLastIndex = view.RowCount - 1
+
+        seq { (if hasheaders then 1 else 0) .. zeroBasedLastIndex } |> Seq.map buildRow
 
     new(filename, sheetname, range, hasheaders) =
         let view = openWorkbookView filename sheetname range
