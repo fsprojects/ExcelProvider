@@ -380,3 +380,9 @@ let ``HashHeader false with header removed``() =
     let expectedTime = new DateTime(1899, 12, 31, 8, 0, 0)
     row.Column5 |> should equal expectedTime
     row.Column6 |> should equal 100.0M
+
+[<Test>]
+let ``Reading all rows in a well-formed excel file does not return empty rows``() =
+    let file = DifferentMainSheet()
+    // For reference, DifferentMainSheet has 1 header row and 6 data rows.
+    file.Data |> Seq.length |> should equal 6
