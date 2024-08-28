@@ -57,6 +57,9 @@ type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
 type MultipleSheetsSecondRange = ExcelFile<"MultipleSheets.xlsx", "B", "A2">
+type MixedDataTypesString = ExcelFile<"MixedDataTypes.xlsx", Range="A1:A10">
+type MixedDataTypesDouble = ExcelFile<"MixedDataTypes.xlsx", Range="B1:B10">
+type MixedDataTypesDateTime = ExcelFile<"MixedDataTypes.xlsx", Range="H1:H10">
 type MixedDataTypes = ExcelFile<"MixedDataTypes.xlsx">
 
 [<Test>]
@@ -383,10 +386,38 @@ let ``HashHeader false with header removed``() =
     row.Column6 |> should equal 100.0M
 
 // See https://github.com/fsprojects/ExcelProvider/issues/14
+let ``Automatically coerces non-string data in string columns to strings`` () =
+    let file = MixedDataTypesString()
+    let writeTitles data = 
+        for (row:MixedDataTypesString.Row) in data do 
+            (sprintf "%s" row.Title) |> ignore
+    (fun () -> writeTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+let ``Attempts to coerce string data in double columns to double`` () =
+    let file = MixedDataTypesDouble()
+    let writeYears data = 
+        for (row:MixedDataTypesDouble.Row) in data do 
+            sprintf "%f" (row.Year) |> ignore
+    (fun () -> writeYears file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+let ``Attempts to coerce string data in DateTime columns to DateTime`` () =
+    let file = MixedDataTypesDateTime()
+    let getDayOfWeek data = 
+        for (row:MixedDataTypesDateTime.Row) in data do 
+            sprintf "%i" (row.``Date Watched``.DayOfYear) |> ignore
+    (fun () -> getDayOfWeek file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+let ``Attempts to coerce double data in DateTime columns to DateTime`` () =
+    let file = MixedDataTypesDateTime()
+    let getDayOfWeek data = 
+        for (row:MixedDataTypesDateTime.Row) in data do 
+            sprintf "%i" (row.``Date Watched``.DayOfYear) |> ignore
+    (fun () -> getDayOfWeek file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
 [<Test>]
-let ``Can automatically coerce non-string cells in a column of string data to their string form`` () =
+let ``Automatic conversions do not cause InvalidCastExceptions`` () =
     let file = MixedDataTypes()
     let printTitles data = 
         for (row:MixedDataTypes.Row) in data do 
-            sprintf "%s (%i)" row.Title ((int) row.Year) |> ignore
+            sprintf "%s (%i) %i" row.Title ((int) row.Year) (row.``Date Watched``.Year) |> ignore
     (fun () -> printTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
