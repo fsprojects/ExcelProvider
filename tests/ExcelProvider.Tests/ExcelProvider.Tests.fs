@@ -429,7 +429,7 @@ module AutomaticCoercion =
       (fun () -> getYear file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
 
   [<Test>]
-  let ``Throws when coercing invalid data in to double`` () =
+  let ``Throws when coercing invalid data to double`` () =
       let filenw = DoubleCoercionErrorFromNumberWords()
       let files = DoubleCoercionErrorFromString()
       let filecn = DoubleCoercionErrorFromCurrencyNumber()
