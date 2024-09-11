@@ -1,9 +1,18 @@
 <Project>
-<PropertyGroup>
-    <RepositoryUrl>https://github.com/fsprojects/ExcelProvider</RepositoryUrl>
-    <FsDocsLicenseLink>https://github.com/fsprojects/ExcelProvider/blob/master/LICENSE.txt</FsDocsLicenseLink>
-    <FsDocsReleaseNotesLink>https://github.com/fsprojects/ExcelProvider/blob/master/RELEASE_NOTES.md</FsDocsReleaseNotesLink>
-    <PackageProjectUrl>https://fsprojects.github.io/ExcelProvider/</PackageProjectUrl>
-    <FsDocsLogoSource>images/logo.png</FsDocsLogoSource>
-</PropertyGroup>
+    <PropertyGroup>
+        <RepositoryUrl>https://github.com/fsprojects/ExcelProvider</RepositoryUrl>
+        <PackageProjectUrl>https://fsprojects.github.io/ExcelProvider/</PackageProjectUrl>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NuGetAudit>true</NuGetAudit>
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAuditLevel>low</NuGetAuditLevel>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <FsDocsLicenseLink>https://github.com/fsprojects/ExcelProvider/blob/master/LICENSE.txt</FsDocsLicenseLink>
+        <FsDocsReleaseNotesLink>https://github.com/fsprojects/ExcelProvider/blob/master/RELEASE_NOTES.md</FsDocsReleaseNotesLink>
+        <FsDocsLogoSource>images/logo.png</FsDocsLogoSource>
+    </PropertyGroup>
 </Project>
