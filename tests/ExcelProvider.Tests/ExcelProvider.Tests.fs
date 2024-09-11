@@ -49,10 +49,11 @@ type HeaderTest = ExcelFile<"BookTestWithHeader.xls", Range="A2", ForceString=tr
 type MultipleRegions = ExcelFile<"MultipleRegions.xlsx", Range="A1:C5,E3:G5", ForceString=true>
 type DifferentMainSheet = ExcelFile<"DifferentMainSheet.xlsx">
 type DataTypes = ExcelFile<"DataTypes.xlsx">
+type DataTypesWithEmptyRow = ExcelFile<"DataTypes.xlsx", Range="A1:F3">
 type DataTypesHeaderTrue = ExcelFile<"DataTypes.xlsx", HasHeaders=true>
 type DataTypesHeaderFalse = ExcelFile<"DataTypes.xlsx", HasHeaders=false, ForceString=true>
 type DataTypesNoHeader = ExcelFile<"DataTypesNoHeader.xlsx", HasHeaders=false>
-type CaseInsensitive = ExcelFile<"DataTypes.XLSX">
+type CaseInsensitiveWithEmptyRow = ExcelFile<"DataTypes.XLSX", Range="A1:F3">
 type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
@@ -98,33 +99,33 @@ let ``Read Currency as Decimal``() =
 
 [<Test>]
 let ``Empty Text cell should be null``() =
-    let file = DataTypes()
+    let file = DataTypesWithEmptyRow()
     let blankRow = file.Data |> Seq.skip 1 |> Seq.head
     blankRow.String |> should be Null
 
 [<Test>]
 let ``Read blank General as false if column is boolean``() =
-    let file = DataTypes()
+    let file = DataTypesWithEmptyRow()
     let row = file.Data |> Seq.skip 1 |> Seq.head
     Assert.That(row.Boolean, Is.False)
 
 [<Test>]
 let ``Empty Number cell should be zero``() =
-    let file = DataTypes()
+    let file = DataTypesWithEmptyRow()
     let blankRow = file.Data |> Seq.skip 1 |> Seq.head
     let defaultValue = blankRow.Float
     defaultValue |> should equal 0.0f
 
 [<Test>]
 let ``Empty Currency cell should be zero``() =
-    let file = DataTypes()
+    let file = DataTypesWithEmptyRow()
     let blankRow = file.Data |> Seq.skip 1 |> Seq.head
     let defaultValue = blankRow.Currency
     defaultValue |> should equal 0.0M
 
 [<Test>]
 let ``Empty date cell should be BOT``() =
-    let file = DataTypes()
+    let file = DataTypesWithEmptyRow()
     let blankRow = file.Data |> Seq.skip 1 |> Seq.head
     let defaultValue = blankRow.Date
     defaultValue |> should equal DateTime.MinValue
@@ -132,7 +133,7 @@ let ``Empty date cell should be BOT``() =
     
 [<Test>]
 let ``Empty time cell should be today``() =
-    let file = DataTypes()
+    let file = DataTypesWithEmptyRow()
     let blankRow = file.Data |> Seq.skip 1 |> Seq.head
     let defaultValue = blankRow.Time
     defaultValue |> should equal DateTime.MinValue
@@ -269,6 +270,8 @@ let ``Can load from multiple ranges``() =
     rows.[3].Fifth |> should equal null
     rows.[3].Sixth |> should equal null
 
+    rows |> Array.length |> should equal 4
+
 [<Test>]
 let ``Can load from multiple sheets - first``() =
     let file = MultipleSheetsFirst()
@@ -324,7 +327,7 @@ let ``Cannot create a type referring to a non-existant sheet at runtime``() =
     //| Choice2Of2 v -> printfn "2 %A" v
     //printfn "%A" diag
     let dstr = diag[0].ToString()
-    dstr.Substring(dstr.IndexOf "typecheck") |> should equal "typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: Sheet [C] does not exist."
+    dstr.Substring(dstr.IndexOf "typecheck") |> should equal "typecheck error The type provider 'FSharp.Interop.Excel.ExcelProvider.ProviderImplementation+ExcelProvider' reported an error: ExcelProvider: Sheet [C] does not exist."
     
 
 [<Test>]
@@ -336,7 +339,7 @@ let ``Can load from multiple sheets with range``() =
 
 [<Test>]
 let ``Can load file with different casing``() =
-    let file = CaseInsensitive()
+    let file = CaseInsensitiveWithEmptyRow()
     // just do one of the same tests as was done for the book we are basing this off of
     let blankRow = file.Data |> Seq.skip 1 |> Seq.head
     let defaultValue = blankRow.Time
@@ -390,3 +393,12 @@ let ``Can automatically coerce non-string cells in a column of string data to th
         for (row:MixedDataTypes.Row) in data do 
             sprintf "%s (%i)" row.Title ((int) row.Year) |> ignore
     (fun () -> printTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+[<Test>]
+let ``Reading all rows in a well-formed excel file does not return empty rows``() =
+    let fileWithUnboundRange = DifferentMainSheet()
+    // For reference, DifferentMainSheet has 1 header row and 6 data rows.
+    fileWithUnboundRange.Data |> Seq.length |> should equal 6
+    
+    let fileWithBoundRange = MultipleRegions()
+    fileWithBoundRange |> Seq.length |> should equal 4

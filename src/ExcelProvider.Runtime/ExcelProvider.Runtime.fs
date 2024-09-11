@@ -122,7 +122,7 @@ module internal ExcelAddressing =
 
                 topLeft,
                 { topLeft with
-                    Row = sheet.Rows.Count
+                    Row = sheet.Rows.Count - 1
                     Column = sheet.Columns.Count - 1 },
                 sheet
 
@@ -149,7 +149,7 @@ module internal ExcelAddressing =
 
         let minRow = ranges |> Seq.map (fun range -> range.StartRow) |> Seq.min
         let maxRow = ranges |> Seq.map (fun range -> range.EndRow) |> Seq.max
-        let rowCount = maxRow - minRow
+        let rowCount = (maxRow - minRow) + 1
 
         let rangeViewOffsetRecord rangeView =
             seq { rangeView.StartColumn .. rangeView.EndColumn }
@@ -386,7 +386,9 @@ type ExcelFileInternal private (view, documentId, sheetname, hasheaders) =
         let buildRow rowIndex =
             new Row(documentId, sheetname, rowIndex, getCellValue view, columns)
 
-        seq { (if hasheaders then 1 else 0) .. view.RowCount } |> Seq.map buildRow
+        let zeroBasedLastIndex = view.RowCount - 1
+
+        seq { (if hasheaders then 1 else 0) .. zeroBasedLastIndex } |> Seq.map buildRow
 
     new(filename, sheetname, range, hasheaders) =
         let view = openWorkbookView filename sheetname range
