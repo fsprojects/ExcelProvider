@@ -391,7 +391,7 @@ let ``Reading all rows in a well-formed excel file does not return empty rows``(
     fileWithUnboundRange.Data |> Seq.length |> should equal 6
     
     let fileWithBoundRange = MultipleRegions()
-    fileWithBoundRange |> Seq.length |> should equal 4
+    fileWithBoundRange.Data |> Seq.length |> should equal 4
 
 
 module AutomaticCoercion = 
@@ -491,9 +491,9 @@ module AutomaticCoercion =
               sprintf "%s (%f) %i" row.Title (row.Year) (row.``Date Watched``.Year) |> ignore
       (fun () -> printTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
 
-// See https://github.com/fsprojects/ExcelProvider/issues/14
-[<Test>]
-let ``Can automatically coerce non-string cells in a column of string data to their string form`` () =
+  // See https://github.com/fsprojects/ExcelProvider/issues/14
+  [<Test>]
+  let ``Can automatically coerce non-string cells in a column of string data to their string form`` () =
     let file = MixedDataTypes()
     let printTitles data = 
         for (row:MixedDataTypes.Row) in data do 
