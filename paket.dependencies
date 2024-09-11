@@ -36,7 +36,7 @@ group Build
 group Test
   source https://api.nuget.org/v3/index.json
   frameworks: net6.0
-  nuget Microsoft.NET.Test.Sdk 17.9.0
+  nuget Microsoft.NET.Test.Sdk
   nuget NUnit
   nuget NUnit.Console
   nuget NUnit3TestAdapter version_in_path: true
