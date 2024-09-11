@@ -347,7 +347,10 @@ type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, colum
         let value = this.GetValue columnIndex
 
         try
-            value :?> 'a
+            match value with
+            | null when typeof<'a> = typeof<string> -> value :?> 'a
+            | _ when typeof<'a> = typeof<string> -> (box (string value)) :?> 'a
+            | _ -> value :?> 'a
         with :? InvalidCastException ->
             failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex documentId sheetname
 
