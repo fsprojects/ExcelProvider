@@ -58,7 +58,6 @@ type MultiLine = ExcelFile<"MultilineHeader.xlsx">
 type MultipleSheetsFirst = ExcelFile<"MultipleSheets.xlsx", "A">
 type MultipleSheetsSecond = ExcelFile<"MultipleSheets.xlsx", "B">
 type MultipleSheetsSecondRange = ExcelFile<"MultipleSheets.xlsx", "B", "A2">
-type MixedDataTypes = ExcelFile<"MixedDataTypes.xlsx">
 
 [<Test>]
 let ``Read Text as String``() =
@@ -385,6 +384,113 @@ let ``HashHeader false with header removed``() =
     row.Column5 |> should equal expectedTime
     row.Column6 |> should equal 100.0M
 
+[<Test>]
+let ``Reading all rows in a well-formed excel file does not return empty rows``() =
+    let fileWithUnboundRange = DifferentMainSheet()
+    // For reference, DifferentMainSheet has 1 header row and 6 data rows.
+    fileWithUnboundRange.Data |> Seq.length |> should equal 6
+    
+    let fileWithBoundRange = MultipleRegions()
+    fileWithBoundRange |> Seq.length |> should equal 4
+
+
+module AutomaticCoercion = 
+  type MixedDataTypes = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes">
+
+  type DateTimeFromTextNumeric = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="H2:H3", HasHeaders=false>
+  type DateTimeFromTextString = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="H4:H5", HasHeaders=false>
+  type DateTimeFromNumeric = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="H6:H7", HasHeaders=false>
+  type DateTimeFromGeneralNumeric = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="H8:H9", HasHeaders=false>
+
+  type DoubleCoercionErrorFromNumberWords = ExcelFile<"MixedDataTypes.xlsx", "InvalidDataTypes", Range="B2:B3", HasHeaders=false>
+  type DoubleCoercionErrorFromString = ExcelFile<"MixedDataTypes.xlsx", "InvalidDataTypes", Range="B4:B5", HasHeaders=false>
+  type DoubleCoercionErrorFromCurrencyNumber = ExcelFile<"MixedDataTypes.xlsx", "InvalidDataTypes", Range="B6:B7", HasHeaders=false>
+
+  type DateCoercionErrorFromDateWords = ExcelFile<"MixedDataTypes.xlsx", "InvalidDataTypes", Range="H2:H3", HasHeaders=false>
+  type DateCoercionErrorFromString = ExcelFile<"MixedDataTypes.xlsx", "InvalidDataTypes", Range="H4:H5", HasHeaders=false>
+  type DateCoercionErrorFromNegativeNumber = ExcelFile<"MixedDataTypes.xlsx", "InvalidDataTypes", Range="H6:H7", HasHeaders=false>
+
+
+  // See https://github.com/fsprojects/ExcelProvider/issues/14
+  type MixedStringTypes = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="A1:A10">
+  [<Test>]
+  let ``Automatically coerces non-string data in string columns to strings`` () =
+
+
+      let file = MixedStringTypes()
+      let writeTitles data = 
+          for (row:MixedStringTypes.Row) in data do 
+              (sprintf "%s" row.Title) |> ignore
+      (fun () -> writeTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+  type MixedDoubleTypes = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="B1:B10">
+  [<Test>]
+  let ``Coerces valid string data in numeric columns to double`` () =
+      let file = MixedDoubleTypes()
+      let getYear data = 
+          for (row:MixedDoubleTypes.Row) in data do 
+              sprintf "%f" (row.Year) |> ignore
+      (fun () -> getYear file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+  type MixedDateTimeTypes = ExcelFile<"MixedDataTypes.xlsx", "ValidDataTypes", Range="H1:H10">
+  [<Test>]
+  let ``Coerces valid data in datetime columns to double`` () =
+      let file = MixedDateTimeTypes()
+      let getYear data = 
+          for (row:MixedDateTimeTypes.Row) in data do 
+              sprintf "%A" (row.``Date Watched``) |> ignore
+      (fun () -> getYear file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
+  [<Test>]
+  let ``Throws when coercing invalid data to double`` () =
+      let filenw = DoubleCoercionErrorFromNumberWords()
+      let files = DoubleCoercionErrorFromString()
+      let filecn = DoubleCoercionErrorFromCurrencyNumber()
+      let getYear data = 
+          for (row: DoubleCoercionErrorFromNumberWords.Row) in data do 
+              sprintf "%f" (row.``Column1``) |> ignore
+      (fun () -> getYear filenw.Data) |> should throw typeof<System.InvalidCastException>
+
+      let getYear data = 
+          for (row: DoubleCoercionErrorFromString.Row) in data do 
+              sprintf "%f" (row.``Column1``) |> ignore
+      (fun () -> getYear files.Data) |> should throw typeof<System.InvalidCastException>
+
+      let getYear data = 
+          for (row: DoubleCoercionErrorFromCurrencyNumber.Row) in data do 
+              sprintf "%f" (row.``Column1``) |> ignore
+      (fun () -> getYear filecn.Data) |> should throw typeof<System.InvalidCastException>
+
+
+  [<Test>]
+  let ``Throws when coercing invalid data to datetime`` () =
+      let filedw = DateCoercionErrorFromDateWords()
+      let files = DateCoercionErrorFromString()
+      let filenn = DateCoercionErrorFromNegativeNumber()
+      let getYear data = 
+          for (row: DateCoercionErrorFromDateWords.Row) in data do 
+              sprintf "%A" (row.``Column1``) |> ignore
+      (fun () -> getYear filedw.Data) |> should throw typeof<System.InvalidCastException>
+
+      let getYear data = 
+          for (row: DateCoercionErrorFromString.Row) in data do 
+              sprintf "%A" (row.``Column1``) |> ignore
+      (fun () -> getYear files.Data) |> should throw typeof<System.InvalidCastException>
+
+      let getYear data = 
+          for (row: DateCoercionErrorFromNegativeNumber.Row) in data do 
+              sprintf "%A" (row.``Column1``) |> ignore
+      (fun () -> getYear filenn.Data) |> should throw typeof<System.InvalidCastException>
+
+
+  [<Test>]
+  let ``Automatic conversions do not cause InvalidCastExceptions`` () =
+      let file = MixedDataTypes() 
+      let printTitles data = 
+          for (row:MixedDataTypes.Row) in data do 
+              sprintf "%s (%f) %i" row.Title (row.Year) (row.``Date Watched``.Year) |> ignore
+      (fun () -> printTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
+
 // See https://github.com/fsprojects/ExcelProvider/issues/14
 [<Test>]
 let ``Can automatically coerce non-string cells in a column of string data to their string form`` () =
@@ -394,11 +500,3 @@ let ``Can automatically coerce non-string cells in a column of string data to th
             sprintf "%s (%i)" row.Title ((int) row.Year) |> ignore
     (fun () -> printTitles file.Data) |> should (not' << throw) typeof<System.InvalidCastException>
 
-[<Test>]
-let ``Reading all rows in a well-formed excel file does not return empty rows``() =
-    let fileWithUnboundRange = DifferentMainSheet()
-    // For reference, DifferentMainSheet has 1 header row and 6 data rows.
-    fileWithUnboundRange.Data |> Seq.length |> should equal 6
-    
-    let fileWithBoundRange = MultipleRegions()
-    fileWithBoundRange |> Seq.length |> should equal 4

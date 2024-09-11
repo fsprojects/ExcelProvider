@@ -348,10 +348,17 @@ type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, colum
 
         try
             match value with
-            | null when typeof<'a> = typeof<string> -> value :?> 'a
+            | null -> value :?> 'a
             | _ when typeof<'a> = typeof<string> -> (box (string value)) :?> 'a
+            //| :? string as valueStr when typeof<'a> = typeof<double> -> (box (Double.Parse valueStr)) :?> 'a
+            | :? double as valueDbl when typeof<'a> = typeof<DateTime> -> (box (DateTime.FromOADate valueDbl)) :?> 'a
+            | :? string as valueStr when typeof<'a> = typeof<DateTime> -> (box (DateTime.Parse valueStr)) :?> 'a
             | _ -> value :?> 'a
-        with :? InvalidCastException ->
+        with
+        | :? InvalidCastException
+        | :? ArgumentException
+        | :? ArgumentNullException
+        | :? InvalidCastException ->
             failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex documentId sheetname
 
     member this.TryGetNullableValue<'a when 'a: (new: unit -> 'a) and 'a: struct and 'a :> ValueType>
@@ -361,9 +368,21 @@ type Row(documentId, sheetname, rowIndex, getCellValue: int -> int -> obj, colum
         let value = this.GetValue columnIndex
 
         try
-            (value :?> Nullable<'a>).GetValueOrDefault()
-        with :? InvalidCastException ->
+            match value with
+            | null -> (value :?> Nullable<'a>).GetValueOrDefault()
+            | _ when typeof<'a> = typeof<string> -> (box (string value)) :?> 'a
+            //| :? string as valueStr when typeof<'a> = typeof<double> -> (box (Double.Parse valueStr)) :?> 'a
+            | :? double as valueDbl when typeof<'a> = typeof<DateTime> -> (box (DateTime.FromOADate valueDbl)) :?> 'a
+            | :? string as valueStr when typeof<'a> = typeof<DateTime> -> (box (DateTime.Parse valueStr)) :?> 'a
+            | _ -> value :?> 'a
+
+        with
+        | :? InvalidCastException
+        | :? ArgumentException
+        | :? ArgumentNullException
+        | :? FormatException ->
             failInvalidCast value (value.GetType()) typeof<'a> columnName rowIndex documentId sheetname
+
 
     override this.ToString() =
         let columnValueList =
