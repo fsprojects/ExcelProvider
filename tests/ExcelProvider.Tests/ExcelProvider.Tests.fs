@@ -386,6 +386,9 @@ let ``HashHeader false with header removed``() =
 
 [<Test>]
 let ``Reading all rows in a well-formed excel file does not return empty rows``() =
-    let file = DifferentMainSheet()
+    let fileWithUnboundRange = DifferentMainSheet()
     // For reference, DifferentMainSheet has 1 header row and 6 data rows.
-    file.Data |> Seq.length |> should equal 6
+    fileWithUnboundRange.Data |> Seq.length |> should equal 6
+    
+    let fileWithBoundRange = MultipleRegions()
+    fileWithBoundRange |> Seq.length |> should equal 4
