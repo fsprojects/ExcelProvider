@@ -6,8 +6,8 @@ open System.Reflection
 [<assembly: AssemblyTitleAttribute("ExcelProvider.Runtime")>]
 [<assembly: AssemblyProductAttribute("ExcelProvider")>]
 [<assembly: AssemblyDescriptionAttribute("This library implements a read-only Excel type provider for Net Standard 2.0.")>]
-[<assembly: AssemblyVersionAttribute("2.1.0")>]
-[<assembly: AssemblyFileVersionAttribute("2.1.0")>]
+[<assembly: AssemblyVersionAttribute("3.0.0")>]
+[<assembly: AssemblyFileVersionAttribute("3.0.0")>]
 do ()
 
 module internal AssemblyVersionInformation =
@@ -22,7 +22,7 @@ module internal AssemblyVersionInformation =
         "This library implements a read-only Excel type provider for Net Standard 2.0."
 
     [<Literal>]
-    let AssemblyVersion = "2.1.0"
+    let AssemblyVersion = "3.0.0"
 
     [<Literal>]
-    let AssemblyFileVersion = "2.1.0"
+    let AssemblyFileVersion = "3.0.0"

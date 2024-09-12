@@ -1,3 +1,10 @@
+### 3.0.0
+
+* Fix issue [#41](https://github.com/fsprojects/ExcelProvider/issues/41). The type provider should no longer return an extra blank row with the data as it did before.
+* Fix issue [#14](https://github.com/fsprojects/ExcelProvider/issues/41) and related behaviour.  We are now better at handling casting of data to the detected data type if there are rows which have data of different data types.
+* Both of the above fixes where contributed by new contributor [Matthew Dupont](https://github.com/mjdupont). His contributions are very much appreciated.
+* Both fixes, but especially for #41, can break existing code logic.  Please test your code after upgrading to this version.
+
 ### 2.1.0
 
 * Fix issue [#77](https://github.com/fsprojects/ExcelProvider/issues/77).  The type provider will no longer revert to the first sheet if the sheet name provided does not exist. Instead, the code will not compile.
