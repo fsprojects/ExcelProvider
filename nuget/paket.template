@@ -1,7 +1,7 @@
 type file
 id ExcelProvider
 version
-    2.1.0
+    3.0.0
 authors
     Contributors on Github
 owners
@@ -23,7 +23,7 @@ description
 tags
     F# fsharp typeproviders Excel
 releaseNotes
-    Fix issue #77. No longer defaults to first sheet in workbook when the requested sheet name does not exist.
+    Fix issue #14 and issue #41. These are breaking changes.
 
 
 files
