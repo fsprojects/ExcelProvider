@@ -419,8 +419,9 @@ type ExcelFileInternal private (view, documentId, sheetname, hasheaders) =
 
     member __.Data = data
 
-
+#if !DESIGNTIME
 module Attributes =
 
     [<TypeProviderAssembly("ExcelProvider.DesignTime.dll")>]
     do ()
+#endif

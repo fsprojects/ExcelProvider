@@ -1,21 +1,19 @@
 source https://api.nuget.org/v3/index.json
-
-frameworks: netstandard2.0
+storage: none
 
 nuget ExcelDataReader.DataSet
-nuget FSharp.Core 6.0.7
+nuget FSharp.Core 8.0.301
 nuget NetStandard.Library
 nuget Microsoft.NET.Test.Sdk
-nuget System.Text.Encoding.CodePages 6.0.0
+nuget System.Text.Encoding.CodePages 8.0.0
 
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fsi
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fs
 
 group Build
   source https://api.nuget.org/v3/index.json
-  frameworks: net6.0, netstandard2.0
   generate_load_scripts:true
-  nuget FSharp.Core 6.0.7
+  nuget FSharp.Core 8.0.301
   nuget Fake.Api.Github
   nuget Fake.Core.Environment
   nuget Fake.Core.UserInput
@@ -28,6 +26,7 @@ group Build
   nuget Fake.IO.FileSystem
   nuget Fake.Tools.Git
   nuget FSharp.Compiler.Service
+  nuget MSBuild.StructuredLogger
   nuget Microsoft.Build 17.3.2
   nuget Microsoft.Build.Framework 17.3.2
   nuget Microsoft.Build.Tasks.Core 17.3.2
@@ -35,10 +34,9 @@ group Build
 
 group Test
   source https://api.nuget.org/v3/index.json
-  frameworks: net6.0
   nuget Microsoft.NET.Test.Sdk
   nuget NUnit
   nuget NUnit.Console
   nuget NUnit3TestAdapter version_in_path: true
   nuget FsUnit
-  nuget FSharp.Compiler.Service 41.0.7
+  nuget FSharp.Compiler.Service 43.8.301

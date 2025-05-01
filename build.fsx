@@ -144,7 +144,10 @@ Target.create "Build" (fun _ ->
 
     let setParams (p: DotNet.BuildOptions) =
         { p with
-            Configuration = DotNet.BuildConfiguration.Release }
+            Configuration = DotNet.BuildConfiguration.Release
+            MSBuildParams =
+                { MSBuild.CliArguments.Create() with
+                    DisableInternalBinLog = true } }
 
     DotNet.build setParams "ExcelProvider.sln")
 
@@ -173,7 +176,10 @@ Target.create "RunTests" (fun _ ->
 
     let testOptions (defaults: DotNet.TestOptions) =
         { defaults with
-            Configuration = DotNet.BuildConfiguration.Release }
+            Configuration = DotNet.BuildConfiguration.Release
+            MSBuildParams =
+                { MSBuild.CliArguments.Create() with
+                    DisableInternalBinLog = true } }
 
     DotNet.test testOptions testProj)
 

@@ -4,7 +4,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
     <OtherFlags>$(OtherFlags) --warnon:1182</OtherFlags>
     <DebugType>portable</DebugType>
@@ -12,6 +12,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <FSharpToolsDirectory>typeproviders</FSharpToolsDirectory>
     <PackagePath>typeproviders</PackagePath>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>
@@ -33,11 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Be explicit about the version of FSharp.Core since we mention it in the manual nuget package spec -->
-    <PackageReference Update="FSharp.Core" Version="6.0.7" />
+    <PackageReference Update="FSharp.Core" Version="8.0.301" />
   </ItemGroup>
   <Target Name="BeforeBuild">
     <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Restore" />
-    <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=netstandard2.0" />
+    <MSBuild Projects="..\ExcelProvider.DesignTime\ExcelProvider.DesignTime.fsproj" Targets="Build" Properties="Configuration=$(Configuration);TargetFramework=$(TargetFramework)" />
   </Target>
   <Target Name="AfterBuild">
     <CreateItem
@@ -48,6 +50,8 @@
     </CreateItem>
     <Copy SourceFiles="@(DesignTimeBinaries3)"
           DestinationFolder="$(OutputPath)/../typeproviders/fsharp41/netstandard2.0" />
+    <Copy SourceFiles="@(DesignTimeBinaries3)"
+          DestinationFolder="$(OutputPath)/../typeproviders/fsharp41/net8.0" />
   </Target>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
