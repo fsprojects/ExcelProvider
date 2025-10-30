@@ -1,5 +1,6 @@
 namespace FSharp.Interop.Excel
 
+[<Struct>]
 type ExcelFormat =
     | Xlsx
     | Csv
@@ -18,6 +19,7 @@ open FSharp.Interop.Excel
 [<AutoOpen>]
 module internal ExcelAddressing =
 
+    [<Struct>]
     type Address =
         { Sheet: string; Row: int; Column: int }
 
@@ -139,7 +141,7 @@ module internal ExcelAddressing =
         let workSheetName =
             if worksheets.Contains sheetname then
                 sheetname
-            else if sheetname = null || sheetname = "" then
+            elif isNull sheetname || sheetname = "" then
                 worksheets.[0].TableName //accept TypeProvider without specific SheetName...
             else
                 failwithf "ExcelProvider: Sheet [%s] does not exist." sheetname
@@ -157,7 +159,7 @@ module internal ExcelAddressing =
             |> Seq.toList
 
         let rangeViewsByColumn =
-            ranges |> Seq.map rangeViewOffsetRecord |> Seq.concat |> Seq.toList
+            ranges |> Seq.collect rangeViewOffsetRecord |> Seq.toList
 
         if rangeViewsByColumn |> Seq.distinctBy fst |> Seq.length < rangeViewsByColumn.Length then
             failwith "ExcelProvider: Ranges cannot overlap"

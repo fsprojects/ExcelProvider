@@ -13,21 +13,32 @@ module internal Helpers =
 
     // Active patterns & operators for parsing strings
     let (@?) (s: string) i =
-        if i >= s.Length then None else Some s.[i]
+        if i >= s.Length then ValueNone else ValueSome s.[i]
 
-    let inline satisfies predicate (charOption: option<char>) =
+    let inline satisfies predicate (charOption: voption<char>) =
         match charOption with
-        | Some c when predicate c -> charOption
-        | _ -> None
+        | ValueSome c when predicate c -> charOption
+        | _ -> ValueNone
 
+    [<return: Struct>]
     let (|EOF|_|) =
         function
-        | Some _ -> None
-        | _ -> Some()
+        | ValueSome _ -> ValueNone
+        | _ -> ValueSome()
 
+    [<return: Struct>]
     let (|LetterDigit|_|) = satisfies Char.IsLetterOrDigit
+    [<return: Struct>]
     let (|Upper|_|) = satisfies Char.IsUpper
+    [<return: Struct>]
     let (|Lower|_|) = satisfies Char.IsLower
+
+    let inline forall predicate (source : ReadOnlySpan<_>) =
+        let mutable state = true
+        let mutable e = source.GetEnumerator()
+        while state && e.MoveNext() do
+            state <- predicate e.Current
+        state
 
     /// Turns a string into a nice PascalCase identifier
     let niceName (set: System.Collections.Generic.HashSet<_>) (s: string) =
@@ -36,42 +47,38 @@ module internal Helpers =
         else
             // Starting to parse a new segment
             let rec restart i =
-                seq {
-                    match s @? i with
-                    | EOF -> ()
-                    | LetterDigit _ & Upper _ -> yield! upperStart i (i + 1)
-                    | LetterDigit _ -> yield! consume i false (i + 1)
-                    | _ -> yield! restart (i + 1)
-                }
+                match s @? i with
+                | EOF -> Seq.empty
+                | LetterDigit _ & Upper _ -> upperStart i (i + 1)
+                | LetterDigit _ -> consume i false (i + 1)
+                | _ -> restart (i + 1)
 
             // Parsed first upper case letter, continue either all lower or all upper
             and upperStart from i =
-                seq {
-                    match s @? i with
-                    | Upper _ -> yield! consume from true (i + 1)
-                    | Lower _ -> yield! consume from false (i + 1)
-                    | _ -> yield! restart (i + 1)
-                }
+                match s @? i with
+                | Upper _ -> consume from true (i + 1)
+                | Lower _ -> consume from false (i + 1)
+                | _ -> restart (i + 1)
 
             // Consume are letters of the same kind (either all lower or all upper)
             and consume from takeUpper i =
-                seq {
                     match s @? i with
-                    | Lower _ when not takeUpper -> yield! consume from takeUpper (i + 1)
-                    | Upper _ when takeUpper -> yield! consume from takeUpper (i + 1)
+                    | Lower _ when not takeUpper -> consume from takeUpper (i + 1)
+                    | Upper _ when takeUpper -> consume from takeUpper (i + 1)
                     | _ ->
-                        yield from, i
-                        yield! restart i
-                }
+                        seq {
+                            yield struct(from, i)
+                            yield! restart i
+                        }
 
             // Split string into segments and turn them to PascalCase
             let mutable name =
                 seq {
                     for i1, i2 in restart 0 do
-                        let sub = s.Substring(i1, i2 - i1)
+                        let sub = s.AsSpan(i1, i2 - i1)
 
-                        if Seq.forall Char.IsLetterOrDigit sub then
-                            yield sub.[0].ToString().ToUpper() + sub.ToLower().Substring(1)
+                        if forall Char.IsLetterOrDigit sub then
+                            yield Char.ToUpper(sub.[0]).ToString() + sub.Slice(1).ToString().ToLower()
                 }
                 |> String.concat ""
 
@@ -334,9 +341,9 @@ type public ExcelProvider(cfg: TypeProviderConfig) as this =
 
         let key = (filename, sheetname, range, hasheaders, forcestring)
 
-        if dict.ContainsKey(key) then
-            dict.[key]
-        else
+        match dict.TryGetValue key with
+        | true, kv -> kv
+        | false, _ ->
             let res = ProvidedTypeDefinitionExcelCall key
             dict.[key] <- res
             res
